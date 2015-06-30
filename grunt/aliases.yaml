@@ -1,0 +1,17 @@
+default:
+  - 'eslint'
+  - 'less'
+  - 'browserify:app'
+  - 'copy:assets'
+
+w:
+  - 'browserify:watch'
+  - 'watch'
+
+min:
+  - 'eshint'
+  - 'less'
+  - 'browserify:app'
+  - 'uglify:all'
+  - 'cssmin:all'
+  - 'copy:assets'
