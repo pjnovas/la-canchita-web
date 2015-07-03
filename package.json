@@ -4,8 +4,10 @@
   "description": "",
   "author": "Pablo Novas <pjnovas@gmail.com>",
   "dependencies": {
+    "backbone": "^1.2.1",
     "bootstrap": "^3.3.5",
     "classnames": "^2.1.2",
+    "flux": "^2.0.3",
     "font-awesome": "^4.3.0",
     "jquery": "^2.1.4",
     "react": "^0.13.3",

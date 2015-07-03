@@ -41,7 +41,7 @@
     "no-alert": 2,
     "no-caller": 2,
     "no-bitwise": 0,
-    "no-console": 2,
+    "no-console": 1,
     "no-debugger": 2,
     "no-empty": 2,
     "no-eval": 1,

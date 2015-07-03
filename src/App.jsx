@@ -1,8 +1,9 @@
 
 import Router, {RouteHandler, Route} from 'react-router';
 
-import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
+import Home from './components/Home.jsx';
+import Groups from './components/Groups.jsx';
 
 export default class App extends React.Component {
 
@@ -27,9 +28,14 @@ export default class App extends React.Component {
 
 };
 
+var HomeHandler = Home;
+if (window.user){
+  HomeHandler = Groups;
+}
+
 var routes = (
   <Route handler={App} path="/">
-    <Route name="home" path="/" handler={Home} />
+    <Route name="home" path="/" handler={HomeHandler} />
     <Route name="login" path="/login" handler={Login} />
   </Route>
 );

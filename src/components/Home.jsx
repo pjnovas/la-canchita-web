@@ -1,6 +1,6 @@
 
-import {Navbar, Nav, ListGroup} from 'react-bootstrap';
-import {NavItemLink, ButtonLink, ListGroupItemLink} from 'react-router-bootstrap';
+import NavBar from './NavBar.jsx';
+import {ButtonLink} from 'react-router-bootstrap';
 
 export default class Home extends React.Component {
 
@@ -10,15 +10,7 @@ export default class Home extends React.Component {
         <div className="masthead clearfix">
           <div className="inner">
             <h3 className="masthead-brand">name-app</h3>
-            <nav>
-              <ul className="nav masthead-nav">
-                <li>
-                  <NavItemLink to="home">home</NavItemLink>
-                </li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </nav>
+            <NavBar />
           </div>
         </div>
         <div className="inner cover">
