@@ -6,6 +6,8 @@ import Home from './components/Home.jsx';
 import Groups from './components/Groups.jsx';
 import GroupEdit from './components/GroupEdit.jsx';
 
+import Header from './components/Header.jsx';
+
 export default class App extends React.Component {
 
   render() {
@@ -14,6 +16,8 @@ export default class App extends React.Component {
         <div className="site-wrapper-inner">
 
           <div className="cover-container">
+
+            <Header />
 
             <div className="inner cover">
               <RouteHandler />

@@ -20,10 +20,12 @@ export default class GroupItem extends React.Component {
   }
 
   render() {
+    var imageURL = '/images/groups/' + this.props.model.get('id') + '.jpg';
+
     return (
       <li className="media" onClick={e => this.onGroupClick(e)}>
         <div className="media-left media-middle">
-          <img className="media-object" src={this.props.model.get('picture')} />
+          <img className="media-object" src={imageURL} />
         </div>
         <div className="media-body">
           <h4>{this.props.model.get('title')}</h4>
