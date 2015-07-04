@@ -21,15 +21,28 @@ export default class GroupItem extends React.Component {
 
   render() {
     var imageURL = '/images/groups/' + this.props.model.get('id') + '.jpg';
+    var style = { backgroundImage: 'url(' + imageURL + ')' };
+
+    var members = this.props.model.get('members');
+    var pCount = members && members.length || 0;
+
+    var meetups = this.props.model.get('meetups');
+    var mCount = meetups && meetups.length || 0;
 
     return (
       <li className="media" onClick={e => this.onGroupClick(e)}>
-        <div className="media-left media-middle">
-          <img className="media-object" src={imageURL} />
-        </div>
+        <div className="media-left media-middle media-pic" style={style}></div>
         <div className="media-body">
           <h4>{this.props.model.get('title')}</h4>
           <p>{this.props.model.get('description')}</p>
+        </div>
+        <div className="counters">
+          <div>
+            {pCount}<i className="fa fa-group"></i>
+          </div>
+          <div>
+            {mCount}<i className="fa fa-futbol-o"></i>
+          </div>
         </div>
       </li>
     );

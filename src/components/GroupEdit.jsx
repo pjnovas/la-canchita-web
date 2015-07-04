@@ -47,7 +47,18 @@ export default class GroupEdit extends React.Component {
   }
 
   onDrop(files) {
-    this.setState({ picture: files[0] });
+    var file = files[0];
+    if (file.size > 300000){
+      this.setState({ picture: null, error: 'La imagen no puede superar los 300 kb' });
+      return;
+    }
+
+    if (['image/jpeg', 'image/gif', 'image/png'].indexOf(file.type) === -1){
+      this.setState({ picture: null, error: 'Solo Imagenes .png .jpg o .gif' });
+      return;
+    }
+
+    this.setState({ picture: files[0], error: null });
   }
 
   render() {
@@ -75,6 +86,15 @@ export default class GroupEdit extends React.Component {
       preview = { backgroundImage: 'url(' + this.state.picture.preview + ')' };
     }
 
+    var error = '';
+    if (this.state.error){
+      error = (
+        <div className="form-group error-picture">
+          <span className="text-danger">{this.state.error}</span>
+        </div>
+      );
+    }
+
     return (
       <div>
         <h2>Nuevo Grupo</h2>
@@ -85,6 +105,7 @@ export default class GroupEdit extends React.Component {
               <div className="info">Suelta una imagen o click para seleccionar.</div>
             </Dropzone>
           </div>
+          {error}
           <div className="form-group">
             <label className="col-sm-2 control-label">Título</label>
             <div className="col-sm-8">

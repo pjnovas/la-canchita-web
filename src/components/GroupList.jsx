@@ -25,25 +25,31 @@ export default class GroupList extends React.Component {
 
   render() {
 
-    return (
-      <ul className="media-list">
-        {this.props.collection.map(model => {
-          return <GroupItem key={model.get('id')} model={model} />;
-        })}
+    var list = () => {
 
-        {
-          (this.props.collection.length ? '' :
-          <li className="media media-info">
-            <p>Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.</p>
-            <p>Podés recibir invitaciones o crear un grupo e invitar vos</p>
-          </li>
-          )
-        }
+      if (this.props.collection.length){
+        return (
+          this.props.collection.map(model => {
+            return <GroupItem key={model.get('id')} model={model} />;
+          })
+        );
+      }
 
-        <li className="media media-buttons">
-          <ButtonLink to="newgroup">Crear Grupo</ButtonLink>
+      return (
+        <li className="media media-info">
+          <p>Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.</p>
+          <p>Podés recibir invitaciones o crear un grupo e invitar vos</p>
         </li>
-      </ul>
+      );
+    }();
+
+    return (
+      <div>
+        <ul className="media-list">{list}</ul>
+        <div className="media media-buttons">
+          <ButtonLink to="newgroup" className="pull-right">Crear Grupo</ButtonLink>
+        </div>
+      </div>
     );
   }
 
