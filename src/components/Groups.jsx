@@ -1,6 +1,6 @@
 
 import NavBar from './NavBar.jsx';
-import GroupList from './GroupList';
+import GroupList from './GroupList.jsx';
 import GroupsStore from '../stores/Groups';
 
 export default class Groups extends React.Component {
@@ -15,7 +15,7 @@ export default class Groups extends React.Component {
             <NavBar />
           </div>
         </div>
-        <div className="inner cover">
+        <div className="inner cover groups">
           <GroupList collection={GroupsStore.instance} />
         </div>
       </div>

@@ -1,0 +1,48 @@
+@import "node_modules/bootstrap/less/bootstrap";
+
+@import "node_modules/font-awesome/less/font-awesome";
+@fa-font-path: "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts";
+
+@import "./cover";
+
+@import "./login";
+@import "./groups";
+
+body {
+  /*background: lighten(@link-color, 25%);*/
+}
+
+
+.form-control {
+  color: #fff;
+  background-color: rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.3) inset;
+  border: none;
+
+  &:focus {
+    border: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(200, 200, 200, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(200, 200, 200, 0.6);
+  }
+
+  &::-moz-placeholder {
+    font-style: italic;
+    color: #777777;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    font-style: italic;
+    color: #777777;
+  }
+
+  &::-webkit-input-placeholder {
+    font-style: italic;
+    color: #777777;
+  }
+}
+
+.link-cancel {
+  padding-top: 15px;
+}

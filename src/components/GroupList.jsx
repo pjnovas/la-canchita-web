@@ -1,10 +1,7 @@
-
-import NavBar from './NavBar.jsx';
-import Backbone from 'backbone';
+import {ButtonLink} from 'react-router-bootstrap';
 
 import GroupsStore from '../stores/Groups';
-
-import GroupItem from './GroupItem';
+import GroupItem from './GroupItem.jsx';
 import GroupActions from '../actions/Group';
 
 export default class GroupList extends React.Component {
@@ -22,18 +19,30 @@ export default class GroupList extends React.Component {
     this.props.collection.off('add remove reset', null, this);
   }
 
-  createGroup() {
-    GroupActions.createGroup({ id: 5, name: 'Jorge' });
+  close(){
+    console.log('closed modal!');
   }
 
   render() {
 
     return (
-      <ul>
+      <ul className="media-list">
         {this.props.collection.map(model => {
           return <GroupItem key={model.get('id')} model={model} />;
         })}
-        <a onClick={this.createGroup}>Crear Grupo</a>
+
+        {
+          (this.props.collection.length ? '' :
+          <li className="media media-info">
+            <p>Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.</p>
+            <p>Podés recibir invitaciones o crear un grupo e invitar vos</p>
+          </li>
+          )
+        }
+
+        <li className="media media-buttons">
+          <ButtonLink to="newgroup">Crear Grupo</ButtonLink>
+        </li>
       </ul>
     );
   }
