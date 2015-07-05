@@ -21,6 +21,12 @@ var Groups = Backbone.Collection.extend({
       case 'create-group':
         this.create(payload.group);
         break;
+      case 'change-group':
+        var group = this.get(payload.id);
+        if (group){
+          group.set(payload.group);
+        }
+        break;
     }
   }
 

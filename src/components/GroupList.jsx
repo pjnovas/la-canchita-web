@@ -19,10 +19,6 @@ export default class GroupList extends React.Component {
     this.props.collection.off('add remove reset', null, this);
   }
 
-  close(){
-    console.log('closed modal!');
-  }
-
   render() {
 
     var list = () => {

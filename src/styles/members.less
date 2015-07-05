@@ -1,0 +1,123 @@
+
+.members {
+  text-align: left;
+
+  .media-list {
+    background: rgb(198, 198, 198);
+    border-radius: 3px;
+
+    .media {
+      margin-top: 1px;
+      padding: 0;
+      overflow: hidden;
+
+      box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+      background: #E7E7E7;
+      color: #1D1D1D;
+      text-shadow: none;
+      position: relative;
+
+      a {
+        color: #1D1D1D;
+        text-decoration: none;
+      }
+
+      &:first-child{
+        border-radius: 3px 3px 0 0;
+      }
+
+      &:last-child{
+        border-radius: 0 0 3px 3px;
+      }
+
+      &:hover, &:active{
+        cursor: pointer;
+      }
+
+      .media-pic {
+        width: 20%;
+        background-position: center;
+        background-size: cover;
+      }
+
+      .media-body {
+        padding: 10px 20px;
+
+        .name {
+          font-size: 20px;
+          margin: 0;
+          float: left;
+          display: inline;
+        }
+
+        .role {
+          font-size: 13px;
+          margin: 0;
+          float: right;
+          display: inline;
+        }
+      }
+
+      &.media-info {
+        background-color: rgba(0,0,0,0.1);
+        box-shadow: 2px 1px 1px rgba(0,0,0,0.1) inset;
+
+        &:hover, &:active{
+          background-color: rgba(0,0,0,0.1);
+          cursor: default;
+        }
+
+        p {
+          text-align: center;
+          font-size: 20px;
+        }
+      }
+
+      &.media-buttons {
+        background-color: rgba(0,0,0,0.2);
+
+        &:hover, &:active{
+          background-color: rgba(0,0,0,0.2);
+          box-shadow: none;
+        }
+
+        text-align: center;
+        font-size: 24px;
+      }
+
+      .counters {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50px;
+        height: 100%;
+        background: rgb(136, 136, 136);
+        color: #fff;
+        text-align: center;
+
+        >div {
+          position: absolute;
+          right: 0;
+          font-size: 20px;
+          width: 100%;
+
+          i {
+            display: block;
+          }
+        }
+
+        >div:first-child{
+          top: 0;
+        }
+
+        >div:last-child{
+          bottom: 0;
+          background: rgb(101, 101, 101);
+          padding-bottom: 3px;
+        }
+      }
+
+    }
+
+  }
+}

@@ -3,7 +3,7 @@ import AppDispatcher from '../dispatcher/AppDispatcher';
 
 export default {
 
-  receiveGroups: function(groups) {
+  receiveGroups (groups) {
 
     AppDispatcher.dispatch({
       type: 'recieve-groups',
@@ -12,7 +12,7 @@ export default {
 
   },
 
-  createGroup: function(group) {
+  createGroup (group) {
 
     AppDispatcher.dispatch({
       type: 'create-group',

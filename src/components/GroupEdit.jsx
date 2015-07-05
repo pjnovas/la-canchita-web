@@ -34,13 +34,13 @@ export default class GroupEdit extends React.Component {
             .attach('image', this.state.picture)
             .end(function(err, res){
               if (err) throw new Error(err);
-              window.AppRouter.transitionTo('groups');
+              window.app.router.transitionTo('groups');
             });
 
           return;
         }
 
-        window.AppRouter.transitionTo('groups');
+        window.app.router.transitionTo('groups');
       });
 
     GroupActions.createGroup(newGroup);
@@ -111,7 +111,7 @@ export default class GroupEdit extends React.Component {
             <div className="col-sm-8">
               <input ref="title" type="text" className="form-control"
                 placeholder="Los pibes de la esquina"
-                value={this.state.model.get('name')} />
+                value={this.state.model.get('title')} />
             </div>
           </div>
           <div className="form-group">

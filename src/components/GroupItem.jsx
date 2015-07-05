@@ -1,49 +1,40 @@
 
 import GroupStore from '../stores/Group';
+import {Link} from 'react-router';
 
 export default class GroupItem extends React.Component {
 
   componentDidMount() {
-
     this.props.model.on('change', () => {
       this.setState({ model: this.props.model });
     });
-
   }
 
   componentWillUnmount() {
     this.props.model.off('change', null, this);
   }
 
-  onGroupClick(e){
-    console.log(this.props.model.get('title') + ' Clicked!');
-  }
-
   render() {
-    var imageURL = '/images/groups/' + this.props.model.get('id') + '.jpg';
-    var style = { backgroundImage: 'url(' + imageURL + ')' };
-
-    var members = this.props.model.get('members');
-    var pCount = members && members.length || 0;
-
-    var meetups = this.props.model.get('meetups');
-    var mCount = meetups && meetups.length || 0;
+    var model = this.props.model, _model = model.toJSON();
+    var style = { backgroundImage: 'url(' + model.imageURL() + ')' };
 
     return (
-      <li className="media" onClick={e => this.onGroupClick(e)}>
-        <div className="media-left media-middle media-pic" style={style}></div>
-        <div className="media-body">
-          <h4>{this.props.model.get('title')}</h4>
-          <p>{this.props.model.get('description')}</p>
-        </div>
-        <div className="counters">
-          <div>
-            {pCount}<i className="fa fa-group"></i>
+      <li className="media">
+        <Link to="group" params={{groupId: _model.id}}>
+          <div className="media-left media-middle media-pic" style={style}></div>
+          <div className="media-body">
+            <h4>{_model.title}</h4>
+            <p>{_model.description}</p>
           </div>
-          <div>
-            {mCount}<i className="fa fa-futbol-o"></i>
+          <div className="counters">
+            <div>
+              {model.count('members')}<i className="fa fa-group"></i>
+            </div>
+            <div>
+              {model.count('meetups')}<i className="fa fa-futbol-o"></i>
+            </div>
           </div>
-        </div>
+        </Link>
       </li>
     );
   }
