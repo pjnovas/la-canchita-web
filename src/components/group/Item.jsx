@@ -1,5 +1,5 @@
 
-import GroupStore from '../stores/Group';
+import GroupStore from '../../stores/Group';
 import {Link} from 'react-router';
 
 export default class GroupItem extends React.Component {

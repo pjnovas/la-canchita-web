@@ -2,9 +2,9 @@ import {Link} from 'react-router';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 
-import GroupsStore from '../stores/Groups';
-import GroupStore from '../stores/Group';
-import GroupActions from '../actions/Group';
+import GroupsStore from '../../stores/Groups';
+import GroupStore from '../../stores/Group';
+import GroupActions from '../../actions/Group';
 
 export default class GroupEdit extends React.Component {
 

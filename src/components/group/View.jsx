@@ -1,8 +1,8 @@
 
-import GroupStore from '../stores/Group';
-import GroupActions from '../actions/Group';
+import GroupStore from '../../stores/Group';
+import GroupActions from '../../actions/Group';
 
-import MemberList from './MemberList.jsx';
+import MemberList from '../member/List.jsx';
 
 export default class GroupView extends React.Component {
 

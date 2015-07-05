@@ -1,8 +1,8 @@
 import {ButtonLink} from 'react-router-bootstrap';
 
-import GroupsStore from '../stores/Groups';
-import GroupItem from './GroupItem.jsx';
-import GroupActions from '../actions/Group';
+import GroupsStore from '../../stores/Groups';
+import GroupItem from './Item.jsx';
+import GroupActions from '../../actions/Group';
 
 export default class GroupList extends React.Component {
 

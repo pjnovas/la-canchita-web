@@ -1,6 +1,6 @@
 import {ButtonLink} from 'react-router-bootstrap';
-import MembersStore from '../stores/Members';
-import MemberItem from './MemberItem.jsx';
+import MembersStore from '../../stores/Members';
+import MemberItem from './Item.jsx';
 
 export default class MemberList extends React.Component {
 

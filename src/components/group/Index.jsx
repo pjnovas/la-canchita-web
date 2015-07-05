@@ -1,6 +1,6 @@
 
-import GroupList from './GroupList.jsx';
-import GroupsStore from '../stores/Groups';
+import GroupList from './List.jsx';
+import GroupsStore from '../../stores/Groups';
 
 export default class Groups extends React.Component {
 
