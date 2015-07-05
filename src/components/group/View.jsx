@@ -3,6 +3,9 @@ import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import MemberList from '../member/List.jsx';
+import Header from '../Header.jsx';
+
+import {Link} from 'react-router';
 
 export default class GroupView extends React.Component {
 
@@ -43,30 +46,56 @@ export default class GroupView extends React.Component {
 
     var members = model.get('members');
 
-    return (
-      <div className="group-view">
-        <div className="header" style={style}>
-          <h1>{_model.title}</h1>
+    var navs = [{
+      to: 'groupedit',
+      params: { groupId: _model.id },
+      icon: 'fa-futbol-o'
+    }, {
+      to: 'groupedit',
+      params: { groupId: _model.id },
+      icon: 'fa-group'
+      //icon: 'fa-user-plus'
+    }, {
+      to: 'groupedit',
+      params: { groupId: _model.id },
+      icon: 'fa-pencil'
+    }];
 
-          <div className="counters">
-            <div>
-              {model.count('members')}<i className="fa fa-group"></i>
+    return (
+      <div>
+        <Header backto="groups" navs={navs} />
+
+        <div className="inner group-view">
+          <div className="header" style={style}>
+            <h1>{_model.title}</h1>
+
+            <div className="counters">
+              <div>
+                {model.count('members')}<i className="fa fa-group"></i>
+              </div>
+              <div>
+                {model.count('meetups')}<i className="fa fa-futbol-o"></i>
+              </div>
             </div>
-            <div>
-              {model.count('meetups')}<i className="fa fa-futbol-o"></i>
+
+            <a className="info" data-toggle="collapse" href="#more-info">
+              <i className="fa fa-info"></i>
+            </a>
+
+          </div>
+
+          <div id="more-info" className="collapse">
+            <p className="description">{_model.description}</p>
+          </div>
+
+          <div className="list-container">
+            <div className="head">
+              <h3>Jugadores</h3>
             </div>
+            {members ? <MemberList collection={members} /> : ''}
           </div>
 
         </div>
-
-        <div>
-          <p className="description">{_model.description}</p>
-        </div>
-
-        <div>
-        {members ? <MemberList collection={members} /> : ''}
-        </div>
-
       </div>
     );
   }
@@ -74,3 +103,13 @@ export default class GroupView extends React.Component {
 };
 
 GroupView.displayName = 'GroupView';
+/*
+
+<div className="list-container">
+  <div className="head">
+    <h3>Partidos</h3>
+  </div>
+  {members ? <MemberList collection={members} /> : ''}
+</div>
+
+*/

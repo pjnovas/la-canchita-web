@@ -25,9 +25,6 @@ export default class MemberList extends React.Component {
           return <MemberItem key={model.get('id')} model={model} />;
         })}
         </ul>
-        <div className="media media-buttons">
-          <ButtonLink to="newgroup" className="pull-right">Invitar</ButtonLink>
-        </div>
       </div>
     );
   }
@@ -38,3 +35,9 @@ MemberList.displayName = 'MemberList';
 MemberList.propTypes = {
   collection: React.PropTypes.instanceOf(MembersStore).isRequired
 };
+
+/*
+<div className="media media-buttons">
+  <ButtonLink to="newgroup" className="pull-right">Invitar</ButtonLink>
+</div>
+*/

@@ -8,8 +8,6 @@ import GroupEdit from './components/group/Create.jsx';
 import GroupView from './components/group/View.jsx';
 import NotFound from './components/NotFound.jsx';
 
-import Header from './components/Header.jsx';
-
 export default class App extends React.Component {
 
   render() {
@@ -18,13 +16,7 @@ export default class App extends React.Component {
         <div className="site-wrapper-inner">
 
           <div className="cover-container">
-
-            <Header />
-
-            <div className="inner cover">
-              <RouteHandler />
-            </div>
-
+            <RouteHandler />
           </div>
 
         </div>
@@ -45,7 +37,10 @@ var routes = (
     <Route name="home" path="/" handler={HomeHandler} />
     <Route name="groups" path="/" handler={HomeHandler} />
     <Route name="newgroup" path="/groups/new" handler={GroupEdit} />
+    <Route name="groupedit" path="/groups/:groupId/edit" handler={GroupEdit} />
     <Route name="group" path="/groups/:groupId" handler={GroupView} />
+
+    <Route name="profile" path="/profile" handler={Login} />
     <Route name="login" path="/login" handler={Login} />
 
     <Route name="notfound" path="/notfound" handler={NotFound} />
