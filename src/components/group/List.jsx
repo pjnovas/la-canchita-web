@@ -42,8 +42,12 @@ export default class GroupList extends React.Component {
     return (
       <div>
         <ul className="media-list">{list}</ul>
-        <div className="media media-buttons">
-          <ButtonLink to="newgroup" className="pull-right">Crear Grupo</ButtonLink>
+        <div className="fixed-actions">
+          <div className="actions-container">
+            <ButtonLink to="newgroup">
+              <i className="fa fa-plus"></i>
+            </ButtonLink>
+          </div>
         </div>
       </div>
     );
