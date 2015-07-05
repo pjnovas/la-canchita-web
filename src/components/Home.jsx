@@ -1,5 +1,4 @@
 
-import NavBar from './NavBar.jsx';
 import {ButtonLink} from 'react-router-bootstrap';
 
 import Header from './Header.jsx';
