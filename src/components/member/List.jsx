@@ -1,4 +1,4 @@
-import {ButtonLink} from 'react-router-bootstrap';
+import {Link} from 'react-router';
 import MembersStore from '../../stores/Members';
 import MemberItem from './Item.jsx';
 
@@ -38,6 +38,6 @@ MemberList.propTypes = {
 
 /*
 <div className="media media-buttons">
-  <ButtonLink to="newgroup" className="pull-right">Invitar</ButtonLink>
+  <Link to="newgroup" className="pull-right">Invitar</Link>
 </div>
 */

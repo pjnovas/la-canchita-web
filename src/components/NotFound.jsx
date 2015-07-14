@@ -1,5 +1,4 @@
-
-import {ButtonLink} from 'react-router-bootstrap';
+import {Link} from 'react-router';
 
 export default class Home extends React.Component {
 
@@ -7,7 +6,7 @@ export default class Home extends React.Component {
     return (
       <div className="inner not-found">
         <p className="lead">Not Found!</p>
-        <ButtonLink to="home" className="btn-lg">Ir a Inicio</ButtonLink>
+        <Link to="home">Ir a Inicio</Link>
       </div>
     );
   }

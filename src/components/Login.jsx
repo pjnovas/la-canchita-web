@@ -1,38 +1,62 @@
 
-import {Icon} from 'react-font-awesome';
-
 export default class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <form className="form-signin" role="form" action="/auth/local" method="post">
-          <h1 className="form-signin-heading text-center">La Canchita</h1>
+      <div className="teal login">
+        <div className="container">
+          <div className="row">
 
-          <hr/>
+            <form className="white col center s12 m6 z-depth-2" action="/auth/local" method="post">
 
-          <h3>ingresar con</h3>
+              <h1>app-name</h1>
 
-          <a className="twitter" href="/auth/twitter" role="button">
-            <Icon type="twitter" />
-          </a>
+              <div className="divider"></div>
 
-          <a className="facebook" href="/auth/facebook" role="button">
-            <Icon type="facebook" />
-          </a>
+              <div className="row">
+                <h3>ingresar de una usando</h3>
+              </div>
 
-          <hr/>
+              <div className="row">
 
-          <h3>... o a manopla con</h3>
+                <a className="col s6 social-button" href="/auth/twitter" role="button">
+                  <div className="twitter waves-effect waves-light">
+                    Twitter
+                  </div>
+                </a>
 
-          <input type="text" name="identifier" placeholder="Usuario o email" className="form-control"/>
-          <input type="password" name="password" placeholder="Contraseña" className="form-control"/>
-          <a className="forgot">me olvidé la contraseña</a>
-          <input type="submit" value="Ingresar" className="btn btn-lg btn-primary btn-block"/>
+                <a className="col s6 social-button" href="/auth/facebook" role="button">
+                  <div className="facebook waves-effect waves-light">
+                    Facebook
+                  </div>
+                </a>
 
-          <a className="signup">registrarse</a>
+              </div>
 
-        </form>
+              <div className="divider"></div>
+
+              <h3>o con registro <a id="toggle-manual" className="waves-effect waves-teal btn-flat">manual</a></h3>
+
+                <div id="manual" className="hide">
+                  <div className="input-field col s12">
+                    <input id="identifier" type="text" name="identifier" required  className="validate"/>
+                    <label htmlFor="identifier">Usuario o email</label>
+                  </div>
+
+                  <div className="input-field col s12">
+                    <input id="password" type="password" name="password" className="validate" required/>
+                    <label htmlFor="password">Contraseña</label>
+                  </div>
+
+                  <a className="forgot">me olvidé la contraseña</a>
+                  <input type="submit" value="Ingresar" className="btn btn-lg btn-primary btn-block"/>
+
+                  <a className="signup">registrarse</a>
+                </div>
+            </form>
+
+          </div>
+        </div>
       </div>
     );
   }

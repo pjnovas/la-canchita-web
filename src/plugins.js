@@ -1,6 +1,6 @@
-import $ from 'jquery';
-window.$ = window.jQuery = $;
+//import $ from 'jquery';
+//window.$ = window.jQuery = $;
 
-import 'bootstrap';
+//import 'materialize-js'; > Enable this when it gets supported
+
 import 'babel-core/polyfill';
-

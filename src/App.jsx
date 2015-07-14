@@ -12,15 +12,8 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="site-wrapper">
-        <div className="site-wrapper-inner">
-
-          <div className="cover-container">
-            <RouteHandler />
-          </div>
-
-        </div>
-
+      <div className="content">
+        <RouteHandler />
       </div>
     );
   }

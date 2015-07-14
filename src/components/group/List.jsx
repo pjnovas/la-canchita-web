@@ -1,4 +1,4 @@
-import {ButtonLink} from 'react-router-bootstrap';
+import {Link} from 'react-router';
 
 import GroupsStore from '../../stores/Groups';
 import GroupItem from './Item.jsx';
@@ -44,9 +44,9 @@ export default class GroupList extends React.Component {
         <ul className="media-list">{list}</ul>
         <div className="fixed-actions">
           <div className="actions-container">
-            <ButtonLink to="newgroup">
+            <Link to="newgroup">
               <i className="fa fa-plus"></i>
-            </ButtonLink>
+            </Link>
           </div>
         </div>
       </div>

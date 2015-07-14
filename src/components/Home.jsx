@@ -1,22 +1,27 @@
 
-import {ButtonLink} from 'react-router-bootstrap';
-
+import {Link} from 'react-router';
 import Header from './Header.jsx';
 
 export default class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <Header />
 
-        <div className="inner home">
-          <p className="lead">jasndkjasdjkas nsjk dnsa jdnasjknas jkns adjknas dkjn sadjk</p>
-          <ButtonLink to="login" className="btn-lg">Ingresar</ButtonLink>
+        <div className="row">
+          <div className="col s12">
+
+            <p className="lead">jasndkjasdjkas nsjk dnsa jdnasjknas jkns adjknas dkjn sadjk</p>
+            <Link to="login">
+              <i className="material-icons">add</i>
+            </Link>
+
+          </div>
         </div>
+
       </div>
     );
   }
 
 };
-
