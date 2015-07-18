@@ -34,6 +34,8 @@ export default class GroupView extends React.Component {
         window.app.handleError(resp.status, resp.responseText);
       }
     });
+
+    $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
   componentWillUnmount() {
@@ -46,53 +48,85 @@ export default class GroupView extends React.Component {
 
     var members = model.get('members');
 
-    var navs = [{
+    var navs = [/*{
       to: 'groupedit',
       params: { groupId: _model.id },
-      icon: 'fa-futbol-o'
-    }, {
-      to: 'groupedit',
-      params: { groupId: _model.id },
-      icon: 'fa-group'
-      //icon: 'fa-user-plus'
-    }, {
-      to: 'groupedit',
-      params: { groupId: _model.id },
-      icon: 'fa-pencil'
-    }];
+      text: 'Editar',
+      icon: 'mode_edit'
+    }*/];
 
     return (
-      <div>
+      <div className="groups view">
         <Header backto="groups" navs={navs} />
 
-        <div className="inner group-view">
-          <div className="header" style={style}>
-            <h1>{_model.title}</h1>
+        <div className="container fluid-mobile">
 
-            <div className="counters">
-              <div>
-                {model.count('members')}<i className="fa fa-group"></i>
-              </div>
-              <div>
-                {model.count('meetups')}<i className="fa fa-futbol-o"></i>
-              </div>
+          <div className="row">
+
+            <div className="col s12">
+
+              <ul className="tabs" ref="tabs">
+
+                <li className="tab col s3">
+                  <a href="#info" className="active">
+                    <i className="material-icons">info_outline</i>
+                    Detalle
+                  </a>
+                </li>
+
+                <li className="tab col s3">
+                  <a href="#players">
+                    <i className="material-icons">group</i>
+                    Jugadores
+                  </a>
+                </li>
+
+                <li className="tab col s3">
+                  <a href="#matches">
+                    <i className="material-icons">event_note</i>
+                    Partidos
+                  </a>
+                </li>
+
+                <li className="tab col s3 disabled">
+                  <a href="#chrono">
+                    <i className="material-icons">settings</i>
+                    Configurar
+                  </a>
+                </li>
+              </ul>
             </div>
 
-            <a className="info" data-toggle="collapse" href="#more-info">
-              <i className="fa fa-info"></i>
-            </a>
+            <div id="info" className="col s12">
 
-          </div>
+              <header style={style}>
+                <h1>{_model.title}</h1>
+              </header>
 
-          <div id="more-info" className="collapse">
-            <p className="description">{_model.description}</p>
-          </div>
+              <p className="flow-text description">{_model.description}</p>
 
-          <div className="list-container">
-            <div className="head">
-              <h3>Jugadores</h3>
+              <div className="fixed-action-btn">
+                <Link to="newgroup" className="btn-floating btn-large">
+                  <i className="large material-icons">mode_edit</i>
+                </Link>
+              </div>
+
             </div>
-            {members ? <MemberList collection={members} /> : ''}
+
+            <div id="players" className="col s12">
+              {members ? <MemberList collection={members} /> : ''}
+            </div>
+
+            <div id="matches" className="col s12">
+
+              <div className="fixed-action-btn">
+                <Link to="newgroup" className="btn-floating btn-large">
+                  <i className="large material-icons">add</i>
+                </Link>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
@@ -103,13 +137,3 @@ export default class GroupView extends React.Component {
 };
 
 GroupView.displayName = 'GroupView';
-/*
-
-<div className="list-container">
-  <div className="head">
-    <h3>Partidos</h3>
-  </div>
-  {members ? <MemberList collection={members} /> : ''}
-</div>
-
-*/

@@ -19,12 +19,13 @@ export default class MemberItem extends React.Component {
     var style = { backgroundImage: 'url(' + _model.user.picture + ')' };
 
     return (
-      <li className="media">
-        <div className="media-left media-middle media-pic" style={style}></div>
-        <div className="media-body">
-          <h4 className="name">{_model.user.name}</h4>
-          <span className="role">{model.role()}</span>
-        </div>
+      <li className="collection-item avatar">
+        <img src={_model.user.picture} className="circle" />
+        <span className="title">{_model.user.name}</span>
+        <p>{model.role()}</p>
+        <a href="#!" className="secondary-content">
+          <i className="material-icons">grade</i>
+        </a>
       </li>
     );
   }

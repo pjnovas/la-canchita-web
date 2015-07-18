@@ -74,16 +74,23 @@ export default class GroupEdit extends React.Component {
 
       if (this.state.loading){
         return (
-          <a className="btn btn-default pull-right">
-            <i className="fa fa-circle-o-notch fa-spin"></i>
-          </a>
+          <div className="col s12">
+            <a className="waves-effect waves-light btn-large disabled right">
+              <div className="la-ball-atom la-2x left">
+                <div></div><div></div><div></div><div></div>
+              </div>
+              guardando
+            </a>
+          </div>
         );
       }
 
       return (
-        <div>
-          <Link className="link-cancel pull-left" to="groups">cancelar</Link>
-          <a className="btn btn-default pull-right" onClick={e => { this.create(e); } }>Crear!</a>
+        <div className="col s12">
+          <Link className="waves-effect waves-teal btn-flat left" to="groups">cancelar</Link>
+          <a className="waves-effect waves-light btn-large right" onClick={e => { this.create(e); } }>
+            <i className="material-icons right">check</i>Crear!
+          </a>
         </div>
       );
     }();
@@ -106,35 +113,51 @@ export default class GroupEdit extends React.Component {
       <div>
         <Header title="Nuevo Grupo" backto="groups" />
 
-        <div className="inner">
-          <form className="form-horizontal">
-            <div className="group-picture">
-              <Dropzone ref="dropzone" onDrop={e => { this.onDrop(e); }}>
-                {(preview ? <div className="preview" style={preview} /> : '')}
-                <div className="info">Suelta una imagen o click para seleccionar.</div>
-              </Dropzone>
+        <div className="row">
+
+          <form className="white col center s12 m8 offset-m2 l6 offset-l3 z-depth-1">
+
+            <div className="row">
+              <div className="group-picture">
+
+                <Dropzone ref="dropzone" onDrop={e => { this.onDrop(e); }}>
+                  {(preview ? <div className="preview" style={preview} /> : '')}
+                  <div className="info green lighten-2 center-align">Suelta una imagen o click para seleccionar.</div>
+                </Dropzone>
+
+              </div>
+
+              {error}
             </div>
-            {error}
-            <div className="form-group">
-              <label className="col-sm-2 control-label">Título</label>
-              <div className="col-sm-8">
-                <input ref="title" type="text" className="form-control"
+
+            <div className="row">
+              <div className="input-field col s12">
+
+                <input ref="title" type="text" className="validate" required
                   placeholder="Los pibes de la esquina"
                   value={this.state.model.get('title')} />
+
+                <label htmlFor="title">Título</label>
               </div>
             </div>
-            <div className="form-group">
-              <label className="col-sm-2 control-label">Descripción</label>
-              <div className="col-sm-8">
-                <textarea ref="description" className="form-control" rows="5"
+
+            <div className="row">
+              <div className="input-field col s12">
+
+                <textarea ref="description" className="materialize-textarea"
                   placeholder="Para el fulbito de los sábados. Si llueve se suspende!"
                   value={this.state.model.get('description')} />
+
+                <label htmlFor="title">Descripción</label>
               </div>
             </div>
-            <div className="col-sm-8 col-sm-offset-2">
+
+            <div className="row">
               {buttons}
             </div>
+
           </form>
+
         </div>
 
       </div>

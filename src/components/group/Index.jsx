@@ -11,7 +11,7 @@ export default class Groups extends React.Component {
     return (
       <div>
         <Header />
-        <div className="inner groups">
+        <div className="container">
           <GroupList collection={GroupsStore.instance} />
         </div>
       </div>

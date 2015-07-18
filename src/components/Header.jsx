@@ -3,33 +3,74 @@ import {Link} from 'react-router';
 
 export default class Header extends React.Component {
 
+  componentDidMount() {
+    $(React.findDOMNode(this.refs.collapse)).sideNav({
+      edge: 'right',
+      closeOnClick: true
+    });
+  }
+
   render() {
     var profilePic = window.user ? window.user.picture : '';
 
     return (
-      <div className="row">
+      <div className="navbar-fixed">
+        <nav>
+          <div className="nav-wrapper">
 
-        {(this.props.backto ?
-        <Link className="mdl-navigation__link go-back" to={this.props.backto}>
-          <i className="fa fa-reply"></i>
-        </Link>
-        : '' )}
+            {(this.props.backto ?
+              <Link className="left button-collapse" to={this.props.backto}>
+                <i className="material-icons">arrow_back</i>
+              </Link>
+            : '' )}
 
+            <a className="brand-logo">app-logo</a>
 
-        {(this.props.hideprofile ? '' :
-        <Link className="mdl-navigation__link profile" to="profile">
-          <img src={profilePic} />
-        </Link>
-        )}
+            <a href="#" data-activates="mobile" className="right hide-on-med-and-up button-collapse" ref="collapse">
+              <i className="material-icons">menu</i>
+            </a>
 
-        {this.props.navs && this.props.navs.map((nav) => {
-          return(
-            <Link className="mdl-navigation__link" to={nav.to} params={nav.params}>
-              <i className={"fa " + nav.icon}></i>
-            </Link>
-          );
-        })}
+            <ul className="right hide-on-small-only">
 
+              {this.props.navs && this.props.navs.map((nav) => {
+                return(
+                  <li>
+                    <Link to={nav.to} params={nav.params}>
+                      <i className="material-icons ">{nav.icon}</i>
+                    </Link>
+                  </li>
+                );
+              })}
+
+              {(this.props.hideprofile ? '' :
+                <li className="profile-item">
+                  <Link to="profile">
+                    <img className="circle profile" src={profilePic} />
+                  </Link>
+                </li>
+              )}
+            </ul>
+
+            <ul className="side-nav" id="mobile">
+              {this.props.navs && this.props.navs.map((nav) => {
+                return(
+                  <li>
+                    <Link to={nav.to} params={nav.params}>{nav.text}</Link>
+                  </li>
+                );
+              })}
+
+              {(this.props.hideprofile ? '' :
+                <li>
+                  <Link className="profile-item" to="profile">
+                    <img className="circle profile" src={profilePic} /> Profile
+                  </Link>
+                </li>
+              )}
+            </ul>
+
+          </div>
+        </nav>
       </div>
     );
 

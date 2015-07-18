@@ -19,23 +19,20 @@ export default class GroupItem extends React.Component {
     var style = { backgroundImage: 'url(' + model.imageURL() + ')' };
 
     return (
-      <li className="media">
-        <Link to="group" params={{groupId: _model.id}}>
-          <div className="media-left media-middle media-pic" style={style}></div>
-          <div className="media-body">
-            <h4>{_model.title}</h4>
+      <div className="col s12 m6 l4">
+        <div className="card small">
+          <div className="card-image">
+            <img src={model.imageURL()}/>
+            <span className="card-title">{_model.title}</span>
+          </div>
+          <div className="card-content">
             <p>{_model.description}</p>
           </div>
-          <div className="counters">
-            <div>
-              {model.count('members')}<i className="fa fa-group"></i>
-            </div>
-            <div>
-              {model.count('meetups')}<i className="fa fa-futbol-o"></i>
-            </div>
+          <div className="card-action">
+            <Link to="group" params={{groupId: _model.id}}>Abrir</Link>
           </div>
-        </Link>
-      </li>
+        </div>
+      </div>
     );
   }
 
@@ -45,3 +42,15 @@ GroupItem.displayName = 'GroupItem';
 GroupItem.propTypes = {
   model: React.PropTypes.instanceOf(GroupStore).isRequired
 };
+
+
+/*
+<div className="counters">
+  <div>
+    {model.count('members')}<i className="fa fa-group"></i>
+  </div>
+  <div>
+    {model.count('meetups')}<i className="fa fa-futbol-o"></i>
+  </div>
+</div>
+*/

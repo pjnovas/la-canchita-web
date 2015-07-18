@@ -41,13 +41,11 @@ export default class GroupList extends React.Component {
 
     return (
       <div>
-        <ul className="media-list">{list}</ul>
-        <div className="fixed-actions">
-          <div className="actions-container">
-            <Link to="newgroup">
-              <i className="fa fa-plus"></i>
-            </Link>
-          </div>
+        <div className="row">{list}</div>
+        <div className="fixed-action-btn">
+          <Link to="newgroup" className="btn-floating btn-large">
+            <i className="large material-icons">group_add</i>
+          </Link>
         </div>
       </div>
     );

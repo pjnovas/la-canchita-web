@@ -1,17 +1,147 @@
 
+@import './ball-atom';
+
 @import './variables';
-
-//@import "node_modules/font-awesome/less/font-awesome";
-//@fa-font-path: "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts";
-
+@import './colors';
 
 @import './login';
+@import './groups';
 
 body {
   margin: 0;
   position: relative;
   height: 100%;
 
-  background-color: #009688 !important; // teal
+  /* http://materializecss.com/color.html */
+  background-color: #EFEFEF !important;
 }
 
+.container {
+
+  &.fluid-mobile {
+    @media @medium-and-down {
+      width: 100%;
+
+      .row {
+        margin-left: 0;
+        margin-right: 0;
+
+        .col {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+
+    }
+  }
+
+}
+
+h1 {
+
+  font-size: 2.5em;
+  font-weight: 200;
+
+  @media @medium-and-up {
+    font-size: 3em;
+    font-weight: 300;
+  }
+
+  @media @large-and-up {
+    font-size: 3.2em;
+    font-weight: 300;
+  }
+
+}
+
+.btn-floating {
+
+  &.btn-large {
+    .red;
+  }
+}
+
+.btn-flat {
+
+  &.left, &.right {
+    margin: 10px 0;
+  }
+}
+
+nav {
+
+  .nav-wrapper {
+    .green.darken-1;
+  }
+
+  .profile-item {
+    height: 64px;
+    line-height: 64px;
+
+    .profile {
+      width: 45px;
+      display: inline;
+      margin-top: 10px;
+    }
+  }
+
+  .side-nav {
+
+    a.profile-item {
+      height: 64px;
+      line-height: 64px;
+      padding: 0 15px;
+
+      .profile+span {
+        vertical-align: top;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.tabs {
+  .green.darken-3;
+
+  .indicator {
+    height: 4px;
+    .light-green.lighten-3;
+  }
+
+  .tab {
+
+    a {
+      .light-green-text.text-lighten-3;
+
+      &:hover {
+        .white-text;
+      }
+
+      .material-icons {
+        display: inline;
+        padding: 5px 10px;
+        line-height: 2;
+      }
+
+      span {
+        vertical-align: top;
+
+        @media @small-and-down {
+          display: none;
+        }
+      }
+    }
+
+    &.disabled {
+
+      a {
+        .light-green-text.text-darken-2;
+      }
+    }
+  }
+
+}
+
+.card.small .card-content {
+  height: 60px;
+}
