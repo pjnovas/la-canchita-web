@@ -1,57 +1,69 @@
 import {Link} from 'react-router';
 import Dropzone from 'react-dropzone';
-import request from 'superagent';
 
-import GroupsStore from '../../stores/Groups';
 import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import Header from '../Header.jsx';
 
-export default class GroupCreate extends React.Component {
+export default class GroupEdit extends React.Component {
 
   constructor(props) {
     super(props);
 
+    var group = new GroupStore({
+      id: this.props.params.groupId
+    });
+
     this.state = {
-      model: new GroupStore(),
+      model: group,
       loading: false
     };
   }
 
-  create() {
+  componentDidMount() {
+    this.state.model.on('change', () => {
+      this.setState({ model: this.state.model });
+    });
 
-    var newGroup = {
-      title: React.findDOMNode(this.refs.title).value,
-      description: React.findDOMNode(this.refs.description).value,
-    };
+    this.state.model.fetch({
+      parse: true,
+      error: function(model, resp, options){
+        window.app.handleError(resp.status, resp.responseText);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.model.off('change', null, this);
+  }
+
+  save() {
 
     function redirect(groupId){
-      window.app.router.transitionTo('group', { groupId: groupId });
+      window.app.router.transitionTo('groups', { groupId: groupId });
     }
 
-    GroupsStore.instance
-      .once('request', () => {
-        this.setState({ loading: true });
-      })
-      .once('sync', (model, resp, options) => {
+    this.setState({ loading: true });
 
-        if (this.state.picture){
-          request
-            .post('/api/groups/' + resp.id + '/picture')
-            .attach('image', this.state.picture)
-            .end((err, res) => {
-              if (err) throw new Error(err);
-              redirect(resp.id);
-            });
+    var model = this.state.model.toJSON();
 
-          return;
-        }
+    GroupStore.instance.update(model.id,{
+      title: model.title,
+      description: model.description,
+      picture: this.state.picture
+    }, (err, group) => {
 
-        redirect(resp.id);
-      });
+      this.setState({ loading: false });
 
-    GroupActions.createGroup(newGroup);
+      if (err){
+        window.app.handleError(err.status, err.responseText);
+        return;
+      }
+
+      GroupActions.changeGroup(group);
+      window.app.router.transitionTo('group', { groupId: group.id });
+    });
   }
 
   onDrop(files) {
@@ -69,7 +81,18 @@ export default class GroupCreate extends React.Component {
     this.setState({ picture: files[0], error: null });
   }
 
+  changeTitle(e) {
+    this.state.model.set({ 'title': e.target.value }, { silent: true });
+    this.setState({ model: this.state.model });
+  }
+
+  changeDescription(e) {
+    this.state.model.set({ 'description': e.target.value }, { silent: true });
+    this.setState({ model: this.state.model });
+  }
+
   render() {
+    var model = this.state.model, _model = model.toJSON();
 
     var buttons = () => {
 
@@ -89,16 +112,20 @@ export default class GroupCreate extends React.Component {
       return (
         <div className="col s12">
           <Link className="waves-effect waves-teal btn-flat left" to="groups">cancelar</Link>
-          <a className="waves-effect waves-light btn-large right" onClick={e => { this.create(e); } }>
-            <i className="material-icons right">check</i>Crear!
+          <a className="waves-effect waves-light btn-large right" onClick={e => { this.save(e); } }>
+            <i className="material-icons right">check</i>Guardar
           </a>
         </div>
       );
     }();
 
     var preview = '';
-    if (this.state.picture){
+
+    if (this.state.picture) {
       preview = { backgroundImage: 'url(' + this.state.picture.preview + ')' };
+    }
+    else {
+      preview = { backgroundImage: 'url(' + model.imageURL() + ')' };
     }
 
     var error = '';
@@ -134,9 +161,9 @@ export default class GroupCreate extends React.Component {
             <div className="row">
               <div className="input-field col s12">
 
-                <input ref="title" id="title" type="text" className="validate" required
-                  placeholder="Los pibes de la esquina"
-                  value={this.state.model.get('title')} />
+                <input id="title" type="text" className="validate"
+                  placeholder="Los pibes de la esquina" onChange={e => { this.changeTitle(e); }}
+                  value={_model.title} />
 
                 <label htmlFor="title">Título</label>
               </div>
@@ -145,9 +172,10 @@ export default class GroupCreate extends React.Component {
             <div className="row">
               <div className="input-field col s12">
 
-                <textarea ref="description" id="description" className="materialize-textarea"
+                <textarea id="description" className="materialize-textarea"
                   placeholder="Para el fulbito de los sábados. Si llueve se suspende!"
-                  value={this.state.model.get('description')} />
+                  onChange={e => { this.changeDescription(e); }}
+                  value={_model.description} />
 
                 <label htmlFor="description">Descripción</label>
               </div>
@@ -167,4 +195,4 @@ export default class GroupCreate extends React.Component {
 
 };
 
-GroupCreate.displayName = 'GroupCreate';
+GroupEdit.displayName = 'GroupEdit';

@@ -43,7 +43,7 @@ export default class GroupList extends React.Component {
       <div>
         <div className="row">{list}</div>
         <div className="fixed-action-btn">
-          <Link to="newgroup" className="btn-floating btn-large">
+          <Link to="groupnew" className="btn-floating btn-large">
             <i className="large material-icons">group_add</i>
           </Link>
         </div>

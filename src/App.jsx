@@ -3,9 +3,12 @@ import Router, {RouteHandler, Route, NotFoundRoute} from 'react-router';
 
 import Login from './components/Login.jsx';
 import Home from './components/Home.jsx';
+
 import Groups from './components/group/Index.jsx';
-import GroupEdit from './components/group/Create.jsx';
+import GroupCreate from './components/group/Create.jsx';
+import GroupEdit from './components/group/Edit.jsx';
 import GroupView from './components/group/View.jsx';
+
 import NotFound from './components/NotFound.jsx';
 
 export default class App extends React.Component {
@@ -29,7 +32,7 @@ var routes = (
   <Route handler={App} path="/">
     <Route name="home" path="/" handler={HomeHandler} />
     <Route name="groups" path="/" handler={HomeHandler} />
-    <Route name="newgroup" path="/groups/new" handler={GroupEdit} />
+    <Route name="groupnew" path="/groups/new" handler={GroupCreate} />
     <Route name="groupedit" path="/groups/:groupId/edit" handler={GroupEdit} />
     <Route name="group" path="/groups/:groupId" handler={GroupView} />
 

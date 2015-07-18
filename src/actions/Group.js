@@ -21,4 +21,13 @@ export default {
 
   },
 
+  changeGroup (group) {
+
+    AppDispatcher.dispatch({
+      type: 'change-group',
+      group: group
+    });
+
+  }
+
 };

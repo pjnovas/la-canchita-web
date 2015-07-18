@@ -106,7 +106,8 @@ export default class GroupView extends React.Component {
               <p className="flow-text description">{_model.description}</p>
 
               <div className="fixed-action-btn">
-                <Link to="newgroup" className="btn-floating btn-large">
+                <Link to="groupedit" params={{groupId: _model.id}}
+                  className="btn-floating btn-large">
                   <i className="large material-icons">mode_edit</i>
                 </Link>
               </div>
@@ -120,7 +121,7 @@ export default class GroupView extends React.Component {
             <div id="matches" className="col s12">
 
               <div className="fixed-action-btn">
-                <Link to="newgroup" className="btn-floating btn-large">
+                <Link to="groups" className="btn-floating btn-large">
                   <i className="large material-icons">add</i>
                 </Link>
               </div>

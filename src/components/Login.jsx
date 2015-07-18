@@ -3,7 +3,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="teal login">
+      <div className="login">
         <div className="container">
           <div className="row">
 

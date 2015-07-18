@@ -1,6 +1,8 @@
 
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import Backbone from 'backbone';
+import request from 'superagent';
+import moment from 'moment';
 
 import Members from '../stores/Members';
 
@@ -28,11 +30,44 @@ var Group = Backbone.Model.extend({
   },
 
   imageURL: function(){
-    return '/images/groups/' + this.get('id') + '.jpg';
+    var pic = this.get('picture');
+    return (pic ? '/images/groups/' + pic : '');
   },
 
   count: function(type){
     return this.get(type) && this.get(type).length || 0;
+  },
+
+  update: function(id, model, done){
+
+    var g = new Group({ id: id });
+
+    g.save(model, {
+      patch: true,
+      success: group => {
+
+        if (model.picture){
+          request
+            .post('/api/groups/' + id + '/picture')
+            .attach('image', model.picture)
+            .end(err => {
+              if (err) {
+                console.dir(err); //return done(err);
+              }
+
+              done(null, group);
+            });
+
+          return;
+        }
+
+        done(null, group);
+      },
+      error: (model, resp, options) => {
+        done(resp);
+      }
+    });
+
   }
 
 });
