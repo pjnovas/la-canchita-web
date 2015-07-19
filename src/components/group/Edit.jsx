@@ -1,10 +1,10 @@
 import {Link} from 'react-router';
-import Dropzone from 'react-dropzone';
 
 import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import Header from '../Header.jsx';
+import DropPicture from './DropPicture.jsx';
 
 export default class GroupEdit extends React.Component {
 
@@ -16,8 +16,7 @@ export default class GroupEdit extends React.Component {
     });
 
     this.state = {
-      loading: false,
-      newpicture: null
+      loading: false
     };
   }
 
@@ -64,27 +63,16 @@ export default class GroupEdit extends React.Component {
     });
   }
 
-  onDrop(files) {
-    var file = files[0];
-    if (file.size > 300000){
-      this.setState({ newpicture: null, error: 'La imagen no puede superar los 300 kb' });
-      return;
-    }
-
-    if (['image/jpeg', 'image/gif', 'image/png'].indexOf(file.type) === -1){
-      this.setState({ newpicture: null, error: 'Solo Imagenes .png .jpg o .gif' });
-      return;
-    }
-
-    this.setState({ newpicture: files[0], error: null });
-  }
-
   changeTitle(e) {
     this.setState({ 'title': e.target.value });
   }
 
   changeDescription(e) {
     this.setState({ 'description': e.target.value });
+  }
+
+  changePicture(picture){
+    this.setState({ 'newpicture': picture });
   }
 
   render() {
@@ -114,24 +102,6 @@ export default class GroupEdit extends React.Component {
       );
     }();
 
-    var preview = '';
-
-    if (this.state.newpicture) {
-      preview = { backgroundImage: 'url(' + this.state.newpicture.preview + ')' };
-    }
-    else if (this.state.picture){
-      preview = { backgroundImage: 'url(' + this.state.picture + ')' };
-    }
-
-    var error = '';
-    if (this.state.error){
-      error = (
-        <div className="form-group error-picture">
-          <span className="text-danger">{this.state.error}</span>
-        </div>
-      );
-    }
-
     return (
       <div>
         <Header title="Nuevo Grupo" backto="groups" />
@@ -140,18 +110,8 @@ export default class GroupEdit extends React.Component {
 
           <form className="white col center s12 m8 offset-m2 l6 offset-l3 z-depth-1">
 
-            <div className="row">
-              <div className="group-picture">
-
-                <Dropzone ref="dropzone" onDrop={e => { this.onDrop(e); }}>
-                  {(preview ? <div className="preview" style={preview} /> : '')}
-                  <div className="info center-align">Suelta una imagen o click para seleccionar.</div>
-                </Dropzone>
-
-              </div>
-
-              {error}
-            </div>
+            <DropPicture picture={this.state.picture}
+              onChangePicture={ pic => { this.changePicture(pic); }} />
 
             <div className="row">
               <div className="input-field col s12">
