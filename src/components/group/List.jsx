@@ -10,7 +10,7 @@ export default class GroupList extends React.Component {
 
     this.props.collection.on('add remove reset', () => {
       this.setState({ collection: this.props.collection });
-    });
+    }, this);
 
     this.props.collection.fetch();
   }

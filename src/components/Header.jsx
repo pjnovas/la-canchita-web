@@ -19,7 +19,9 @@ export default class Header extends React.Component {
           <div className="nav-wrapper">
 
             {(this.props.backto ?
-              <Link className="left button-collapse" to={this.props.backto}>
+              <Link className="left button-collapse"
+                to={this.props.backto}
+                params={this.props.backparams}>
                 <i className="material-icons">arrow_back</i>
               </Link>
             : '' )}

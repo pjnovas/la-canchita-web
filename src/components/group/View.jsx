@@ -12,9 +12,8 @@ export default class GroupView extends React.Component {
   constructor(props) {
     super(props);
 
-    var group = new GroupStore({
-      id: this.props.params.groupId
-    });
+    var group = GroupStore.instance;
+    group.clear().set("id", this.props.params.groupId);
 
     this.state = {
       model: group,
@@ -26,7 +25,7 @@ export default class GroupView extends React.Component {
 
     this.state.model.on('change', () => {
       this.setState({ model: this.state.model });
-    });
+    }, this);
 
     this.state.model.fetch({
       parse: true,

@@ -11,7 +11,19 @@ var Group = Backbone.Model.extend({
   urlRoot: '/api/groups',
 
   initialize: function(){
-    this.dispatchToken = AppDispatcher.register(this.dispatchCallback.bind(this));
+    this.dispatchokTen = AppDispatcher.register(this.dispatchCallback.bind(this));
+
+    this
+      .on('sync', (model, resp, options) => {
+        if (options.silent){
+          return;
+        }
+
+        this.trigger('end:' + options.event);
+      })
+      .on('error', (model, resp, options) => {
+        this.trigger('error:' + options.event, resp);
+      });
   },
 
   parse: function(request){
@@ -25,9 +37,16 @@ var Group = Backbone.Model.extend({
   },
 
   dispatchCallback: function(payload){
+    if (this.get('id') !== payload.group.id){
+      return;
+    }
+
     switch (payload.type) {
       case 'change-group':
         this.set(payload.group);
+        break;
+      case 'update-group':
+        this.update(payload.group);
         break;
     }
   },
@@ -36,33 +55,37 @@ var Group = Backbone.Model.extend({
     return this.get(type) && this.get(type).length || 0;
   },
 
-  update: function(id, model, done){
+  update: function(model){
 
-    var g = new Group({ id: id });
-
-    g.save(model, {
+    this.save({
+      title: model.title,
+      description: model.description
+    }, {
       patch: true,
+      silent: true,
       success: group => {
 
-        if (model.picture){
+        if (model.newpicture){
           request
-            .post('/api/groups/' + id + '/picture')
-            .attach('image', model.picture)
-            .end(err => {
+            .post('/api/groups/' + model.id + '/picture')
+            .attach('image', model.newpicture)
+            .end( (err, res) => {
               if (err) {
-                return done(err);
+                this.trigger('error:save', { error: err });
+                return;
               }
 
-              done(null, group);
+              group.picture = res.picture;
+              this.trigger('end:save', group);
             });
 
           return;
         }
 
-        done(null, group);
+        this.trigger('end:save', group);
       },
       error: (model, resp, options) => {
-        done(resp);
+        this.trigger('error:save', { error: resp });
       }
     });
 

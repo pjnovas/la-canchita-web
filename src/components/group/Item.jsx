@@ -1,5 +1,5 @@
 
-import GroupStore from '../../stores/Group';
+import Group from '../../stores/GroupModel';
 import {Link} from 'react-router';
 
 export default class GroupItem extends React.Component {
@@ -7,7 +7,7 @@ export default class GroupItem extends React.Component {
   componentDidMount() {
     this.props.model.on('change', () => {
       this.setState({ model: this.props.model });
-    });
+    }, this);
   }
 
   componentWillUnmount() {
@@ -39,7 +39,7 @@ export default class GroupItem extends React.Component {
 
 GroupItem.displayName = 'GroupItem';
 GroupItem.propTypes = {
-  model: React.PropTypes.instanceOf(GroupStore).isRequired
+  model: React.PropTypes.instanceOf(Group).isRequired
 };
 
 

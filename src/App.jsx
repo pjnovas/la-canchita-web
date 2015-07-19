@@ -31,6 +31,7 @@ if (window.user){
 var routes = (
   <Route handler={App} path="/">
     <Route name="home" path="/" handler={HomeHandler} />
+
     <Route name="groups" path="/" handler={HomeHandler} />
     <Route name="groupnew" path="/groups/new" handler={GroupCreate} />
     <Route name="groupedit" path="/groups/:groupId/edit" handler={GroupEdit} />

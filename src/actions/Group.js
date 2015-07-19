@@ -12,7 +12,7 @@ export default {
 
   },
 
-  createGroup (group) {
+  create (group) {
 
     AppDispatcher.dispatch({
       type: 'create-group',
@@ -21,10 +21,10 @@ export default {
 
   },
 
-  changeGroup (group) {
+  update (group){
 
     AppDispatcher.dispatch({
-      type: 'change-group',
+      type: 'update-group',
       group: group
     });
 
