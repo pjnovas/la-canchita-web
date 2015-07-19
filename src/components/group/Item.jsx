@@ -16,13 +16,12 @@ export default class GroupItem extends React.Component {
 
   render() {
     var model = this.props.model, _model = model.toJSON();
-    var style = { backgroundImage: 'url(' + model.imageURL() + ')' };
 
     return (
       <div className="col s12 m6 l4">
         <div className="card small">
           <div className="card-image">
-            <img src={model.imageURL()}/>
+            <img src={_model.picture}/>
             <span className="card-title">{_model.title}</span>
           </div>
           <div className="card-content">

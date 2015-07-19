@@ -18,6 +18,9 @@ var Group = Backbone.Model.extend({
 
     request.members = new Members(request.members, { groupId: request.id });
 
+    var pic = request.picture;
+    request.picture = (pic ? '/images/groups/' + pic : '');
+
     return request;
   },
 
@@ -27,11 +30,6 @@ var Group = Backbone.Model.extend({
         this.set(payload.group);
         break;
     }
-  },
-
-  imageURL: function(){
-    var pic = this.get('picture');
-    return (pic ? '/images/groups/' + pic : '');
   },
 
   count: function(type){
@@ -52,7 +50,7 @@ var Group = Backbone.Model.extend({
             .attach('image', model.picture)
             .end(err => {
               if (err) {
-                console.dir(err); //return done(err);
+                return done(err);
               }
 
               done(null, group);

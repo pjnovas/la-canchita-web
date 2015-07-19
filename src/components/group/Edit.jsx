@@ -11,22 +11,22 @@ export default class GroupEdit extends React.Component {
   constructor(props) {
     super(props);
 
-    var group = new GroupStore({
+    this.model = new GroupStore({
       id: this.props.params.groupId
     });
 
     this.state = {
-      model: group,
-      loading: false
+      loading: false,
+      newpicture: null
     };
   }
 
   componentDidMount() {
-    this.state.model.on('change', () => {
-      this.setState({ model: this.state.model });
+    this.model.on('change', () => {
+      this.setState(this.model.toJSON());
     });
 
-    this.state.model.fetch({
+    this.model.fetch({
       parse: true,
       error: function(model, resp, options){
         window.app.handleError(resp.status, resp.responseText);
@@ -35,7 +35,7 @@ export default class GroupEdit extends React.Component {
   }
 
   componentWillUnmount() {
-    this.state.model.off('change', null, this);
+    this.model.off('change', null, this);
   }
 
   save() {
@@ -46,12 +46,10 @@ export default class GroupEdit extends React.Component {
 
     this.setState({ loading: true });
 
-    var model = this.state.model.toJSON();
-
-    GroupStore.instance.update(model.id,{
-      title: model.title,
-      description: model.description,
-      picture: this.state.picture
+    GroupStore.instance.update(this.state.id,{
+      title: this.state.title,
+      description: this.state.description,
+      picture: this.state.newpicture
     }, (err, group) => {
 
       this.setState({ loading: false });
@@ -61,7 +59,7 @@ export default class GroupEdit extends React.Component {
         return;
       }
 
-      GroupActions.changeGroup(group);
+      //GroupActions.changeGroup(group);
       window.app.router.transitionTo('group', { groupId: group.id });
     });
   }
@@ -69,30 +67,27 @@ export default class GroupEdit extends React.Component {
   onDrop(files) {
     var file = files[0];
     if (file.size > 300000){
-      this.setState({ picture: null, error: 'La imagen no puede superar los 300 kb' });
+      this.setState({ newpicture: null, error: 'La imagen no puede superar los 300 kb' });
       return;
     }
 
     if (['image/jpeg', 'image/gif', 'image/png'].indexOf(file.type) === -1){
-      this.setState({ picture: null, error: 'Solo Imagenes .png .jpg o .gif' });
+      this.setState({ newpicture: null, error: 'Solo Imagenes .png .jpg o .gif' });
       return;
     }
 
-    this.setState({ picture: files[0], error: null });
+    this.setState({ newpicture: files[0], error: null });
   }
 
   changeTitle(e) {
-    this.state.model.set({ 'title': e.target.value }, { silent: true });
-    this.setState({ model: this.state.model });
+    this.setState({ 'title': e.target.value });
   }
 
   changeDescription(e) {
-    this.state.model.set({ 'description': e.target.value }, { silent: true });
-    this.setState({ model: this.state.model });
+    this.setState({ 'description': e.target.value });
   }
 
   render() {
-    var model = this.state.model, _model = model.toJSON();
 
     var buttons = () => {
 
@@ -121,11 +116,11 @@ export default class GroupEdit extends React.Component {
 
     var preview = '';
 
-    if (this.state.picture) {
-      preview = { backgroundImage: 'url(' + this.state.picture.preview + ')' };
+    if (this.state.newpicture) {
+      preview = { backgroundImage: 'url(' + this.state.newpicture.preview + ')' };
     }
-    else {
-      preview = { backgroundImage: 'url(' + model.imageURL() + ')' };
+    else if (this.state.picture){
+      preview = { backgroundImage: 'url(' + this.state.picture + ')' };
     }
 
     var error = '';
@@ -163,7 +158,7 @@ export default class GroupEdit extends React.Component {
 
                 <input id="title" type="text" className="validate"
                   placeholder="Los pibes de la esquina" onChange={e => { this.changeTitle(e); }}
-                  value={_model.title} />
+                  value={this.state.title} />
 
                 <label htmlFor="title">Título</label>
               </div>
@@ -175,7 +170,7 @@ export default class GroupEdit extends React.Component {
                 <textarea id="description" className="materialize-textarea"
                   placeholder="Para el fulbito de los sábados. Si llueve se suspende!"
                   onChange={e => { this.changeDescription(e); }}
-                  value={_model.description} />
+                  value={this.state.description} />
 
                 <label htmlFor="description">Descripción</label>
               </div>

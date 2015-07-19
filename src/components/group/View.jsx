@@ -44,7 +44,11 @@ export default class GroupView extends React.Component {
 
   render() {
     var model = this.state.model, _model = model.toJSON();
-    var style = { backgroundImage: 'url(' + model.imageURL() + ')' };
+
+    var style = {};
+    if (_model.picture){
+      style = { backgroundImage: 'url(' + _model.picture + ')' };
+    }
 
     var members = model.get('members');
 
