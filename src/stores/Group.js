@@ -1,39 +1,17 @@
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import { EventEmitter } from 'events';
+import ListStore from './ListStore';
 import request from 'superagent';
 
-//var DEFAULT_MAX_LISTENERS = 12
-
-class GroupStore extends EventEmitter {
+class GroupStore extends ListStore {
 
   constructor() {
     super();
 
-    this.dispatchToken = AppDispatcher.register( (payload) => {
-      this.dispatchCallback(payload);
-    });
-
-    this.list = new Map();
     this.uri = '/api/groups/';
 
-    this.events = [
-      'start:fetch',
-      'error:fetch',
-      'end:fetch',
-
-      'start:create',
-      'error:create',
-      'end:create',
-
-      'start:save',
-      'error:save',
-      'end:save',
-
-      'start:destroy',
-      'error:destroy',
-      'end:destroy'
-    ];
+    this.events = this.events.concat([
+      // custom events here
+    ]);
   }
 
   dispatchCallback(payload) {
@@ -51,58 +29,6 @@ class GroupStore extends EventEmitter {
         this.destroy(payload.group);
         break;
     }
-  }
-
-  get(id){
-
-    if (id){
-      return this.list.get(id);
-    }
-
-    return [...this.list].map(([k, v]) => v ); // to Array
-  }
-
-  add(items) {
-    var toAdd = Array.isArray(items) ? items : [items];
-
-    toAdd.forEach( group => {
-      // TODO: merge group if already exist?
-      this.list.set(group.id, group);
-    });
-  }
-
-  set(item) {
-    // TODO: merge group ?
-    this.add(item);
-  }
-
-  fetch() {
-
-    this.emit('start:fetch');
-
-    request
-      .get(this.uri)
-      .end( (err, res) => {
-        this.add(res.body);
-        this.emit('end:fetch');
-      });
-  }
-
-  fetchOne(id) {
-    if (this.list.has(id)){
-      //TODO: should fire a start:fetch?
-      this.emit('end:fetch');
-      return;
-    }
-
-    this.emit('start:fetch');
-
-    request
-      .get(this.uri + id)
-      .end( (err, res) => {
-        this.set(res.body);
-        this.emit('end:fetch');
-      });
   }
 
   sendImage (id, picture, done) {
@@ -137,6 +63,7 @@ class GroupStore extends EventEmitter {
       .end( (err, res) => {
         if (err){
           this.emit('error:' + type, err);
+          return;
         }
 
         var group = res.body;
@@ -151,6 +78,7 @@ class GroupStore extends EventEmitter {
           this.sendImage(group.id, item.newpicture, (err) => {
             if (err){
               this.emit('error:' + type, err);
+              return;
             }
 
             this.emit('end:' + type, group);
@@ -169,21 +97,6 @@ class GroupStore extends EventEmitter {
 
   update(item) {
     this.send('save', item);
-  }
-
-  destroy(item){
-    this.emit('start:destroy');
-
-    request
-      .del(this.uri + item.id)
-      .end( (err, res) => {
-        if (err){
-          this.emit('error:destroy', err);
-        }
-
-        this.list.delete(item.id);
-        this.emit('end:destroy');
-      });
   }
 
 }
