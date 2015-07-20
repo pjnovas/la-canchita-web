@@ -27,7 +27,8 @@ export default class GroupView extends React.Component {
       }, this)
 
       .on('end:fetch', () => {
-        this.setState(GroupsStore.getOne(this.state.id));
+        var g = GroupsStore.get(this.state.id);
+        this.setState(g.toJSON());
         this.setState({ loading: false });
       }, this);
 

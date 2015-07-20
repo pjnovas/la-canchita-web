@@ -28,8 +28,9 @@ export default class GroupEdit extends React.Component {
       }, this)
 
       .on('end:fetch', () => {
-        // form ready
-        this.setState(GroupsStore.getOne(this.state.id));
+        var group = GroupsStore.get(this.state.id);
+        // TODO: if (!group) show 404
+        this.setState(group.toJSON());
         this.setState({ loading: false });
       }, this)
 

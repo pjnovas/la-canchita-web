@@ -16,7 +16,7 @@ var GroupsStore = Backbone.Collection.extend({
 
     this
       .on('sync', (model, resp, options) => {
-        if (options.silent){
+        if (options.silent || options.muted){
           return;
         }
 
@@ -33,8 +33,11 @@ var GroupsStore = Backbone.Collection.extend({
         this.add(payload.groups);
         break;
       case 'create-group':
+        this.createOne(payload.group);
+        break;
       case 'update-group':
-        this.save(payload.group);
+        this.updateOne(payload.group);
+        //this.save(payload.group);
         break;
       case 'change-group':
         var group = this.get(payload.group.id);
@@ -50,69 +53,112 @@ var GroupsStore = Backbone.Collection.extend({
     return collection.toJSON();
   },
 
-  getOne: function(id){
-    var group = this.get(id);
-    return group.toJSON();
-  },
-
   fetchOne: function(id){
-    var group = new Group({ id: id });
+
+    var group = this.get(id);
+    if (group){
+      this.trigger('end:fetch', group);
+      return;
+    }
+
+    // group not on store > fetch it from server
+    group = new Group({ id: id });
     group.urlRoot = this.url;
 
     group.fetch({
       success: (group) => {
         this.add(group, { merge: true });
-        this.trigger('end:fetch');
+        this.trigger('end:fetch', group.toJSON());
       }
     });
   },
 
-  save: function(model){
-    var group = new Group(model);
-    group.urlRoot = this.url;
+  updateImage: function(id, picture, done){
+    request
+      .post('/api/groups/' + id + '/picture')
+      .attach('image', picture)
+      .end( (err, res) => {
+        if (err) {
+          return done(err);
+        }
 
-    var isNew = group.isNew();
-    var event = isNew ? 'create' : 'save';
+        if (res.body.picture){
+          var group = this.get(id);
+          group.set('picture', res.body.picture);
+        }
 
-    var done = group => {
-      this.add(group, { merge: true });
-      this.trigger('end:' + event, group.toJSON());
-    };
+        done();
+      });
+  },
 
-    group.save({
+  createOne: function(model){
+    this.create({
       title: model.title,
       description: model.description
     }, {
-      patch: !isNew,
-      silent: true,
-      success: group => {
+      wait: true,
+      muted: true,
+
+      success: (group) => {
 
         if (model.newpicture){
-          request
-            .post('/api/groups/' + group.id + '/picture')
-            .attach('image', model.newpicture)
-            .end( (err, res) => {
-              if (err) {
-                this.trigger('error:' + event, { error: err });
-                return;
-              }
+          this.updateImage(group.id, model.newpicture, (err) => {
+            if (err){
+              this.trigger('error:create', { error: err });
+            }
 
-              group.set('picture', res.body.picture);
-              done(group);
-            });
+            this.trigger('end:create', group.toJSON());
+          });
 
           return;
         }
 
-        done(group);
-      },
-      error: (model, resp, options) => {
-        this.trigger('error:' + event, { error: resp });
+        this.trigger('end:create', group);
       }
+
     });
+  },
 
-  }
+  updateOne: function(model){
+    var group = this.get(model.id);
 
+    function savePicture(_group){
+      this.updateImage(_group.id, model.newpicture, (err) => {
+        if (err){
+          this.trigger('error:save', { error: err });
+        }
+
+        this.trigger('end:save', _group.toJSON());
+      });
+    }
+
+    if ( // has changes on group
+      group.get('title') !== model.title ||
+      group.get('description') !== model.description
+    ){
+
+      group.save({
+        title: model.title,
+        description: model.description
+      }, {
+        patch: true,
+        muted: true,
+        wait: true,
+
+        success: (group) => {
+          if (model.newpicture){
+            return savePicture.call(this, group);
+          }
+          this.trigger('end:save', group);
+        }
+
+      });
+
+    } else if (model.newpicture){
+      savePicture.call(this, group);
+    }
+
+  },
 
 });
 
