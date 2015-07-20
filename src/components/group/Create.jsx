@@ -1,9 +1,12 @@
 
-import GroupsStore from '../../stores/Groups';
+import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import Header from '../Header.jsx';
 import Form from './Form.jsx';
+
+import Events from '../Events';
+import shortid from 'shortid';
 
 export default class GroupCreate extends React.Component {
 
@@ -15,6 +18,7 @@ export default class GroupCreate extends React.Component {
     };
 
     this.isDirty = false;
+    this.cid = shortid.generate();
   }
 
   redirect(gid){
@@ -27,39 +31,34 @@ export default class GroupCreate extends React.Component {
   }
 
   componentDidMount() {
-
-    GroupsStore
-
-      .on('start:create', () => {
-        this.setState({ saving: true });
-      }, this)
-
-      .on('end:create', (group) => {
-        this.setState({ saving: false });
-        this.redirect(group.id);
-      }, this)
-
-      .on('error:create', (model, err) => {
-        this.setState({ saving: false });
-        this.setState({ error: err });
-      }, this);
-
+    Events.attach(this.cid, this, GroupStore);
   }
 
   componentWillUnmount() {
-    GroupsStore.off(null, null, this);
+    Events.detach(this.cid);
+  }
+
+  onStartCreate() {
+    this.setState({ saving: true });
+  }
+
+  onEndCreate(group) {
+    this.setState({ saving: false });
+    this.redirect(group.id);
+  }
+
+  onErrorCreate(err) {
+    this.setState({ saving: false });
+    this.setState({ error: err });
   }
 
   onSave() {
-
     if (!this.isDirty){
       this.redirect();
       return;
     }
 
     GroupActions.create(this.state);
-
-    this.setState({ loading: true });
   }
 
   onChange(model){

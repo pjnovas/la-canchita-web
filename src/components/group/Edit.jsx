@@ -1,9 +1,12 @@
 
-import GroupsStore from '../../stores/Groups';
+import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import Header from '../Header.jsx';
 import Form from './Form.jsx';
+
+import Events from '../Events';
+import shortid from 'shortid';
 
 export default class GroupEdit extends React.Component {
 
@@ -17,42 +20,39 @@ export default class GroupEdit extends React.Component {
     };
 
     this.isDirty = false;
+    this.cid = shortid.generate();
   }
 
   componentDidMount() {
-
-    GroupsStore
-
-      .on('start:fetch', () => {
-        this.setState({ loading: true });
-      }, this)
-
-      .on('end:fetch', () => {
-        var group = GroupsStore.get(this.state.id);
-        // TODO: if (!group) show 404
-        this.setState(group.toJSON());
-        this.setState({ loading: false });
-      }, this)
-
-      .on('start:save', () => {
-        this.setState({ saving: true });
-      }, this)
-
-      .on('end:save', () => {
-        this.setState({ saving: false });
-        this.redirect();
-      }, this)
-
-      .on('error:save', (model, err) => {
-        this.setState({ saving: false });
-        this.setState({ error: err });
-      }, this);
-
-    GroupsStore.fetchOne(this.state.id);
+    Events.attach(this.cid, this, GroupStore);
+    GroupStore.fetchOne(this.state.id);
   }
 
   componentWillUnmount() {
-    GroupsStore.off(null, null, this);
+    Events.detach(this.cid);
+  }
+
+  onStartFetch() {
+    this.setState({ loading: true });
+  }
+
+  onEndFetch() {
+    this.setState(GroupStore.get(this.state.id));
+    this.setState({ loading: false });
+  }
+
+  onStartSave() {
+    this.setState({ saving: true });
+  }
+
+  onEndSave() {
+    this.setState({ saving: false });
+    this.redirect();
+  }
+
+  onErrorSave(err) {
+    this.setState({ saving: false });
+    this.setState({ error: err });
   }
 
   redirect(){

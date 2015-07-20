@@ -1,8 +1,11 @@
 import {Link} from 'react-router';
 
-import GroupsStore from '../../stores/Groups';
+import GroupStore from '../../stores/Group';
 import GroupItem from './Item.jsx';
 import GroupActions from '../../actions/Group';
+
+import Events from '../Events';
+import shortid from 'shortid';
 
 export default class GroupList extends React.Component {
 
@@ -13,24 +16,39 @@ export default class GroupList extends React.Component {
       groups: [],
       loading: true
     };
+
+    this.cid = shortid.generate();
   }
 
   componentDidMount() {
-
-    GroupsStore.on('add remove reset', () => {
-      this.setState({ groups: GroupsStore.getAll() });
-    }, this);
-
-    GroupsStore.fetch();
+    Events.attach(this.cid, this, GroupStore);
+    GroupStore.fetch();
   }
 
   componentWillUnmount() {
-    GroupsStore.off(null, null, this);
+    Events.detach(this.cid);
+  }
+
+  onStartFetch() {
+    this.setState({ loading: true });
+  }
+
+  onEndFetch() {
+    this.setState({ groups: GroupStore.get() });
+    this.setState({ loading: false });
   }
 
   render() {
 
     var list = () => {
+
+      if (this.state.loading){
+        return (
+          <li>
+            CARGANDO ...
+          </li>
+        );
+      }
 
       if (this.state.groups.length){
         return (

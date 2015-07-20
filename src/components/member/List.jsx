@@ -1,20 +1,7 @@
 import {Link} from 'react-router';
-import Members from '../../models/Members';
 import MemberItem from './Item.jsx';
 
 export default class MemberList extends React.Component {
-
-  componentDidMount() {
-
-    //this.props.collection.on('add remove reset', () => {
-    //  this.setState({ collection: this.props.collection });
-    //});
-
-  }
-
-  componentWillUnmount() {
-    //this.props.collection.off('add remove reset', null, this);
-  }
 
   render() {
     var list = this.props.collection;
@@ -22,7 +9,7 @@ export default class MemberList extends React.Component {
       <div className="members">
         <ul className="collection">
         {this.props.collection.map(model => {
-          return <MemberItem key={model.get('id')} model={model} />;
+          return <MemberItem key={model.id} model={model} />;
         })}
         </ul>
 

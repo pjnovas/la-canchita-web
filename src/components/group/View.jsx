@@ -1,9 +1,12 @@
 
-import GroupsStore from '../../stores/Groups';
+import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import MemberList from '../member/List.jsx';
 import Header from '../Header.jsx';
+
+import Events from '../Events';
+import shortid from 'shortid';
 
 import {Link} from 'react-router';
 
@@ -16,36 +19,34 @@ export default class GroupView extends React.Component {
       id: this.props.params.groupId,
       loading: false
     };
+
+    this.cid = shortid.generate();
   }
 
   componentDidMount() {
-
-    GroupsStore
-
-      .on('start:fetch', () => {
-        this.setState({ loading: true });
-      }, this)
-
-      .on('end:fetch', () => {
-        var g = GroupsStore.get(this.state.id);
-        this.setState(g.toJSON());
-        this.setState({ loading: false });
-      }, this);
-
-    GroupsStore.fetchOne(this.state.id);
-
+    Events.attach(this.cid, this, GroupStore);
+    GroupStore.fetchOne(this.state.id);
     $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
   componentWillUnmount() {
-    GroupsStore.off(null, null, this);
+    Events.detach(this.cid);
+  }
+
+  onStartFetch() {
+    this.setState({ loading: true });
+  }
+
+  onEndFetch() {
+    this.setState(GroupStore.get(this.state.id));
+    this.setState({ loading: false });
   }
 
   render() {
 
     var style = {};
     if (this.state.picture){
-      style = { backgroundImage: 'url(' + this.state.picture + ')' };
+      style = { backgroundImage: 'url(/images/groups/' + this.state.picture + ')' };
     }
 
     var navs = [/*{

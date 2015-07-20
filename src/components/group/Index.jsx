@@ -1,7 +1,6 @@
 
-import GroupList from './List.jsx';
-
 import Header from '../Header.jsx';
+import GroupList from './List.jsx';
 
 export default class Groups extends React.Component {
 

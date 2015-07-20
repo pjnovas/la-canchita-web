@@ -35,7 +35,7 @@ export default class GroupDropPicture extends React.Component {
       preview = { backgroundImage: 'url(' + this.state.picture.preview + ')' };
     }
     else if (this.props.picture){
-      preview = { backgroundImage: 'url(' + this.props.picture + ')' };
+      preview = { backgroundImage: 'url(/images/groups/' + this.props.picture + ')' };
     }
 
     var error = '';

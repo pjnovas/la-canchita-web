@@ -4,13 +4,13 @@
   "description": "",
   "author": "Pablo Novas <pjnovas@gmail.com>",
   "dependencies": {
-    "backbone": "^1.2.1",
+    "events": "^1.0.2",
     "flux": "^2.0.3",
-    "jquery": "^2.1.4",
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-dropzone": "^1.2.2",
     "react-router": "^0.13.3",
+    "shortid": "^2.2.2",
     "superagent": "^1.2.0"
   },
   "devDependencies": {
