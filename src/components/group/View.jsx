@@ -1,5 +1,5 @@
 
-import GroupStore from '../../stores/Group';
+import GroupsStore from '../../stores/Groups';
 import GroupActions from '../../actions/Group';
 
 import MemberList from '../member/List.jsx';
@@ -12,48 +12,44 @@ export default class GroupView extends React.Component {
   constructor(props) {
     super(props);
 
-    var group = GroupStore.instance;
-    group.clear().set("id", this.props.params.groupId);
-
     this.state = {
-      model: group,
+      id: this.props.params.groupId,
       loading: false
     };
   }
 
   componentDidMount() {
 
-    this.state.model.on('change', () => {
-      this.setState({ model: this.state.model });
-    }, this);
+    GroupsStore
 
-    this.state.model.fetch({
-      parse: true,
-      error: function(model, resp, options){
-        window.app.handleError(resp.status, resp.responseText);
-      }
-    });
+      .on('start:fetch', () => {
+        this.setState({ loading: true });
+      }, this)
+
+      .on('end:fetch', () => {
+        this.setState(GroupsStore.getOne(this.state.id));
+        this.setState({ loading: false });
+      }, this);
+
+    GroupsStore.fetchOne(this.state.id);
 
     $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
   componentWillUnmount() {
-    this.state.model.off('change', null, this);
+    GroupsStore.off(null, null, this);
   }
 
   render() {
-    var model = this.state.model, _model = model.toJSON();
 
     var style = {};
-    if (_model.picture){
-      style = { backgroundImage: 'url(' + _model.picture + ')' };
+    if (this.state.picture){
+      style = { backgroundImage: 'url(' + this.state.picture + ')' };
     }
-
-    var members = model.get('members');
 
     var navs = [/*{
       to: 'groupedit',
-      params: { groupId: _model.id },
+      params: { groupId: this.state.id },
       text: 'Editar',
       icon: 'mode_edit'
     }*/];
@@ -103,13 +99,13 @@ export default class GroupView extends React.Component {
             <div id="info" className="col s12">
 
               <header style={style}>
-                <h1>{_model.title}</h1>
+                <h1>{this.state.title}</h1>
               </header>
 
-              <p className="flow-text description">{_model.description}</p>
+              <p className="flow-text description">{this.state.description}</p>
 
               <div className="fixed-action-btn">
-                <Link to="groupedit" params={{groupId: _model.id}}
+                <Link to="groupedit" params={{groupId: this.state.id}}
                   className="btn-floating btn-large">
                   <i className="large material-icons">mode_edit</i>
                 </Link>
@@ -118,7 +114,7 @@ export default class GroupView extends React.Component {
             </div>
 
             <div id="players" className="col s12">
-              {members ? <MemberList collection={members} /> : ''}
+              {this.state.members ? <MemberList collection={this.state.members} /> : ''}
             </div>
 
             <div id="matches" className="col s12">

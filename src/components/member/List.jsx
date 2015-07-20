@@ -1,19 +1,19 @@
 import {Link} from 'react-router';
-import MembersStore from '../../stores/Members';
+import Members from '../../models/Members';
 import MemberItem from './Item.jsx';
 
 export default class MemberList extends React.Component {
 
   componentDidMount() {
 
-    this.props.collection.on('add remove reset', () => {
-      this.setState({ collection: this.props.collection });
-    });
+    //this.props.collection.on('add remove reset', () => {
+    //  this.setState({ collection: this.props.collection });
+    //});
 
   }
 
   componentWillUnmount() {
-    this.props.collection.off('add remove reset', null, this);
+    //this.props.collection.off('add remove reset', null, this);
   }
 
   render() {
@@ -60,6 +60,3 @@ export default class MemberList extends React.Component {
 };
 
 MemberList.displayName = 'MemberList';
-MemberList.propTypes = {
-  collection: React.PropTypes.instanceOf(MembersStore).isRequired
-};

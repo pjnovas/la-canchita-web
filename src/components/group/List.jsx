@@ -6,27 +6,36 @@ import GroupActions from '../../actions/Group';
 
 export default class GroupList extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      groups: [],
+      loading: true
+    };
+  }
+
   componentDidMount() {
 
-    this.props.collection.on('add remove reset', () => {
-      this.setState({ collection: this.props.collection });
+    GroupsStore.on('add remove reset', () => {
+      this.setState({ groups: GroupsStore.getAll() });
     }, this);
 
-    this.props.collection.fetch();
+    GroupsStore.fetch();
   }
 
   componentWillUnmount() {
-    this.props.collection.off('add remove reset', null, this);
+    GroupsStore.off(null, null, this);
   }
 
   render() {
 
     var list = () => {
 
-      if (this.props.collection.length){
+      if (this.state.groups.length){
         return (
-          this.props.collection.map(model => {
-            return <GroupItem key={model.get('id')} model={model} />;
+          this.state.groups.map(model => {
+            return <GroupItem key={model.id} model={model} />;
           })
         );
       }
@@ -54,6 +63,3 @@ export default class GroupList extends React.Component {
 };
 
 GroupList.displayName = 'GroupList';
-GroupList.propTypes = {
-  collection: React.PropTypes.instanceOf(GroupsStore).isRequired
-};

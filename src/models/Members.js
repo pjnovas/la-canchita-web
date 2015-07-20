@@ -5,11 +5,6 @@ import Member from './Member';
 var Members = Backbone.Collection.extend({
 
   model: Member,
-  /*
-  url: function(){
-    return '/api/groups/' + this.groupId + '/members';
-  },
-  */
 
   initialize: function(models, options){
     if (!options || !options.groupId){

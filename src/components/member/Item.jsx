@@ -1,17 +1,17 @@
 
-import MemberStore from '../../stores/Member';
+import Member from '../../models/Member';
 import {Link} from 'react-router';
 
 export default class MemberItem extends React.Component {
 
   componentDidMount() {
-    this.props.model.on('change', () => {
-      this.setState({ model: this.props.model });
-    });
+    //this.props.model.on('change', () => {
+    //  this.setState({ model: this.props.model });
+    //});
   }
 
   componentWillUnmount() {
-    this.props.model.off('change', null, this);
+    //this.props.model.off('change', null, this);
   }
 
   render() {
@@ -22,7 +22,7 @@ export default class MemberItem extends React.Component {
       <li className="collection-item avatar">
         <img src={_model.user.picture} className="circle" />
         <span className="title">{_model.user.name}</span>
-        <p>{model.role()}</p>
+        <p>{_model.roleName}</p>
         <a href="#!" className="secondary-content">
           <i className="material-icons">grade</i>
         </a>
@@ -33,6 +33,3 @@ export default class MemberItem extends React.Component {
 };
 
 MemberItem.displayName = 'MemberItem';
-MemberItem.propTypes = {
-  model: React.PropTypes.instanceOf(MemberStore).isRequired
-};

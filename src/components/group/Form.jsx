@@ -1,8 +1,4 @@
 
-import GroupStore from '../../stores/Group';
-import GroupActions from '../../actions/Group';
-
-import Header from '../Header.jsx';
 import DropPicture from './DropPicture.jsx';
 
 export default class GroupForm extends React.Component {

@@ -1,5 +1,5 @@
 
-import GroupStore from '../../stores/Group';
+import GroupsStore from '../../stores/Groups';
 import GroupActions from '../../actions/Group';
 
 import Header from '../Header.jsx';
@@ -10,12 +10,9 @@ export default class GroupEdit extends React.Component {
   constructor(props) {
     super(props);
 
-    this.store = GroupStore.instance;
-    this.store.clear().set("id", this.props.params.groupId);
-
     this.state = {
-      id: this.store.get('id'),
-      loading: true,
+      id: this.props.params.groupId,
+      loading: false,
       saving: false
     };
 
@@ -24,11 +21,15 @@ export default class GroupEdit extends React.Component {
 
   componentDidMount() {
 
-    this.store
+    GroupsStore
+
+      .on('start:fetch', () => {
+        this.setState({ loading: true });
+      }, this)
 
       .on('end:fetch', () => {
         // form ready
-        this.setState(this.store.toJSON());
+        this.setState(GroupsStore.getOne(this.state.id));
         this.setState({ loading: false });
       }, this)
 
@@ -44,13 +45,13 @@ export default class GroupEdit extends React.Component {
       .on('error:save', (model, err) => {
         this.setState({ saving: false });
         this.setState({ error: err });
-      }, this)
+      }, this);
 
-      .fetch({ parse: true });
+    GroupsStore.fetchOne(this.state.id);
   }
 
   componentWillUnmount() {
-    this.store.off(null, null, this);
+    GroupsStore.off(null, null, this);
   }
 
   redirect(){

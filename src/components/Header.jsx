@@ -26,7 +26,7 @@ export default class Header extends React.Component {
               </Link>
             : '' )}
 
-            <a className="brand-logo">app-logo</a>
+            <a className="brand-logo center">app-logo</a>
 
             <a href="#" data-activates="mobile" className="right hide-on-med-and-up button-collapse" ref="collapse">
               <i className="material-icons">menu</i>

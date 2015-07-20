@@ -3,9 +3,10 @@ import AppDispatcher from '../dispatcher/AppDispatcher';
 import Backbone from 'backbone';
 import request from 'superagent';
 
-import Group from './GroupModel';
+import Group from '../models/Group';
+import Groups from '../models/Groups';
 
-var Groups = Backbone.Collection.extend({
+var GroupsStore = Backbone.Collection.extend({
 
   model: Group,
   url: '/api/groups',
@@ -32,7 +33,8 @@ var Groups = Backbone.Collection.extend({
         this.add(payload.groups);
         break;
       case 'create-group':
-        this.create(payload.group);
+      case 'update-group':
+        this.save(payload.group);
         break;
       case 'change-group':
         var group = this.get(payload.group.id);
@@ -43,14 +45,45 @@ var Groups = Backbone.Collection.extend({
     }
   },
 
-  create: function(model){
+  getAll: function(){
+    var collection = new Groups(this.toJSON());
+    return collection.toJSON();
+  },
 
-    var g = new Group();
+  getOne: function(id){
+    var group = this.get(id);
+    return group.toJSON();
+  },
 
-    g.save({
+  fetchOne: function(id){
+    var group = new Group({ id: id });
+    group.urlRoot = this.url;
+
+    group.fetch({
+      success: (group) => {
+        this.add(group, { merge: true });
+        this.trigger('end:fetch');
+      }
+    });
+  },
+
+  save: function(model){
+    var group = new Group(model);
+    group.urlRoot = this.url;
+
+    var isNew = group.isNew();
+    var event = isNew ? 'create' : 'save';
+
+    var done = group => {
+      this.add(group, { merge: true });
+      this.trigger('end:' + event, group.toJSON());
+    };
+
+    group.save({
       title: model.title,
       description: model.description
     }, {
+      patch: !isNew,
       silent: true,
       success: group => {
 
@@ -60,29 +93,27 @@ var Groups = Backbone.Collection.extend({
             .attach('image', model.newpicture)
             .end( (err, res) => {
               if (err) {
-                this.trigger('error:create', { error: err });
+                this.trigger('error:' + event, { error: err });
                 return;
               }
 
-              group.picture = res.picture;
-              this.trigger('end:create', group);
-              this.add(group);
+              group.set('picture', res.body.picture);
+              done(group);
             });
 
           return;
         }
 
-        this.trigger('end:create', group);
-        this.add(group);
+        done(group);
       },
       error: (model, resp, options) => {
-        this.trigger('error:create', { error: resp });
+        this.trigger('error:' + event, { error: resp });
       }
     });
+
   }
 
 
 });
 
-Groups.instance = new Groups();
-export default Groups;
+export default new GroupsStore();

@@ -5,12 +5,10 @@ import GroupActions from '../../actions/Group';
 import Header from '../Header.jsx';
 import Form from './Form.jsx';
 
-export default class GroupEdit extends React.Component {
+export default class GroupCreate extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.store = GroupsStore.instance;
 
     this.state = {
       loading: false
@@ -30,7 +28,7 @@ export default class GroupEdit extends React.Component {
 
   componentDidMount() {
 
-    this.store
+    GroupsStore
 
       .on('start:create', () => {
         this.setState({ saving: true });
@@ -49,7 +47,7 @@ export default class GroupEdit extends React.Component {
   }
 
   componentWillUnmount() {
-    this.store.off(null, null, this);
+    GroupsStore.off(null, null, this);
   }
 
   onSave() {
@@ -95,4 +93,4 @@ export default class GroupEdit extends React.Component {
 
 };
 
-GroupEdit.displayName = 'GroupEdit';
+GroupCreate.displayName = 'GroupCreate';
