@@ -2,12 +2,15 @@
 import ListStore from './ListStore';
 import request from 'superagent';
 
+import GroupConstants from '../constants/Group';
+
 class GroupStore extends ListStore {
 
   constructor() {
     super();
 
     this.uri = '/api/groups/';
+    this.type = 'GROUP';
 
     this.events = this.events.concat([
       // custom events here
@@ -15,20 +18,31 @@ class GroupStore extends ListStore {
   }
 
   dispatchCallback(payload) {
+
+    super.dispatchCallback(payload);
+
     switch (payload.type) {
-      case 'recieve-groups':
-        this.add(payload.groups);
+      case GroupConstants.CUSTOM:
+        //something
         break;
-      case 'create-group':
-        this.create(payload.group);
+    };
+
+    /* DEFAULTS
+    switch (payload.type) {
+      case GroupConstants.RECIEVE:
+        this.add(payload.data);
         break;
-      case 'update-group':
-        this.update(payload.group);
+      case GroupConstants.CREATE:
+        this.create(payload.data);
         break;
-      case 'destroy-group':
-        this.destroy(payload.group);
+      case GroupConstants.UPDATE:
+        this.update(payload.data);
+        break;
+      case GroupConstants.DESTROY:
+        this.destroy(payload.data);
         break;
     }
+    */
   }
 
   sendImage (id, picture, done) {

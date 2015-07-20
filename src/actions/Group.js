@@ -1,13 +1,14 @@
 
 import AppDispatcher from '../dispatcher/AppDispatcher';
+import GroupConstants from '../constants/Group';
 
 export default {
 
   receiveGroups (groups) {
 
     AppDispatcher.dispatch({
-      type: 'recieve-groups',
-      groups: groups
+      type: GroupConstants.RECEIVE,
+      data: groups
     });
 
   },
@@ -15,8 +16,8 @@ export default {
   create (group) {
 
     AppDispatcher.dispatch({
-      type: 'create-group',
-      group: group
+      type: GroupConstants.CREATE,
+      data: group
     });
 
   },
@@ -24,8 +25,8 @@ export default {
   update (group){
 
     AppDispatcher.dispatch({
-      type: 'update-group',
-      group: group
+      type: GroupConstants.UPDATE,
+      data: group
     });
 
   },
@@ -33,8 +34,8 @@ export default {
   destroy (group){
 
     AppDispatcher.dispatch({
-      type: 'destroy-group',
-      group: group
+      type: GroupConstants.DESTROY,
+      data: group
     });
 
   }

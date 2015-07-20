@@ -16,6 +16,7 @@ class ListStore extends EventEmitter {
 
     this.list = new Map();
     this.uri = '/';
+    this.type = '';
 
     this.events = [
       'start:fetch',
@@ -37,7 +38,29 @@ class ListStore extends EventEmitter {
   }
 
   dispatchCallback(payload) {
-    // Override
+
+    // default dispatcher
+    // manage constants as [this.type]_[action]
+
+    var parts = payload.type.split('_');
+    if (parts[0] !== this.type) { // store
+      return;
+    }
+
+    switch (parts[1]) {
+      case 'RECIEVE':
+        this.add(payload.data);
+        break;
+      case 'CREATE':
+        this.create(payload.data);
+        break;
+      case 'UPDATE':
+        this.update(payload.data);
+        break;
+      case 'DESTROY':
+        this.destroy(payload.data);
+        break;
+    }
   }
 
   get(id){
