@@ -28,6 +28,15 @@ export default {
       group: group
     });
 
+  },
+
+  destroy (group){
+
+    AppDispatcher.dispatch({
+      type: 'destroy-group',
+      group: group
+    });
+
   }
 
 };

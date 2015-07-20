@@ -30,9 +30,9 @@ class GroupStore extends EventEmitter {
       'error:save',
       'end:save',
 
-      'start:delete',
-      'error:delete',
-      'end:delete'
+      'start:destroy',
+      'error:destroy',
+      'end:destroy'
     ];
   }
 
@@ -46,6 +46,9 @@ class GroupStore extends EventEmitter {
         break;
       case 'update-group':
         this.update(payload.group);
+        break;
+      case 'destroy-group':
+        this.destroy(payload.group);
         break;
     }
   }
@@ -120,71 +123,66 @@ class GroupStore extends EventEmitter {
       });
   }
 
-  create(item) {
+  send (type, item) {
+    this.emit('start:' + type);
 
-    this.emit('start:create');
+    var method = (type === 'create' ? 'post' : 'put');
+    var uri = (type === 'create' ? this.uri : this.uri + item.id);
 
-    request
-      .post(this.uri)
+    request[method](uri)
       .send({
         title: item.title,
         description: item.description
       })
       .end( (err, res) => {
         if (err){
-          this.emit('error:create', err);
+          this.emit('error:' + type, err);
         }
 
         var group = res.body;
-        this.add(group);
+        if (type === 'create'){
+          this.add(group);
+        }
+        else {
+          this.set(group);
+        }
 
         if (item.newpicture){
           this.sendImage(group.id, item.newpicture, (err) => {
             if (err){
-              this.emit('error:create', err);
+              this.emit('error:' + type, err);
             }
 
-            this.emit('end:create', group);
+            this.emit('end:' + type, group);
           });
 
           return;
         }
 
-        this.emit('end:create', group);
+        this.emit('end:' + type, group);
       });
   }
 
-  update(item) {
+  create(item) {
+    this.send('create', item);
+  }
 
-    this.emit('start:save');
+  update(item) {
+    this.send('save', item);
+  }
+
+  destroy(item){
+    this.emit('start:destroy');
 
     request
-      .put(this.uri + item.id)
-      .send({
-        title: item.title,
-        description: item.description
-      })
+      .del(this.uri + item.id)
       .end( (err, res) => {
         if (err){
-          this.emit('error:save', err);
+          this.emit('error:destroy', err);
         }
 
-        var group = res.body;
-        this.set(group);
-
-        if (item.newpicture){
-          this.sendImage(group.id, item.newpicture, (err) => {
-            if (err){
-              this.emit('error:save', err);
-            }
-
-            this.emit('end:save', group);
-          });
-
-          return;
-        }
-
-        this.emit('end:save', group);
+        this.list.delete(item.id);
+        this.emit('end:destroy');
       });
   }
 

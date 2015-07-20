@@ -42,6 +42,26 @@ export default class GroupView extends React.Component {
     this.setState({ loading: false });
   }
 
+
+
+  onDestroy(){
+    GroupActions.destroy(this.state);
+  }
+
+  onStartDestroy() {
+    this.setState({ loading: true });
+  }
+
+  onEndDestroy() {
+    this.setState({ loading: false });
+    window.app.router.transitionTo('groups');
+  }
+
+  onErrorDestroy(err) {
+    this.setState({ loading: false });
+    this.setState({ error: err });
+  }
+
   render() {
 
     var style = {};
@@ -130,6 +150,15 @@ export default class GroupView extends React.Component {
             </div>
 
           </div>
+
+        {this.state.loading ? '' :
+          <div className="row">
+            <div className="col s12">
+              <a className="btn-large waves-effect waves-light red left"
+                onClick={ () => { this.onDestroy(); } }>eliminar grupo</a>
+            </div>
+          </div>
+        }
 
         </div>
       </div>
