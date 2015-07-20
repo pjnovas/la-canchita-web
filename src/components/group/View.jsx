@@ -5,61 +5,36 @@ import GroupActions from '../../actions/Group';
 import MemberList from '../member/List.jsx';
 import Header from '../Header.jsx';
 
-import Events from '../Events';
-import shortid from 'shortid';
+import ReactListener from '../ReactListener';
 
 import {Link} from 'react-router';
 
-export default class GroupView extends React.Component {
+export default class GroupView extends ReactListener {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: this.props.params.groupId,
-      loading: false
-    };
-
-    this.cid = shortid.generate();
+    this.state.id = this.props.params.groupId;
+    this.store = GroupStore;
   }
 
   componentDidMount() {
-    Events.attach(this.cid, this, GroupStore);
-    GroupStore.fetchOne(this.state.id);
+    super.componentDidMount();
+    this.store.fetchOne(this.state.id);
     $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
-  componentWillUnmount() {
-    Events.detach(this.cid);
-  }
-
-  onStartFetch() {
-    this.setState({ loading: true });
-  }
-
   onEndFetch() {
-    this.setState(GroupStore.get(this.state.id));
-    this.setState({ loading: false });
+    super.onEndFetch();
+    this.setState(this.store.get(this.state.id));
   }
-
-
 
   onDestroy(){
     GroupActions.destroy(this.state);
   }
 
-  onStartDestroy() {
-    this.setState({ loading: true });
-  }
-
   onEndDestroy() {
-    this.setState({ loading: false });
     window.app.router.transitionTo('groups');
-  }
-
-  onErrorDestroy(err) {
-    this.setState({ loading: false });
-    this.setState({ error: err });
   }
 
   render() {
@@ -151,7 +126,7 @@ export default class GroupView extends React.Component {
 
           </div>
 
-        {this.state.loading ? '' :
+        {this.state.destroying ? '' :
           <div className="row">
             <div className="col s12">
               <a className="btn-large waves-effect waves-light red left"

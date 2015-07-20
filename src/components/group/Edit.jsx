@@ -5,54 +5,30 @@ import GroupActions from '../../actions/Group';
 import Header from '../Header.jsx';
 import Form from './Form.jsx';
 
-import Events from '../Events';
-import shortid from 'shortid';
+import ReactListener from '../ReactListener';
 
-export default class GroupEdit extends React.Component {
+export default class GroupEdit extends ReactListener {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: this.props.params.groupId,
-      loading: false,
-      saving: false
-    };
-
+    this.state.id = this.props.params.groupId;
     this.isDirty = false;
-    this.cid = shortid.generate();
+    this.store = GroupStore;
   }
 
   componentDidMount() {
-    Events.attach(this.cid, this, GroupStore);
-    GroupStore.fetchOne(this.state.id);
-  }
-
-  componentWillUnmount() {
-    Events.detach(this.cid);
-  }
-
-  onStartFetch() {
-    this.setState({ loading: true });
+    super.componentDidMount();
+    this.store.fetchOne(this.state.id);
   }
 
   onEndFetch() {
-    this.setState(GroupStore.get(this.state.id));
-    this.setState({ loading: false });
-  }
-
-  onStartSave() {
-    this.setState({ saving: true });
+    super.onEndFetch();
+    this.setState(this.store.get(this.state.id));
   }
 
   onEndSave() {
-    this.setState({ saving: false });
     this.redirect();
-  }
-
-  onErrorSave(err) {
-    this.setState({ saving: false });
-    this.setState({ error: err });
   }
 
   redirect(){

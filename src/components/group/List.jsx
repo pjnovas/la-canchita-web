@@ -4,38 +4,25 @@ import GroupStore from '../../stores/Group';
 import GroupItem from './Item.jsx';
 import GroupActions from '../../actions/Group';
 
-import Events from '../Events';
-import shortid from 'shortid';
+import ReactListener from '../ReactListener';
 
-export default class GroupList extends React.Component {
+export default class GroupList extends ReactListener {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      groups: [],
-      loading: true
-    };
-
-    this.cid = shortid.generate();
+    this.state.groups = [];
+    this.store = GroupStore;
   }
 
   componentDidMount() {
-    Events.attach(this.cid, this, GroupStore);
-    GroupStore.fetch();
-  }
-
-  componentWillUnmount() {
-    Events.detach(this.cid);
-  }
-
-  onStartFetch() {
-    this.setState({ loading: true });
+    super.componentDidMount();
+    this.store.fetch();
   }
 
   onEndFetch() {
-    this.setState({ groups: GroupStore.get() });
-    this.setState({ loading: false });
+    super.onEndFetch();
+    this.setState({ groups: this.store.get() });
   }
 
   render() {

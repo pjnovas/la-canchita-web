@@ -5,20 +5,15 @@ import GroupActions from '../../actions/Group';
 import Header from '../Header.jsx';
 import Form from './Form.jsx';
 
-import Events from '../Events';
-import shortid from 'shortid';
+import ReactListener from '../ReactListener';
 
-export default class GroupCreate extends React.Component {
+export default class GroupCreate extends ReactListener {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: false
-    };
-
     this.isDirty = false;
-    this.cid = shortid.generate();
+    this.store = GroupStore;
   }
 
   redirect(gid){
@@ -30,26 +25,8 @@ export default class GroupCreate extends React.Component {
     window.app.router.transitionTo('groups');
   }
 
-  componentDidMount() {
-    Events.attach(this.cid, this, GroupStore);
-  }
-
-  componentWillUnmount() {
-    Events.detach(this.cid);
-  }
-
-  onStartCreate() {
-    this.setState({ saving: true });
-  }
-
   onEndCreate(group) {
-    this.setState({ saving: false });
     this.redirect(group.id);
-  }
-
-  onErrorCreate(err) {
-    this.setState({ saving: false });
-    this.setState({ error: err });
   }
 
   onSave() {
@@ -79,7 +56,7 @@ export default class GroupCreate extends React.Component {
         <div className="row">
 
           <Form
-            loading={ this.state.saving }
+            loading={ this.state.creating }
             onChange={ model => { this.onChange(model); }}
             onSave={ model => { this.onSave(model); }}
             onCancel={ () => { this.onCancel(); }} />
