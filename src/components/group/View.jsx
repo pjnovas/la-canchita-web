@@ -24,16 +24,16 @@ export default class GroupView extends ReactListener {
     $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
-  onEndFind(group) {
-    super.onEndFind();
+  onFind(group) {
+    super.onFind();
     this.setState(group);
   }
 
-  onDestroy(){
+  onDestroyClick(){
     GroupActions.destroy(this.state.id);
   }
 
-  onEndDestroy() {
+  onDestroy() {
     window.app.router.transitionTo('groups');
   }
 
@@ -112,7 +112,7 @@ export default class GroupView extends ReactListener {
                 <div className="row">
                   <div className="col s12">
                     <a className="btn-large waves-effect waves-light red left"
-                      onClick={ () => { this.onDestroy(); } }>eliminar grupo</a>
+                      onClick={ () => { this.onDestroyClick(); } }>eliminar grupo</a>
                   </div>
                 </div>
               }

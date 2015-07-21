@@ -25,11 +25,11 @@ export default class GroupCreate extends ReactListener {
     window.app.router.transitionTo('groups');
   }
 
-  onEndCreate(group) {
+  onCreate(group) {
     this.redirect(group.id);
   }
 
-  onSave() {
+  onSaveClick() {
     if (!this.isDirty){
       this.redirect();
       return;
@@ -58,7 +58,7 @@ export default class GroupCreate extends ReactListener {
           <Form
             loading={ this.state.creating }
             onChange={ model => { this.onChange(model); }}
-            onSave={ model => { this.onSave(model); }}
+            onSave={ model => { this.onSaveClick(model); }}
             onCancel={ () => { this.onCancel(); }} />
 
         </div>

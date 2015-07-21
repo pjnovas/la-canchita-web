@@ -19,21 +19,19 @@ class ListStore extends EventEmitter {
     this.type = '';
 
     this.events = [
-      'start:find',
-      'error:find',
-      'end:find',
+      'before:find',
+      'find',
 
-      'start:create',
-      'error:create',
-      'end:create',
+      'before:create',
+      'create',
 
-      'start:save',
-      'error:save',
-      'end:save',
+      'before:save',
+      'save',
 
-      'start:destroy',
-      'error:destroy',
-      'end:destroy'
+      'before:destroy',
+      'destroy',
+
+      'error'
     ];
   }
 
@@ -91,89 +89,111 @@ class ListStore extends EventEmitter {
 
   find() {
 
-    this.emit('start:find');
+    this.emit('before:find');
 
     request
       .get(this.uri)
       .end( (err, res) => {
+        if (this.errorHandler(err, 'find')){
+          return;
+        }
+
         this.add(res.body);
-        this.emit('end:find', this.get());
+        this.emit('find', this.get());
       });
   }
 
   findOne(id) {
     if (this.list.has(id)){
-      //TODO: should fire a start:find?
-      this.emit('end:find', this.get(id));
+      //TODO: should fire a before:find?
+      this.emit('find', this.get(id));
       return;
     }
 
-    this.emit('start:find');
+    this.emit('before:find');
 
     request
       .get(this.uri + id)
       .end( (err, res) => {
+        if (this.errorHandler(err, 'find')){
+          return;
+        }
+
         this.set(res.body);
-        this.emit('end:find', this.get(id));
+        this.emit('find', this.get(id));
       });
   }
 
   create(item) {
     // override
 
-    this.emit('start:create');
+    this.emit('before:create');
 
     request
       .post(this.uri)
       .send(item)
       .end( (err, res) => {
-        if (err){
-          this.emit('error:create', err);
+        if (this.errorHandler(err, 'create')){
           return;
         }
 
         var nItem = res.body;
         this.add(nItem.id, nItem);
-        this.emit('end:create', nItem);
+        this.emit('create', nItem);
       });
   }
 
   update(item) {
     // override
 
-    this.emit('start:save');
+    this.emit('before:save');
 
     request
       .put(this.uri + item.id)
       .send(item)
       .end( (err, res) => {
-        if (err){
-          this.emit('error:save', err);
+        if (this.errorHandler(err, 'save')){
           return;
         }
 
         var nItem = res.body;
         this.set(item.id, nItem);
-        this.emit('end:save', nItem);
+        this.emit('save', nItem);
       });
   }
 
   destroy(id){
     //override
 
-    this.emit('start:destroy');
+    this.emit('before:destroy');
 
     request
       .del(this.uri + id)
       .end( (err, res) => {
-        if (err){
-          this.emit('error:destroy', err);
+        if (this.errorHandler(err, 'destroy')){
           return;
         }
 
         this.list.delete(id);
-        this.emit('end:destroy');
+        this.emit('destroy');
       });
+  }
+
+  errorHandler(err, type){
+
+    if (err) {
+
+      this.emit('error', {
+        store: this.type,
+        type,
+        status: err.status,
+        response: err.response,
+        body: err.response.body,
+        text: err.response.text,
+      });
+
+      return true;
+    }
   }
 
 }

@@ -64,7 +64,7 @@ class GroupStore extends ListStore {
   }
 
   send (type, item) {
-    this.emit('start:' + type);
+    this.emit('before:' + type);
 
     var method = (type === 'create' ? 'post' : 'put');
     var uri = (type === 'create' ? this.uri : this.uri + item.id);
@@ -75,8 +75,7 @@ class GroupStore extends ListStore {
         description: item.description
       })
       .end( (err, res) => {
-        if (err){
-          this.emit('error:' + type, err);
+        if (this.errorHandler(err, type)){
           return;
         }
 
@@ -90,18 +89,17 @@ class GroupStore extends ListStore {
 
         if (item.newpicture){
           this.sendImage(group.id, item.newpicture, (err) => {
-            if (err){
-              this.emit('error:' + type, err);
+            if (this.errorHandler(err, type)){
               return;
             }
 
-            this.emit('end:' + type, group);
+            this.emit(type, group);
           });
 
           return;
         }
 
-        this.emit('end:' + type, group);
+        this.emit(type, group);
       });
   }
 

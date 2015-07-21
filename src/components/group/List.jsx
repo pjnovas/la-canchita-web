@@ -20,8 +20,8 @@ export default class GroupList extends ReactListener {
     GroupActions.find();
   }
 
-  onEndFind(groups) {
-    super.onEndFind();
+  onFind(groups) {
+    super.onFind();
     this.setState({ groups });
   }
 

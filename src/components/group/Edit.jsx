@@ -22,12 +22,12 @@ export default class GroupEdit extends ReactListener {
     GroupActions.findOne(this.state.id);
   }
 
-  onEndFind(group) {
-    super.onEndFind();
+  onFind(group) {
+    super.onFind();
     this.setState(group);
   }
 
-  onEndSave() {
+  onSave() {
     this.redirect();
   }
 
@@ -35,7 +35,7 @@ export default class GroupEdit extends ReactListener {
     window.app.router.transitionTo('group', { groupId: this.state.id });
   }
 
-  onSave() {
+  onSaveClick() {
 
     if (!this.isDirty){
       this.redirect();
@@ -74,7 +74,7 @@ export default class GroupEdit extends ReactListener {
               picture={ this.state.picture }
 
               onChange={ model => { this.onChange(model); }}
-              onSave={ model => { this.onSave(model); }}
+              onSave={ model => { this.onSaveClick(model); }}
               onCancel={ () => { this.onCancel(); }} />
           }
 

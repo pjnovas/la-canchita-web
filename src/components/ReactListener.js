@@ -32,62 +32,59 @@ export default class ReactListener extends React.Component {
 
   // Finding
 
-  onStartFind() {
+  onBeforeFind() {
     this.setState({ loading: true });
   }
 
-  onEndFind() {
+  onFind() {
     this.setState({ loading: false });
-  }
-
-  onErrorFind(err) {
-    this.setState({ loading: false });
-    this.setState({ error: err });
   }
 
   // Creating
 
-  onStartCreate() {
+  onBeforeCreate() {
     this.setState({ creating: true });
   }
 
-  onEndCreate() {
+  onCreate() {
     this.setState({ creating: false });
-  }
-
-  onErrorCreate(err) {
-    this.setState({ creating: false });
-    this.setState({ error: err });
   }
 
   // Updating
 
-  onStartSave() {
+  onBeforeSave() {
     this.setState({ saving: true });
   }
 
-  onEndSave() {
+  onSave() {
     this.setState({ saving: false });
-  }
-
-  onErrorSave(err) {
-    this.setState({ saving: false });
-    this.setState({ error: err });
   }
 
   // Destroying
 
-  onStartDestroy() {
+  onBeforeDestroy() {
     this.setState({ destroying: true });
   }
 
-  onEndDestroy() {
+  onDestroy() {
     this.setState({ destroying: false });
   }
 
-  onErrorDestroy(err) {
-    this.setState({ destroying: false });
-    this.setState({ error: err });
+  // Errors
+
+  onError(err) {
+    var state = {
+      error: err
+    };
+
+    switch (err.type){
+      case 'find': state.loading = false; break;
+      case 'create': state.creating = false; break;
+      case 'save': state.saving = false; break;
+      case 'destroy': state.destroyin = false; break;
+    }
+
+    this.setState(state);
   }
 
 };
