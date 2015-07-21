@@ -20,17 +20,17 @@ export default class GroupView extends ReactListener {
 
   componentDidMount() {
     super.componentDidMount();
-    this.store.fetchOne(this.state.id);
+    GroupActions.findOne(this.state.id);
     $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
-  onEndFetch() {
-    super.onEndFetch();
-    this.setState(this.store.get(this.state.id));
+  onEndFind(group) {
+    super.onEndFind();
+    this.setState(group);
   }
 
   onDestroy(){
-    GroupActions.destroy(this.state);
+    GroupActions.destroy(this.state.id);
   }
 
   onEndDestroy() {
@@ -108,6 +108,15 @@ export default class GroupView extends ReactListener {
                 </Link>
               </div>
 
+              {this.state.destroying ? '' :
+                <div className="row">
+                  <div className="col s12">
+                    <a className="btn-large waves-effect waves-light red left"
+                      onClick={ () => { this.onDestroy(); } }>eliminar grupo</a>
+                  </div>
+                </div>
+              }
+
             </div>
 
             <div id="players" className="col s12">
@@ -125,15 +134,6 @@ export default class GroupView extends ReactListener {
             </div>
 
           </div>
-
-        {this.state.destroying ? '' :
-          <div className="row">
-            <div className="col s12">
-              <a className="btn-large waves-effect waves-light red left"
-                onClick={ () => { this.onDestroy(); } }>eliminar grupo</a>
-            </div>
-          </div>
-        }
 
         </div>
       </div>

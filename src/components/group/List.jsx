@@ -17,12 +17,12 @@ export default class GroupList extends ReactListener {
 
   componentDidMount() {
     super.componentDidMount();
-    this.store.fetch();
+    GroupActions.find();
   }
 
-  onEndFetch() {
-    super.onEndFetch();
-    this.setState({ groups: this.store.get() });
+  onEndFind(groups) {
+    super.onEndFind();
+    this.setState({ groups });
   }
 
   render() {

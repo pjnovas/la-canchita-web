@@ -19,12 +19,12 @@ export default class GroupEdit extends ReactListener {
 
   componentDidMount() {
     super.componentDidMount();
-    this.store.fetchOne(this.state.id);
+    GroupActions.findOne(this.state.id);
   }
 
-  onEndFetch() {
-    super.onEndFetch();
-    this.setState(this.store.get(this.state.id));
+  onEndFind(group) {
+    super.onEndFind();
+    this.setState(group);
   }
 
   onEndSave() {

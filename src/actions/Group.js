@@ -1,43 +1,17 @@
 
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import GroupConstants from '../constants/Group';
+import builder from './builder';
 
-export default {
+var actions = builder(GroupConstants);
 
-  receiveGroups (groups) {
+actions.custom = (data) => {
 
-    AppDispatcher.dispatch({
-      type: GroupConstants.RECEIVE,
-      data: groups
-    });
-
-  },
-
-  create (group) {
-
-    AppDispatcher.dispatch({
-      type: GroupConstants.CREATE,
-      data: group
-    });
-
-  },
-
-  update (group){
-
-    AppDispatcher.dispatch({
-      type: GroupConstants.UPDATE,
-      data: group
-    });
-
-  },
-
-  destroy (group){
-
-    AppDispatcher.dispatch({
-      type: GroupConstants.DESTROY,
-      data: group
-    });
-
-  }
+  AppDispatcher.dispatch({
+    type: GroupConstants.CUSTOM,
+    data
+  });
 
 };
+
+export default actions;

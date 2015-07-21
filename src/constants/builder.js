@@ -3,7 +3,8 @@ export default function(store, constants, setDefaults){
 
   if (setDefaults) {
     constants = constants.concat([
-      'RECIEVE',
+      'FIND',
+      'FINDONE',
       'CREATE',
       'UPDATE',
       'DESTROY',

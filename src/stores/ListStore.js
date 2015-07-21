@@ -19,9 +19,9 @@ class ListStore extends EventEmitter {
     this.type = '';
 
     this.events = [
-      'start:fetch',
-      'error:fetch',
-      'end:fetch',
+      'start:find',
+      'error:find',
+      'end:find',
 
       'start:create',
       'error:create',
@@ -48,8 +48,11 @@ class ListStore extends EventEmitter {
     }
 
     switch (parts[1]) {
-      case 'RECIEVE':
-        this.add(payload.data);
+      case 'FIND':
+        this.find();
+        break;
+      case 'FINDONE':
+        this.findOne(payload.id);
         break;
       case 'CREATE':
         this.create(payload.data);
@@ -58,7 +61,7 @@ class ListStore extends EventEmitter {
         this.update(payload.data);
         break;
       case 'DESTROY':
-        this.destroy(payload.data);
+        this.destroy(payload.id);
         break;
     }
   }
@@ -86,32 +89,32 @@ class ListStore extends EventEmitter {
     this.add(item);
   }
 
-  fetch() {
+  find() {
 
-    this.emit('start:fetch');
+    this.emit('start:find');
 
     request
       .get(this.uri)
       .end( (err, res) => {
         this.add(res.body);
-        this.emit('end:fetch');
+        this.emit('end:find', this.get());
       });
   }
 
-  fetchOne(id) {
+  findOne(id) {
     if (this.list.has(id)){
-      //TODO: should fire a start:fetch?
-      this.emit('end:fetch');
+      //TODO: should fire a start:find?
+      this.emit('end:find', this.get(id));
       return;
     }
 
-    this.emit('start:fetch');
+    this.emit('start:find');
 
     request
       .get(this.uri + id)
       .end( (err, res) => {
         this.set(res.body);
-        this.emit('end:fetch');
+        this.emit('end:find', this.get(id));
       });
   }
 
@@ -155,20 +158,20 @@ class ListStore extends EventEmitter {
       });
   }
 
-  destroy(item){
+  destroy(id){
     //override
 
     this.emit('start:destroy');
 
     request
-      .del(this.uri + item.id)
+      .del(this.uri + id)
       .end( (err, res) => {
         if (err){
           this.emit('error:destroy', err);
           return;
         }
 
-        this.list.delete(item.id);
+        this.list.delete(id);
         this.emit('end:destroy');
       });
   }

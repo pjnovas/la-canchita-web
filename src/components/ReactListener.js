@@ -30,17 +30,17 @@ export default class ReactListener extends React.Component {
     }
   }
 
-  // Fetching
+  // Finding
 
-  onStartFetch() {
+  onStartFind() {
     this.setState({ loading: true });
   }
 
-  onEndFetch() {
+  onEndFind() {
     this.setState({ loading: false });
   }
 
-  onErrorFetch(err) {
+  onErrorFind(err) {
     this.setState({ loading: false });
     this.setState({ error: err });
   }
