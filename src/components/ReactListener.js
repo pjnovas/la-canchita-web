@@ -81,7 +81,7 @@ export default class ReactListener extends React.Component {
       case 'find': state.loading = false; break;
       case 'create': state.creating = false; break;
       case 'save': state.saving = false; break;
-      case 'destroy': state.destroyin = false; break;
+      case 'destroy': state.destroying = false; break;
     }
 
     this.setState(state);

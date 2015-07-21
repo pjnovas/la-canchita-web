@@ -19,20 +19,15 @@ class ListStore extends EventEmitter {
     this.type = '';
 
     this.events = [
-      'before:find',
-      'find',
-
-      'before:create',
-      'create',
-
-      'before:save',
-      'save',
-
-      'before:destroy',
-      'destroy',
-
       'error'
     ];
+
+    ['find', 'create', 'save', 'destroy']
+      .forEach( event => {
+        this.events.push('before:' + event);
+        this.events.push(event);
+      });
+
   }
 
   dispatchCallback(payload) {

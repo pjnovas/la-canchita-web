@@ -1,15 +1,40 @@
+
+import MemberStore from '../../stores/Member';
+import MemberActions from '../../actions/Member';
+
 import {Link} from 'react-router';
 import MemberItem from './Item.jsx';
 
-export default class MemberList extends React.Component {
+import ReactListener from '../ReactListener';
+
+export default class MemberList extends ReactListener {
+
+  constructor(props) {
+    super(props);
+
+    this.state.gid = this.props.groupId;
+    this.state.members = [];
+
+    this.store = MemberStore;
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    MemberActions.find(this.state.gid);
+  }
+
+  onFind(members) {
+    super.onFind();
+    this.setState({ members });
+  }
 
   render() {
-    var list = this.props.collection;
+    var list = this.state.members;
     return (
       <div className="members">
         <ul className="collection">
-        {this.props.collection.map(model => {
-          return <MemberItem key={model.id} model={model} />;
+        {this.state.members.map(member => {
+          return <MemberItem key={member.id} model={member} />;
         })}
         </ul>
 

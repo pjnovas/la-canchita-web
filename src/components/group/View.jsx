@@ -120,7 +120,7 @@ export default class GroupView extends ReactListener {
             </div>
 
             <div id="players" className="col s12">
-              {this.state.members ? <MemberList collection={this.state.members} /> : ''}
+              <MemberList groupId={this.state.id} />
             </div>
 
             <div id="matches" className="col s12">
