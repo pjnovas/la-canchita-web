@@ -2,8 +2,8 @@
 import MemberStore from '../../stores/Member';
 import MemberActions from '../../actions/Member';
 
-import {Link} from 'react-router';
 import MemberItem from './Item.jsx';
+import UserInvite from '../user/Search.jsx';
 
 import ReactListener from '../ReactListener';
 
@@ -28,42 +28,49 @@ export default class MemberList extends ReactListener {
     this.setState({ members });
   }
 
+  showInvite(){
+    this.setState({ showInvite: true });
+  }
+
+  hideInvite(){
+    this.setState({ showInvite: false });
+  }
+
+  inviteUser(user) {
+    console.log(user);
+  }
+
+  inviteEmail(email) {
+    console.log(user);
+  }
+
   render() {
     var list = this.state.members;
-    return (
-      <div className="members">
-        <ul className="collection">
-        {this.state.members.map(member => {
-          return <MemberItem key={member.id} model={member} />;
-        })}
-        </ul>
+    var skipIds = list.map( member => {
+      return member.user.id;
+    });
 
-        <div className="fixed-action-btn">
-          <a className="btn-floating btn-large">
-            <i className="large material-icons">person_add</i>
-          </a>
-          <ul>
-            <li>
-              <a className="btn-floating blue-grey darken-1">
-                <i className="material-icons">person_outline</i>
-              </a>
-            </li>
-            <li>
-              <a className="btn-floating lime darken-2">
-                <i className="material-icons">my_location</i>
-              </a>
-            </li>
-            <li>
-              <a className="btn-floating blue">
-                <i className="material-icons">mail</i>
-              </a>
-            </li>
-            <li>
-              <a className="btn-floating">
-                <i className="material-icons">add</i>
-              </a>
-            </li>
+    return (
+      <div>
+
+        { this.state.showInvite ?
+          <UserInvite
+            skipIds={ skipIds }
+            onSelect={ user => { this.inviteUser(user); } }
+            onClose={ () => { this.hideInvite(); } } /> : '' }
+
+        <div className="members">
+          <ul className="collection">
+          {this.state.members.map(member => {
+            return <MemberItem key={member.id} model={member} />;
+          })}
           </ul>
+
+          <div className="fixed-action-btn">
+            <a className="btn-floating btn-large" onClick={ e => { this.showInvite(e); }}>
+              <i className="large material-icons">person_add</i>
+            </a>
+          </div>
         </div>
       </div>
     );

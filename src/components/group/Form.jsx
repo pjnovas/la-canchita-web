@@ -1,4 +1,5 @@
 
+import { ButtonFlat } from '../controls';
 import DropPicture from './DropPicture.jsx';
 
 export default class GroupForm extends React.Component {
@@ -45,8 +46,8 @@ export default class GroupForm extends React.Component {
       return (
         <div className="col s12">
 
-          <a className="waves-effect waves-teal btn-flat left"
-            onClick={ () => { this.props.onCancel(); } }>cancelar</a>
+          <ButtonFlat css="left" text="cancelar"
+            onClick={ e => { this.props.onCancel(e); } } />
 
           <a className="waves-effect waves-light btn-large right"
             onClick={ e => { this.save(e); } }>

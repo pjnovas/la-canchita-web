@@ -1,6 +1,4 @@
 
-import {Link} from 'react-router';
-
 export default class MemberItem extends React.Component {
 
   render() {
