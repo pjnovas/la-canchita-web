@@ -2,10 +2,14 @@
 import Icon from './Icon';
 
 import ButtonFlat from './ButtonFlat';
-//import Button from './Button';
-//import ButtonAction from './ButtonAction';
+import ButtonAction from './ButtonAction';
+import Button from './Button';
+import Tabs from './Tabs';
 
 export {
   Icon,
-  ButtonFlat
+  ButtonFlat,
+  ButtonAction,
+  Button,
+  Tabs
 };

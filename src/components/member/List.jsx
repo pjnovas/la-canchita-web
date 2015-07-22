@@ -6,6 +6,7 @@ import MemberItem from './Item.jsx';
 import UserInvite from '../user/Search.jsx';
 
 import ReactListener from '../ReactListener';
+import {ButtonAction} from '../controls';
 
 export default class MemberList extends ReactListener {
 
@@ -66,11 +67,8 @@ export default class MemberList extends ReactListener {
           })}
           </ul>
 
-          <div className="fixed-action-btn">
-            <a className="btn-floating btn-large" onClick={ e => { this.showInvite(e); }}>
-              <i className="large material-icons">person_add</i>
-            </a>
-          </div>
+          <ButtonAction icon="person_add"
+            onClick={ e => { this.showInvite(e); }} />
         </div>
       </div>
     );

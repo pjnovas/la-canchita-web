@@ -1,5 +1,5 @@
 
-import { ButtonFlat } from '../controls';
+import { Button, ButtonFlat } from '../controls';
 import DropPicture from './DropPicture.jsx';
 
 export default class GroupForm extends React.Component {
@@ -26,38 +26,6 @@ export default class GroupForm extends React.Component {
 
   render() {
 
-    var buttons = () => {
-
-      if (this.props.loading){
-        return (
-          <div className="col s12">
-
-            <a className="waves-effect waves-light btn-large disabled right">
-              <div className="la-ball-atom la-2x left">
-                <div></div><div></div><div></div><div></div>
-              </div>
-              guardando
-            </a>
-
-          </div>
-        );
-      }
-
-      return (
-        <div className="col s12">
-
-          <ButtonFlat css="left" text="cancelar"
-            onClick={ e => { this.props.onCancel(e); } } />
-
-          <a className="waves-effect waves-light btn-large right"
-            onClick={ e => { this.save(e); } }>
-            <i className="material-icons right">check</i>Guardar
-          </a>
-
-        </div>
-      );
-    }();
-
     return (
 
       <form className="white col center s12 m8 offset-m2 l6 offset-l3 z-depth-1">
@@ -66,6 +34,7 @@ export default class GroupForm extends React.Component {
           onChangePicture={ pic => { this.changePicture(pic); }} />
 
         <div className="row">
+
           <div className="input-field col s12">
 
             <input id="title" type="text" className="validate"
@@ -75,9 +44,7 @@ export default class GroupForm extends React.Component {
 
             <label htmlFor="title">Título</label>
           </div>
-        </div>
 
-        <div className="row">
           <div className="input-field col s12">
 
             <textarea id="description" className="materialize-textarea"
@@ -87,10 +54,17 @@ export default class GroupForm extends React.Component {
 
             <label htmlFor="description">Descripción</label>
           </div>
-        </div>
 
-        <div className="row">
-          {buttons}
+          <div className="col s12">
+            <ButtonFlat css="left" text="cancelar" hidden={this.props.loading}
+              onClick={ e => { this.props.onCancel(e); } } />
+
+            <Button
+              text="Guardar" css="right" icon="check"
+              loadingText="Guardando" loading={this.props.loading}
+              onClick={ e => { this.save(e); } } />
+          </div>
+
         </div>
 
       </form>

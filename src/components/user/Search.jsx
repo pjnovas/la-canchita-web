@@ -5,6 +5,7 @@ import UserActions from '../../actions/User';
 import UserList from './List.jsx';
 
 import ReactListener from '../ReactListener';
+import {Button, ButtonFlat} from '../controls';
 
 export default class SearchUser extends ReactListener {
 
@@ -151,14 +152,14 @@ export default class SearchUser extends ReactListener {
 
         </div>
         <div className="modal-footer">
-          <a className="modal-action modal-close waves-effect waves-green btn-flat left"
-            onClick={ e => { this.props.onClose(e); } }>Cerrar</a>
-          { this.state.invites.length === 0 ? '' :
-          <a className="waves-effect waves-light btn-large"
-            onClick={ e => { this.onSend(e); } }>
-            <i className="material-icons right">send</i>Invitar
-          </a>
-          }
+
+          <ButtonFlat css="modal-action modal-close left" text="Cerrar"
+            onClick={ e => { this.props.onClose(e); } } />
+
+          <Button icon="send" text="Invitar"
+            hidden={ !this.state.invites.length }
+            onClick={ e => { this.onSend(e); } } />
+
         </div>
       </div>
     );

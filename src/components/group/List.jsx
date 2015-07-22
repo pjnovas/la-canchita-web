@@ -1,10 +1,10 @@
-import {Link} from 'react-router';
 
 import GroupStore from '../../stores/Group';
 import GroupItem from './Item.jsx';
 import GroupActions from '../../actions/Group';
 
 import ReactListener from '../ReactListener';
+import {ButtonAction} from '../controls';
 
 export default class GroupList extends ReactListener {
 
@@ -56,11 +56,7 @@ export default class GroupList extends ReactListener {
     return (
       <div>
         <div className="row">{list}</div>
-        <div className="fixed-action-btn">
-          <Link to="groupnew" className="btn-floating btn-large">
-            <i className="large material-icons">group_add</i>
-          </Link>
-        </div>
+        <ButtonAction icon="group_add" to="groupnew"/>
       </div>
     );
   }

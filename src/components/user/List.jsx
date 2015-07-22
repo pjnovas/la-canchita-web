@@ -13,12 +13,12 @@ export default class UserList extends React.Component {
     return (
       <div className="row">
 
-        { !this.props.message ? '' :
+        { !this.props.message ? null :
         <label className="col s12 left">{this.props.message}</label>
         }
 
         <div className={"collection col s12 " + this.props.cssClass}>
-        { users.length === 0 ? '' :
+        { users.length === 0 ? null :
             users.map(user => {
               return <UserItem
                 key={user.id} model={user}

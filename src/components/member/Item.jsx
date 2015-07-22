@@ -3,7 +3,6 @@ export default class MemberItem extends React.Component {
 
   render() {
     var model = this.props.model;
-    var style = { backgroundImage: 'url(' + model.user.picture + ')' };
 
     return (
       <li className="collection-item avatar">

@@ -6,8 +6,7 @@ import MemberList from '../member/List.jsx';
 import Header from '../Header.jsx';
 
 import ReactListener from '../ReactListener';
-
-import {Link} from 'react-router';
+import {Button, ButtonAction, Tabs} from '../controls';
 
 export default class GroupView extends ReactListener {
 
@@ -21,7 +20,6 @@ export default class GroupView extends ReactListener {
   componentDidMount() {
     super.componentDidMount();
     GroupActions.findOne(this.state.id);
-    $(React.findDOMNode(this.refs.tabs)).tabs();
   }
 
   onFind(group) {
@@ -51,6 +49,29 @@ export default class GroupView extends ReactListener {
       icon: 'mode_edit'
     }*/];
 
+    var tabs = [{
+      css: 's3',
+      id: 'info',
+      icon: 'info_outline',
+      text: 'Detalle',
+      active: true
+    }, {
+      css: 's3',
+      id: 'players',
+      icon: 'group',
+      text: 'Jugadores'
+    }, {
+      css: 's3',
+      id: 'matches',
+      icon: 'event_note',
+      text: 'Partidos'
+    }, {
+      css: 's3 disabled',
+      id: 'chrono',
+      icon: 'settings',
+      text: 'Configurar'
+    }];
+
     return (
       <div className="groups view">
         <Header backto="groups" navs={navs} />
@@ -60,37 +81,7 @@ export default class GroupView extends ReactListener {
           <div className="row">
 
             <div className="col s12">
-
-              <ul className="tabs" ref="tabs">
-
-                <li className="tab col s3">
-                  <a href="#info" className="active">
-                    <i className="material-icons">info_outline</i>
-                    Detalle
-                  </a>
-                </li>
-
-                <li className="tab col s3">
-                  <a href="#players">
-                    <i className="material-icons">group</i>
-                    Jugadores
-                  </a>
-                </li>
-
-                <li className="tab col s3">
-                  <a href="#matches">
-                    <i className="material-icons">event_note</i>
-                    Partidos
-                  </a>
-                </li>
-
-                <li className="tab col s3 disabled">
-                  <a href="#chrono">
-                    <i className="material-icons">settings</i>
-                    Configurar
-                  </a>
-                </li>
-              </ul>
+              <Tabs tabs={tabs} />
             </div>
 
             <div id="info" className="col s12">
@@ -101,21 +92,16 @@ export default class GroupView extends ReactListener {
 
               <p className="flow-text description">{this.state.description}</p>
 
-              <div className="fixed-action-btn">
-                <Link to="groupedit" params={{groupId: this.state.id}}
-                  className="btn-floating btn-large">
-                  <i className="large material-icons">mode_edit</i>
-                </Link>
-              </div>
+              <ButtonAction icon="mode_edit"
+                to="groupedit" params={{groupId: this.state.id}}/>
 
-              {this.state.destroying ? '' :
-                <div className="row">
-                  <div className="col s12">
-                    <a className="btn-large waves-effect waves-light red left"
-                      onClick={ () => { this.onDestroyClick(); } }>eliminar grupo</a>
-                  </div>
+              <div className="row">
+                <div className="col s12">
+                  <Button text="eliminar groupo" css="red left"
+                    hidden={this.state.destroying}
+                    onClick={ () => { this.onDestroyClick(); } } />
                 </div>
-              }
+              </div>
 
             </div>
 
@@ -124,13 +110,7 @@ export default class GroupView extends ReactListener {
             </div>
 
             <div id="matches" className="col s12">
-
-              <div className="fixed-action-btn">
-                <Link to="groups" className="btn-floating btn-large">
-                  <i className="large material-icons">add</i>
-                </Link>
-              </div>
-
+              <ButtonAction icon="add" to="groups"/>
             </div>
 
           </div>
