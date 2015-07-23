@@ -1,13 +1,35 @@
 
 export default class App extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+    if (window.redirect){
+      this.state.redirect = window.redirect;
+    }
+  }
+
   render() {
+
+    var uris = {
+      local: '/auth/local',
+      twitter: '/auth/twitter',
+      facebook: '/auth/facebook'
+    };
+
+    if (this.state.redirect){
+      for (var p in uris){
+        uris[p] += '?redirect=' + this.state.redirect;
+      }
+    }
+
     return (
       <div className="login">
         <div className="container">
           <div className="row">
 
-            <form className="white col center s12 m6 z-depth-2" action="/auth/local" method="post">
+            <form className="white col center s12 m6 z-depth-2" action={uris.local} method="post">
 
               <h1>app-name</h1>
 
@@ -19,13 +41,13 @@ export default class App extends React.Component {
 
               <div className="row">
 
-                <a className="col s6 social-button" href="/auth/twitter" role="button">
+                <a className="col s6 social-button" href={uris.twitter} role="button">
                   <div className="twitter waves-effect waves-light">
                     Twitter
                   </div>
                 </a>
 
-                <a className="col s6 social-button" href="/auth/facebook" role="button">
+                <a className="col s6 social-button" href={uris.facebook} role="button">
                   <div className="facebook waves-effect waves-light">
                     Facebook
                   </div>

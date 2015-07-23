@@ -47,7 +47,7 @@ class MemberStore extends ListStore {
 
         break;
       case MemberConstants.INVITE:
-
+        this.invite(payload.gid, payload.data);
         break;
       case MemberConstants.SETROLE:
 
@@ -105,6 +105,21 @@ class MemberStore extends ListStore {
 
         this.add(gid, res.body);
         this.emit('find', this.get(gid));
+      });
+  }
+
+  invite(gid, invites){
+    this.emit('before:invite');
+
+    request
+      .post(this.getURI(gid))
+      .end( (err, res) => {
+        if (this.errorHandler(err, 'invite')){
+          return;
+        }
+
+        this.add(gid, res.body);
+        this.emit('invite', this.get(gid));
       });
   }
 

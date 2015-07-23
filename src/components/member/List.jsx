@@ -29,6 +29,10 @@ export default class MemberList extends ReactListener {
     this.setState({ members });
   }
 
+  onInvite(members){
+    this.setState({ members });
+  }
+
   showInvite(){
     this.setState({ showInvite: true });
   }
@@ -37,12 +41,24 @@ export default class MemberList extends ReactListener {
     this.setState({ showInvite: false });
   }
 
-  inviteUser(user) {
-    console.log(user);
-  }
+  inviteUsers(invites) {
+    if (!invites.length){
+      return;
+    }
 
-  inviteEmail(email) {
-    console.log(user);
+    var users = [];
+    var emails = [];
+
+    invites.forEach( invite => {
+      if (invite.isEmail){
+        emails.push(invite.id);
+      }
+      else {
+        users.push(invite.id);
+      }
+    });
+
+    MemberActions.invite(this.state.gid, { users, emails });
   }
 
   render() {
@@ -57,7 +73,7 @@ export default class MemberList extends ReactListener {
         { this.state.showInvite ?
           <UserInvite
             skipIds={ skipIds }
-            onSelect={ user => { this.inviteUser(user); } }
+            onSelect={ users => { this.inviteUsers(users); } }
             onClose={ () => { this.hideInvite(); } } /> : '' }
 
         <div className="members">
