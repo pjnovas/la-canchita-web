@@ -29,7 +29,7 @@ if (window.user){
 }
 
 var routes = (
-  <Route handler={App} path="/">
+  <Route name="root" handler={App} path="/">
     <Route name="home" path="/" handler={HomeHandler} />
 
     <Route name="groups" path="/" handler={HomeHandler} />
@@ -45,7 +45,7 @@ var routes = (
   </Route>
 );
 
-window.app.router = Router.run(routes, function (Handler) {
+window.app.router = Router.run(routes, Router.HistoryLocation, function (Handler) {
   React.render(<Handler/>, document.getElementById('app'));
 });
 
