@@ -39,6 +39,8 @@ var routes = (
 
     <Route name="profile" path="/profile" handler={Login} />
     <Route name="login" path="/login" handler={Login} />
+    <Route name="register" path="/register" handler={Login} />
+    <Route name="recover" path="/recover" handler={Login} />
 
     <Route name="notfound" path="/notfound" handler={NotFound} />
     <NotFoundRoute handler={NotFound} />

@@ -11,6 +11,14 @@ export default class Manual extends React.Component {
       <form className="row" action={this.props.uri} method="post">
         <h3 className="active">registro</h3>
 
+        { this.props.errors ?
+          this.props.errors.map( err => {
+            return (
+              <p>{err}</p>
+            );
+          })
+          : null }
+
         <div className="input-field col s12">
           <input id="username" type="text" name="username" required  className="validate"/>
           <label htmlFor="username">Usuario</label>

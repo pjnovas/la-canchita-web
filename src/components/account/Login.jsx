@@ -17,22 +17,45 @@ export default class Login extends React.Component {
     if (window.redirect){
       this.state.redirect = window.redirect;
     }
+
+    switch (window.location.pathname){
+      case '/register':
+        this.state.initial = false;
+        this.state.social = false;
+        this.state.register = true;
+      break;
+      case '/recover':
+        this.state.initial = false;
+        this.state.social = false;
+        this.state.recover = true;
+      break;
+    }
+
+    if (window.errors && window.errors.length){
+      this.state.errors = window.errors;
+
+      if (window.location.pathname === '/login'){
+        this.state.initial = false;
+        this.state.social = false;
+        this.state.manual = true;
+      }
+    }
   }
 
   onClickSocial(){
-    this.setState({ initial: false, social: true, manual: false, register: false, recover: false });
+    this.setState({ initial: false, social: true, manual: false, register: false, recover: false, errors: [] });
   }
 
   onClickManual(){
-    this.setState({ initial: false, social: false, manual: true, register: false, recover: false });
+    this.setState({ initial: false, social: false, manual: true, register: false, recover: false, errors: [] });
   }
 
   onClickRegister(){
-    this.setState({ social: false, manual: false, register: true, recover: false });
+    this.setState({ social: false, manual: false, register: true, recover: false, errors: [] });
   }
 
   onClickRecover(){
-    this.setState({ social: false, manual: false, register: false, recover: true });
+    this.setState({ social: false, manual: false, register: false, recover: true, errors: [] });
   }
 
   render() {
@@ -68,15 +91,21 @@ export default class Login extends React.Component {
               <div className="row">
                 <h3 className="active">ingresar con tu red social</h3>
 
-                <a className="col s6 social-button" href={uris.twitter} role="button">
+                <a className="col s4 social-button" href={uris.twitter} role="button">
                   <div className="twitter waves-effect waves-light">
                     Twitter
                   </div>
                 </a>
 
-                <a className="col s6 social-button" href={uris.facebook} role="button">
+                <a className="col s4 social-button" href={uris.facebook} role="button">
                   <div className="facebook waves-effect waves-light">
                     Facebook
+                  </div>
+                </a>
+
+                <a className="col s4 social-button" href={uris.google} role="button">
+                  <div className="google waves-effect waves-light">
+                    Google
                   </div>
                 </a>
 
@@ -100,15 +129,15 @@ export default class Login extends React.Component {
                 : null }
 
               { this.state.manual ?
-                <Manual uri={uris.manual}
+                <Manual uri={uris.manual} errors={this.state.errors}
                   onBack={ e => {this.onClickManual(e); } } /> : null }
 
               { this.state.register ?
-                <Register uri={uris.register}
+                <Register uri={uris.register} errors={this.state.errors}
                   onBack={ e => {this.onClickManual(e); } } /> : null }
 
               { this.state.recover ?
-                <Recover uri={uris.recover}
+                <Recover uri={uris.recover} errors={this.state.errors}
                   onBack={ e => {this.onClickManual(e); } } /> : null }
 
               { this.state.manual ?
