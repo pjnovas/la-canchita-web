@@ -1,7 +1,7 @@
 
 import Router, {RouteHandler, Route, NotFoundRoute} from 'react-router';
 
-import Login from './components/Login.jsx';
+import Login from './components/account/Login.jsx';
 import Home from './components/Home.jsx';
 
 import Groups from './components/group/Index.jsx';
