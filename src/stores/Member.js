@@ -113,6 +113,7 @@ class MemberStore extends ListStore {
 
     request
       .post(this.getURI(gid))
+      .send(invites)
       .end( (err, res) => {
         if (this.errorHandler(err, 'invite')){
           return;
