@@ -1,5 +1,5 @@
 
-export default class Manual extends React.Component {
+export default class Recover extends React.Component {
 
   constructor(props) {
     super(props);

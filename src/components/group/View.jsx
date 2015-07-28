@@ -15,6 +15,9 @@ export default class GroupView extends ReactListener {
 
     this.state.id = this.props.params.groupId;
     this.store = GroupStore;
+
+    this.editors = ['owner', 'admin'];
+    this.destroyers = ['owner'];
   }
 
   componentDidMount() {
@@ -24,7 +27,12 @@ export default class GroupView extends ReactListener {
 
   onFind(group) {
     super.onFind();
-    this.setState(group);
+
+    var me = group.members.find( member => {
+      return member.user.id === window.user.id;
+    });
+
+    this.setState({ group, me });
   }
 
   onDestroyClick(){
@@ -36,10 +44,11 @@ export default class GroupView extends ReactListener {
   }
 
   render() {
+    var model = this.state.group || {};
 
     var style = {};
-    if (this.state.picture){
-      style = { backgroundImage: 'url(/images/groups/' + this.state.picture + ')' };
+    if (model.picture){
+      style = { backgroundImage: 'url(/images/groups/' + model.picture + ')' };
     }
 
     var navs = [/*{
@@ -72,6 +81,10 @@ export default class GroupView extends ReactListener {
       text: 'Configurar'
     }];
 
+    var myRole = this.state.me && this.state.me.role || 'member';
+    var canEdit = this.editors.indexOf(myRole) > -1;
+    var canRemove = this.destroyers.indexOf(myRole) > -1;
+
     return (
       <div className="groups view">
         <Header backto="groups" navs={navs} />
@@ -87,14 +100,17 @@ export default class GroupView extends ReactListener {
             <div id="info" className="col s12">
 
               <header style={style}>
-                <h1>{this.state.title}</h1>
+                <h1>{model.title}</h1>
               </header>
 
-              <p className="flow-text description">{this.state.description}</p>
+              <p className="flow-text description">{model.description}</p>
 
+              { canEdit ?
               <ButtonAction icon="mode_edit"
                 to="groupedit" params={{groupId: this.state.id}}/>
+              : null }
 
+              { canRemove ?
               <div className="row">
                 <div className="col s12">
                   <Button text="eliminar groupo" css="red left"
@@ -102,6 +118,7 @@ export default class GroupView extends ReactListener {
                     onClick={ () => { this.onDestroyClick(); } } />
                 </div>
               </div>
+              : null }
 
             </div>
 

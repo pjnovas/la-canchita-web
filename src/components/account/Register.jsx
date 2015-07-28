@@ -1,5 +1,5 @@
 
-export default class Manual extends React.Component {
+export default class Register extends React.Component {
 
   constructor(props) {
     super(props);

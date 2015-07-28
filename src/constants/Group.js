@@ -1,2 +1,2 @@
 import builder from './builder';
-export default builder('GROUP', [ 'CUSTOM' ], true);
+export default builder('GROUP', [ 'ACCEPTED', 'DECLINED' ], true);

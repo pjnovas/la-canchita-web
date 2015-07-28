@@ -25,7 +25,19 @@ export default class GroupList extends ReactListener {
     this.setState({ groups });
   }
 
+  onChange(groups, group){
+    this.setState({ groups });
+  }
+
+  onRemove(groups, id){
+    this.setState({ groups });
+  }
+
   render() {
+
+    var groups = this.state.groups.filter( g => {
+      return (['active', 'pending'].indexOf(g.member.state) > -1);
+    });
 
     var list = () => {
 
@@ -37,9 +49,9 @@ export default class GroupList extends ReactListener {
         );
       }
 
-      if (this.state.groups.length){
+      if (groups.length){
         return (
-          this.state.groups.map(model => {
+          groups.map(model => {
             return <GroupItem key={model.id} model={model} />;
           })
         );

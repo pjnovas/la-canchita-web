@@ -16,7 +16,7 @@ class MemberStore extends ListStore {
       'error'
     ];
 
-    ['find', 'join', 'leave', 'invite', 'setrole', 'kick']
+    ['find', 'accept', 'decline', 'invite', 'setrole', 'kick']
       .forEach( event => {
         this.events.push('before:' + event);
         this.events.push(event);
@@ -41,10 +41,10 @@ class MemberStore extends ListStore {
         this.find(payload.gid);
         break;
       case MemberConstants.ACCEPT:
-
+        this.accept(payload.gid);
         break;
       case MemberConstants.DECLINE:
-
+        this.decline(payload.gid);
         break;
       case MemberConstants.INVITE:
         this.invite(payload.gid, payload.data);
@@ -121,6 +121,35 @@ class MemberStore extends ListStore {
 
         this.add(gid, res.body);
         this.emit('invite', this.get(gid));
+      });
+  }
+
+  accept(gid){
+    this.emit('before:accept');
+
+    request
+      .post(this.getURI(gid) + 'me')
+      .end( (err, res) => {
+        if (this.errorHandler(err, 'accept')){
+          return;
+        }
+
+        this.add(gid, res.body);
+        this.emit('accept', this.get(gid));
+      });
+  }
+
+  decline(gid){
+    this.emit('before:decline');
+
+    request
+      .del(this.getURI(gid) + 'me')
+      .end( (err, res) => {
+        if (this.errorHandler(err, 'decline')){
+          return;
+        }
+
+        this.emit('decline', this.get(gid));
       });
   }
 

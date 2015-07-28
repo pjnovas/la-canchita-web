@@ -17,6 +17,7 @@ export default class MemberList extends ReactListener {
     this.state.members = [];
 
     this.store = MemberStore;
+    this.inviters = ['owner', 'admin', 'moderator'];
   }
 
   componentDidMount() {
@@ -61,11 +62,35 @@ export default class MemberList extends ReactListener {
     MemberActions.invite(this.state.gid, { users, emails });
   }
 
+  kickMember(mid) {
+    console.log('Deleting > ' + mid);
+  }
+
+  changeRole(mid, role) {
+    console.log('Change > ' + mid + ' > ' + role);
+  }
+
   render() {
     var list = this.state.members;
-    var skipIds = list.map( member => {
+
+    var active = list.filter( member => {
+      return member.state === 'active';
+    });
+
+    var pending = list.filter( member => {
+      return member.state === 'pending';
+    });
+
+    var skipIds = active.concat(pending).map( member => {
       return member.user.id;
     });
+
+    var me = active.find( member => {
+      return member.user.id === window.user.id;
+    });
+
+    var myRole = me && me.role || 'member';
+    var canInvite = this.inviters.indexOf(myRole) > -1;
 
     return (
       <div>
@@ -78,13 +103,29 @@ export default class MemberList extends ReactListener {
 
         <div className="members">
           <ul className="collection">
-          {this.state.members.map(member => {
-            return <MemberItem key={member.id} model={member} />;
+          {active.map(member => {
+            return <MemberItem
+              key={member.id} model={member} myRole={myRole}
+              kickMember={ mid => { this.kickMember(mid); } }
+              changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>;
           })}
           </ul>
 
-          <ButtonAction icon="person_add"
-            onClick={ e => { this.showInvite(e); }} />
+          { pending.length ?
+          <div>
+            <span className="category-title">Invitados</span>
+            <ul className="collection invites">
+            {pending.map(member => {
+              return <MemberItem key={member.id} model={member} />;
+            })}
+            </ul>
+          </div>
+          : null }
+
+          { canInvite ?
+          <ButtonAction icon="person_add" onClick={ e => { this.showInvite(e); }} />
+          : null }
+
         </div>
       </div>
     );

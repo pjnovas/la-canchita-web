@@ -178,6 +178,37 @@ nav {
   height: 60px;
 }
 
+.card {
+
+  a {
+    cursor: pointer;
+  }
+
+  .card-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    padding: 5px;
+
+    i {
+      padding: 5px;
+    }
+
+    span {
+      font-size: 20px;
+      display: inline-block;
+      padding: 0 10px;
+      vertical-align: text-bottom;
+    }
+
+    &.invite {
+      .lime.accent-1;
+    }
+  }
+}
+
 .modal {
 
   &.modal-full {

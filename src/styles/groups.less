@@ -91,11 +91,34 @@
 
 .members {
 
+  .category-title {
+    .grey-text;
+
+    margin: 20px 10px 10px 10px;
+    display: inline-block;
+    font-size: 18px;
+  }
+
   .collection {
     margin: 0;
+    overflow: visible;
 
     .collection-item {
       min-height: 64px;
+
+      &.me {
+        .yellow.lighten-4;
+      }
+    }
+
+    &.invites {
+      .collection-item {
+        opacity: 0.6;
+
+        p {
+          display: none;
+        }
+      }
     }
   }
 }

@@ -13,7 +13,7 @@ class GroupStore extends ListStore {
     this.type = 'GROUP';
 
     this.events = this.events.concat([
-      // custom events here
+      'change', 'remove'
     ]);
   }
 
@@ -22,27 +22,16 @@ class GroupStore extends ListStore {
     super.dispatchCallback(payload);
 
     switch (payload.type) {
-      case GroupConstants.CUSTOM:
-        //something
+      case GroupConstants.ACCEPTED:
+        var group = this.get(payload.id);
+        group.member = payload.member;
+        this.trigger('change', this.get(), group);
+        break;
+      case GroupConstants.DECLINED:
+        this.remove(payload.id);
+        this.trigger('remove', this.get(), payload.id);
         break;
     };
-
-    /* DEFAULTS
-    switch (payload.type) {
-      case GroupConstants.RECIEVE:
-        this.add(payload.data);
-        break;
-      case GroupConstants.CREATE:
-        this.create(payload.data);
-        break;
-      case GroupConstants.UPDATE:
-        this.update(payload.data);
-        break;
-      case GroupConstants.DESTROY:
-        this.destroy(payload.data);
-        break;
-    }
-    */
   }
 
   sendImage (id, picture, done) {

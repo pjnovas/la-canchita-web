@@ -2,8 +2,8 @@ import builder from './builder';
 
 export default builder('MEMBER', [
   'FIND',
-  'JOIN',
-  'LEAVE',
+  'ACCEPT',
+  'DECLINE',
   'INVITE',
   'SETROLE',
   'KICK'

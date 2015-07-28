@@ -82,6 +82,10 @@ class ListStore extends EventEmitter {
     this.add(item);
   }
 
+  remove(id) {
+    this.list.delete(id);
+  }
+
   find() {
 
     this.emit('before:find');

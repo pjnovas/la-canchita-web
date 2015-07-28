@@ -5,11 +5,21 @@ import builder from './builder';
 
 var actions = builder(GroupConstants);
 
-actions.custom = (data) => {
+actions.accepted = (id, member) => {
 
   AppDispatcher.dispatch({
-    type: GroupConstants.CUSTOM,
-    data
+    type: GroupConstants.ACCEPTED,
+    id,
+    member
+  });
+
+};
+
+actions.declined = (id) => {
+
+  AppDispatcher.dispatch({
+    type: GroupConstants.DECLINED,
+    id
   });
 
 };
