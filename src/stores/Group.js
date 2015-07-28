@@ -24,12 +24,14 @@ class GroupStore extends ListStore {
     switch (payload.type) {
       case GroupConstants.ACCEPTED:
         var group = this.get(payload.id);
-        group.member = payload.member;
-        this.trigger('change', this.get(), group);
+        //group.member = payload.member;
+        group.member.role = 'member';
+        group.member.state = 'active';
+        this.emit('change', this.get(), group);
         break;
       case GroupConstants.DECLINED:
         this.remove(payload.id);
-        this.trigger('remove', this.get(), payload.id);
+        this.emit('remove', this.get(), payload.id);
         break;
     };
   }

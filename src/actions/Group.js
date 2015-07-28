@@ -10,7 +10,7 @@ actions.accepted = (id, member) => {
   AppDispatcher.dispatch({
     type: GroupConstants.ACCEPTED,
     id,
-    member
+    //member
   });
 
 };

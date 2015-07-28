@@ -34,6 +34,14 @@ export default class MemberList extends ReactListener {
     this.setState({ members });
   }
 
+  onSetrole(members){
+    this.setState({ members });
+  }
+
+  onKick(members){
+    this.setState({ members });
+  }
+
   showInvite(){
     this.setState({ showInvite: true });
   }
@@ -62,12 +70,12 @@ export default class MemberList extends ReactListener {
     MemberActions.invite(this.state.gid, { users, emails });
   }
 
-  kickMember(mid) {
-    console.log('Deleting > ' + mid);
+  kickMember(id) {
+    MemberActions.kick(this.state.gid, id);
   }
 
-  changeRole(mid, role) {
-    console.log('Change > ' + mid + ' > ' + role);
+  changeRole(id, role) {
+    MemberActions.setRole(this.state.gid, { id, role });
   }
 
   render() {

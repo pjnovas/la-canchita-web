@@ -1,4 +1,5 @@
 
+import GroupActions from '../../actions/Group';
 import MemberActions from '../../actions/Member';
 
 import {Icon} from '../controls';
@@ -7,11 +8,15 @@ import {Link} from 'react-router';
 export default class GroupItem extends React.Component {
 
   onAcceptClick() {
+    var gid = this.props.model.id;
     MemberActions.accept(this.props.model.id);
+    GroupActions.accepted(gid);
   }
 
   onDeclineClick() {
-    MemberActions.decline(this.props.model.id);
+    var gid = this.props.model.id;
+    MemberActions.decline(gid);
+    GroupActions.declined(gid);
   }
 
   render() {

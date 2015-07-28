@@ -1,4 +1,5 @@
 
+import MemberStore from '../../stores/Member';
 import {Icon} from '../controls';
 
 export default class MemberItem extends React.Component {
@@ -35,6 +36,7 @@ export default class MemberItem extends React.Component {
 
     var isMe = (model.user.id == window.user.id);
     var myRoleIdx = this.roles.indexOf(myRole);
+    var mRoleIdx = this.roles.indexOf(model.role);
 
     var canKick = false;
     if (!isMe && this.kickers.indexOf(myRole) > -1){
@@ -42,7 +44,11 @@ export default class MemberItem extends React.Component {
     }
 
     var changeRoles = this.roles.filter( role => {
-      return (model.role !== role && this.roles.indexOf(role) >= myRoleIdx);
+      return (
+        model.role !== role &&
+        mRoleIdx > myRoleIdx &&
+        this.roles.indexOf(role) > myRoleIdx
+      );
     });
 
     var roleDDL = "roles-ddl-" + model.id;

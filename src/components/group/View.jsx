@@ -27,12 +27,7 @@ export default class GroupView extends ReactListener {
 
   onFind(group) {
     super.onFind();
-
-    var me = group.members.find( member => {
-      return member.user.id === window.user.id;
-    });
-
-    this.setState({ group, me });
+    this.setState({ group, me: group.member });
   }
 
   onDestroyClick(){

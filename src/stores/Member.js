@@ -50,17 +50,17 @@ class MemberStore extends ListStore {
         this.invite(payload.gid, payload.data);
         break;
       case MemberConstants.SETROLE:
-
+        this.setRole(payload.gid, payload.data);
         break;
       case MemberConstants.KICK:
-
+        this.kick(payload.gid, payload.id);
         break;
     };
 
   }
 
-  getGroup(gid){
-    if (!this.list.has(gid)){
+  getGroup(gid, nocreate){
+    if (!nocreate && !this.list.has(gid)){
       this.list.set(gid, new Map());
     }
 
@@ -134,8 +134,14 @@ class MemberStore extends ListStore {
           return;
         }
 
-        this.add(gid, res.body);
-        this.emit('accept', this.get(gid));
+        if (this.getGroup(gid, true)){
+          // members of group wasn't fetched so don't add unless its there
+          // if it's not there will fetch on enter the group view
+          this.add(gid, res.body);
+          this.emit('accept', this.get(gid));
+        }
+
+        this.emit('accept');
       });
   }
 
@@ -149,7 +155,41 @@ class MemberStore extends ListStore {
           return;
         }
 
+        //this.remove(gid);
         this.emit('decline', this.get(gid));
+      });
+  }
+
+  setRole(gid, data){
+    this.emit('before:setrole');
+
+    request
+      .put(this.getURI(gid) + data.id)
+      .send({ role: data.role })
+      .end( (err, res) => {
+        if (this.errorHandler(err, 'setrole')){
+          return;
+        }
+
+        var members = this.getGroup(gid);
+        members.get(data.id).role = data.role;
+        this.emit('setrole', this.get(gid));
+      });
+  }
+
+  kick(gid, id){
+    this.emit('before:kick');
+
+    request
+      .del(this.getURI(gid) + id)
+      .end( (err, res) => {
+        if (this.errorHandler(err, 'kick')){
+          return;
+        }
+
+        var members = this.getGroup(gid);
+        members.delete(id);
+        this.emit('kick', this.get(gid));
       });
   }
 
