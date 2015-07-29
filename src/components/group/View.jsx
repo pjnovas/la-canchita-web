@@ -3,6 +3,7 @@ import GroupStore from '../../stores/Group';
 import GroupActions from '../../actions/Group';
 
 import MemberList from '../member/List.jsx';
+import MeetingList from '../meeting/List.jsx';
 import Header from '../Header.jsx';
 
 import ReactListener from '../ReactListener';
@@ -122,7 +123,7 @@ export default class GroupView extends ReactListener {
             </div>
 
             <div id="matches" className="col s12">
-              <ButtonAction icon="add" to="groups"/>
+              <MeetingList groupId={this.state.id} />
             </div>
 
           </div>

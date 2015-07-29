@@ -9,6 +9,10 @@ import GroupCreate from './components/group/Create.jsx';
 import GroupEdit from './components/group/Edit.jsx';
 import GroupView from './components/group/View.jsx';
 
+import MeetingCreate from './components/meeting/Create.jsx';
+import MeetingEdit from './components/meeting/Edit.jsx';
+import MeetingView from './components/meeting/View.jsx';
+
 import NotFound from './components/NotFound.jsx';
 
 export default class App extends React.Component {
@@ -36,6 +40,10 @@ var routes = (
     <Route name="groupnew" path="/groups/new" handler={GroupCreate} />
     <Route name="groupedit" path="/groups/:groupId/edit" handler={GroupEdit} />
     <Route name="group" path="/groups/:groupId" handler={GroupView} />
+
+    <Route name="meetingnew" path="/meetings/:groupId/new" handler={MeetingCreate} />
+    <Route name="meeting" path="/meetings/:meetingId" handler={MeetingView} />
+    <Route name="meetingedit" path="/meetings/:meetingId/edit" handler={MeetingEdit} />
 
     <Route name="profile" path="/profile" handler={Login} />
     <Route name="login" path="/login" handler={Login} />
