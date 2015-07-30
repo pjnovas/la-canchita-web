@@ -1,17 +1,16 @@
 
-import {Link} from 'react-router';
+import { Link } from 'react-router';
+import { AppBar } from 'material-ui';
 
 export default class Header extends React.Component {
 
-  componentDidMount() {
-    $(React.findDOMNode(this.refs.collapse)).sideNav({
-      edge: 'right',
-      closeOnClick: true
-    });
-  }
-
   render() {
     var profilePic = window.user ? window.user.picture : '';
+
+    return (
+      // docs: http://material-ui.com/#/components/appbar
+      <AppBar showMenuIconButton={false} title="la canchita" />
+    );
 
     return (
       <div className="navbar-fixed">

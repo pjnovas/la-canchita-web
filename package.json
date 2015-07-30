@@ -6,10 +6,12 @@
   "dependencies": {
     "events": "^1.0.2",
     "flux": "^2.0.3",
+    "material-ui": "^0.10.2",
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-dropzone": "^1.2.2",
     "react-router": "^0.13.3",
+    "react-tap-event-plugin": "^0.1.7",
     "shortid": "^2.2.2",
     "superagent": "^1.2.0"
   },

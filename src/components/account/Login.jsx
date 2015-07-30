@@ -1,4 +1,5 @@
 
+import { Paper, ClearFix, FlatButton, RaisedButton } from 'material-ui';
 import { Manual, Recover, Register } from './forms';
 
 export default class Login extends React.Component {
@@ -76,85 +77,99 @@ export default class Login extends React.Component {
       }
     }
 
+    let main = {
+      'width': '100%',
+      'max-width': '500px',
+      'margin': '0 auto',
+      'text-align': 'center',
+      'padding': '20px',
+      'margin-top': '20px'
+    };
+
+    let tw = {
+      color: '#000',
+      'background-color': 'blue'
+    };
+
+    let fb = {
+      color: '#000',
+      'background-color': 'blue'
+    };
+
+    let gl = {
+      color: '#000',
+      'background-color': 'blue'
+    };
+
+
     return (
-      <div className="login">
-        <div className="container">
-          <div className="row">
+      <Paper zDepth={1} rounded={true} style={main}>
+        <h1>app-name</h1>
+        <div className="divider"></div>
 
-            <div className="white col center s12 m6 z-depth-2 holder">
-              <h1>app-name</h1>
+        { this.state.social ?
 
-              <div className="divider"></div>
+        <ClearFix>
 
-              { this.state.social ?
+          <h3 className="active">ingresar con tu red social</h3>
 
-              <div className="row">
-                <h3 className="active">ingresar con tu red social</h3>
+          <FlatButton linkButton={true} href={uris.twitter}
+            secondary={true} label="Twitter">
+          </FlatButton>
 
-                <a className="col s4 social-button" href={uris.twitter} role="button">
-                  <div className="twitter waves-effect waves-light">
-                    Twitter
-                  </div>
-                </a>
+          <FlatButton linkButton={true} href={uris.facebook}
+            secondary={true} label="Facebook">
+          </FlatButton>
 
-                <a className="col s4 social-button" href={uris.facebook} role="button">
-                  <div className="facebook waves-effect waves-light">
-                    Facebook
-                  </div>
-                </a>
+          <FlatButton linkButton={true} href={uris.google}
+            secondary={true} label="Google">
+          </FlatButton>
 
-                <a className="col s4 social-button" href={uris.google} role="button">
-                  <div className="google waves-effect waves-light">
-                    Google
-                  </div>
-                </a>
+        </ClearFix>
+        :
+        <div className="row no-margin">
+          <h3>ingresar con
+            <FlatButton linkButton={true} default={true} label="tu red social"
+              onClick={ e => { this.onClickSocial(e); }} style={ {display: 'inline-table'} } >
+            </FlatButton>
+          </h3>
+        </div>
+        }
 
-              </div>
-              :
-              <div className="row no-margin">
-                <h3>ingresar con
-                  <a onClick={ e => { this.onClickSocial(e); }}
-                  className="waves-effect waves-blue blue-text btn-flat">tu red social</a>
-                </h3>
-              </div>
-              }
+        <div className="divider"></div>
 
-              <div className="divider"></div>
+        { this.state.social ?
+          <h3>o con registro
+            <FlatButton linkButton={true} default={true} label="manual"
+              onClick={ e => { this.onClickManual(e); }} style={ {display: 'inline-table'} } >
+            </FlatButton>
+          </h3>
+          : null }
 
-              { this.state.social ?
-                <h3>o con registro
-                  <a onClick={ e => { this.onClickManual(e); }}
-                  className="waves-effect waves-blue blue-text btn-flat">manual</a>
-                </h3>
-                : null }
+        { this.state.manual ?
+          <Manual uri={uris.manual} errors={this.state.errors}
+            onBack={ e => {this.onClickManual(e); } } /> : null }
 
-              { this.state.manual ?
-                <Manual uri={uris.manual} errors={this.state.errors}
-                  onBack={ e => {this.onClickManual(e); } } /> : null }
+        { this.state.register ?
+          <Register uri={uris.register} errors={this.state.errors}
+            onBack={ e => {this.onClickManual(e); } } /> : null }
 
-              { this.state.register ?
-                <Register uri={uris.register} errors={this.state.errors}
-                  onBack={ e => {this.onClickManual(e); } } /> : null }
+        { this.state.recover ?
+          <Recover uri={uris.recover} errors={this.state.errors}
+            onBack={ e => {this.onClickManual(e); } } /> : null }
 
-              { this.state.recover ?
-                <Recover uri={uris.recover} errors={this.state.errors}
-                  onBack={ e => {this.onClickManual(e); } } /> : null }
-
-              { this.state.manual ?
-              <div className="row no-margin">
-                <div className="col s12">
-                  <a className="btn waves-effect waves-blue blue left signup"
-                    onClick={ e => {this.onClickRegister(e); } }>registro</a>
-                  <a className="waves-effect waves-blue btn-flat right blue-text forgot"
-                    onClick={ e => {this.onClickRecover(e); } }>recuperar contraseña</a>
-                </div>
-              </div>
-              : null }
-
-            </div>
+        { this.state.manual ?
+        <div className="row no-margin">
+          <div className="col s12">
+            <a className="btn waves-effect waves-blue blue left signup"
+              onClick={ e => {this.onClickRegister(e); } }>registro</a>
+            <a className="waves-effect waves-blue btn-flat right blue-text forgot"
+              onClick={ e => {this.onClickRecover(e); } }>recuperar contraseña</a>
           </div>
         </div>
-      </div>
+        : null }
+
+      </Paper>
     );
   }
 
