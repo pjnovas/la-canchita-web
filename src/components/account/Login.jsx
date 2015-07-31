@@ -1,5 +1,5 @@
 
-import { Paper, ClearFix, FlatButton, RaisedButton } from 'material-ui';
+import { Paper, ClearFix, FlatButton, RaisedButton, FontIcon } from 'material-ui';
 import { Manual, Recover, Register } from './forms';
 
 export default class Login extends React.Component {
@@ -61,7 +61,7 @@ export default class Login extends React.Component {
 
   render() {
 
-    var uris = {
+    let uris = {
       manual: '/auth/local',
       register: '/auth/local/register',
       recover: '/auth/local/recover',
@@ -72,35 +72,32 @@ export default class Login extends React.Component {
     };
 
     if (this.state.redirect){
-      for (var p in uris){
+      for (let p in uris){
         uris[p] += '?redirect=' + this.state.redirect;
       }
     }
 
     let main = {
-      'width': '100%',
-      'max-width': '500px',
-      'margin': '0 auto',
-      'text-align': 'center',
-      'padding': '20px',
-      'margin-top': '20px'
+      width: '100%',
+      maxWidth: '500px',
+      margin: '0 auto',
+      textAlign: 'center',
+      padding: '20px',
+      marginTop: '20px'
     };
 
-    let tw = {
-      color: '#000',
-      'background-color': 'blue'
+    let sicon = { color: '#fff' };
+    let social = {
+      padding: '10px 0',
+      margin: '10px'
     };
 
-    let fb = {
-      color: '#000',
-      'background-color': 'blue'
-    };
+    let tw = Theme.merge(social, { backgroundColor: '#00aced' });
+    let fb = Theme.merge(social, { backgroundColor: '#3b5998' });
+    let gl = Theme.merge(social, { backgroundColor: '#dd4b39' });
 
-    let gl = {
-      color: '#000',
-      'background-color': 'blue'
-    };
-
+    let paperBg = Theme.pick(Theme.components.paper, ['backgroundColor']);
+    let flat = Theme.merge(paperBg, { display: 'inline-table' });
 
     return (
       <Paper zDepth={1} rounded={true} style={main}>
@@ -113,42 +110,45 @@ export default class Login extends React.Component {
 
           <h3 className="active">ingresar con tu red social</h3>
 
-          <FlatButton linkButton={true} href={uris.twitter}
-            secondary={true} label="Twitter">
+          <FlatButton linkButton={true} href={uris.twitter} style={tw}
+            secondary={true}>
+            <FontIcon className="icon icon-twitter" style={sicon}></FontIcon>
           </FlatButton>
 
-          <FlatButton linkButton={true} href={uris.facebook}
-            secondary={true} label="Facebook">
+          <FlatButton linkButton={true} href={uris.facebook} style={fb}
+            secondary={true}>
+            <FontIcon className="icon icon-facebook" style={sicon}></FontIcon>
           </FlatButton>
 
-          <FlatButton linkButton={true} href={uris.google}
-            secondary={true} label="Google">
+          <FlatButton linkButton={true} href={uris.google} style={gl}
+            secondary={true}>
+            <FontIcon className="icon icon-google" style={sicon}></FontIcon>
           </FlatButton>
 
         </ClearFix>
         :
-        <div className="row no-margin">
-          <h3>ingresar con
-            <FlatButton linkButton={true} default={true} label="tu red social"
-              onClick={ e => { this.onClickSocial(e); }} style={ {display: 'inline-table'} } >
-            </FlatButton>
-          </h3>
-        </div>
+        <h3>ingresar con
+          <FlatButton linkButton={true} secondary={true} label="tu red social"
+            onClick={ e => { this.onClickSocial(e); }} style={flat} >
+          </FlatButton>
+        </h3>
         }
 
         <div className="divider"></div>
 
         { this.state.social ?
           <h3>o con registro
-            <FlatButton linkButton={true} default={true} label="manual"
-              onClick={ e => { this.onClickManual(e); }} style={ {display: 'inline-table'} } >
+            <FlatButton linkButton={true} secondary={true} label="manual"
+              onClick={ e => { this.onClickManual(e); }} style={flat} >
             </FlatButton>
           </h3>
           : null }
 
         { this.state.manual ?
           <Manual uri={uris.manual} errors={this.state.errors}
-            onBack={ e => {this.onClickManual(e); } } /> : null }
+            onBack={ e => {this.onClickManual(e); } }
+            onRecover={ e => {this.onClickRecover(e); } }
+            onRegister={ e => {this.onClickRegister(e); } } /> : null }
 
         { this.state.register ?
           <Register uri={uris.register} errors={this.state.errors}
@@ -157,17 +157,6 @@ export default class Login extends React.Component {
         { this.state.recover ?
           <Recover uri={uris.recover} errors={this.state.errors}
             onBack={ e => {this.onClickManual(e); } } /> : null }
-
-        { this.state.manual ?
-        <div className="row no-margin">
-          <div className="col s12">
-            <a className="btn waves-effect waves-blue blue left signup"
-              onClick={ e => {this.onClickRegister(e); } }>registro</a>
-            <a className="waves-effect waves-blue btn-flat right blue-text forgot"
-              onClick={ e => {this.onClickRecover(e); } }>recuperar contraseña</a>
-          </div>
-        </div>
-        : null }
 
       </Paper>
     );

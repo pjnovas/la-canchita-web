@@ -1,4 +1,6 @@
 
+import { TextField, FontIcon, RaisedButton, FlatButton } from 'material-ui';
+
 export default class Recover extends React.Component {
 
   constructor(props) {
@@ -6,10 +8,12 @@ export default class Recover extends React.Component {
   }
 
   render() {
+    var css = Theme.css;
+    var iconcss = Theme.merge('raisedButtonLink', 'right');
 
     return (
-      <form className="row" action={this.props.uri} method="post">
-        <h3 className="active">recuperar contraseña</h3>
+      <form action={this.props.uri} method="post">
+        <h3>recuperar contraseña</h3>
 
         { this.props.errors ?
           this.props.errors.map( err => {
@@ -19,17 +23,16 @@ export default class Recover extends React.Component {
           })
           : null }
 
-        <div className="input-field col s12">
-          <input id="email" type="text" name="email" required  className="validate"/>
-          <label htmlFor="email">email</label>
-        </div>
+        <TextField name="email" type="email" floatingLabelText="Email"/>
 
-        <div className="col s12">
-          <button className="btn btn-large waves-effect waves-light right" type="submit">Enviar
-            <i className="material-icons right">send</i>
-          </button>
-          <a className="waves-effect waves-blue btn-flat blue-text left "
-            onClick={ e => {this.props.onBack(e); } }>volver</a>
+        <div style={css.buttonsSection}>
+          <FlatButton label="VOLVER" default={true} linkButton={true}
+            onClick={ e => {this.props.onBack(e); } } style={css.left}>
+          </FlatButton>
+
+          <RaisedButton primary={true} type="submit" label="Enviar" style={css.right}>
+            <FontIcon className="material-icons" style={iconcss}>mail</FontIcon>
+          </RaisedButton>
         </div>
 
       </form>

@@ -16,7 +16,6 @@ import MeetingView from './components/meeting/View.jsx';
 
 import NotFound from './components/NotFound.jsx';
 
-
 var HomeHandler = Home;
 if (window.user){
   HomeHandler = Groups;
