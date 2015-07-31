@@ -15,7 +15,7 @@ export default class Home extends React.Component {
         <IconButton
           iconClassName="material-icons"
           containerElement={<Link to="login" />}
-          tooltip="login"
+          tooltip={__.login}
           linkButton={true}>
           person
         </IconButton>

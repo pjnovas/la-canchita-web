@@ -265,6 +265,15 @@ Theme.css = {
   },
   right: {
     float: "right"
+  },
+  actionButton: {
+    position: "fixed",
+    right: "25px",
+    bottom: "25px"
+  },
+  pageContent: {
+    maxWidth: "800px",
+    margin: "10px auto"
   }
 };
 

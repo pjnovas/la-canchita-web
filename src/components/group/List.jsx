@@ -1,10 +1,11 @@
 
-import GroupStore from '../../stores/Group';
-import GroupItem from './Item.jsx';
-import GroupActions from '../../actions/Group';
+import GroupStore from "../../stores/Group";
+import GroupItem from "./Item.jsx";
+import GroupActions from "../../actions/Group";
 
-import ReactListener from '../ReactListener';
-import {ButtonAction} from '../controls';
+import ReactListener from "../ReactListener";
+import { Link } from "react-router";
+import { FontIcon, FloatingActionButton } from "material-ui";
 
 export default class GroupList extends ReactListener {
 
@@ -36,16 +37,14 @@ export default class GroupList extends ReactListener {
   render() {
 
     var groups = this.state.groups.filter( g => {
-      return (['active', 'pending'].indexOf(g.member.state) > -1);
+      return (["active", "pending"].indexOf(g.member.state) > -1);
     });
 
     var list = () => {
 
       if (this.state.loading){
         return (
-          <li>
-            CARGANDO ...
-          </li>
+          <div>{__.loading}</div>
         );
       }
 
@@ -58,21 +57,29 @@ export default class GroupList extends ReactListener {
       }
 
       return (
-        <li className="media media-info">
-          <p>Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.</p>
-          <p>Podés recibir invitaciones o crear un grupo e invitar vos</p>
-        </li>
+        <div>
+          <p>{__.group_start_1}</p>
+          <p>{__.group_start_2}</p>
+          <p>{__.group_start_3}</p>
+        </div>
       );
     }();
 
     return (
-      <div>
-        <div className="row">{list}</div>
-        <ButtonAction icon="group_add" to="groupnew"/>
+      <div style={Theme.css.pageContent}>
+        <div>{list}</div>
+        <FloatingActionButton
+          primary={true}
+          containerElement={<Link to="groupnew" />}
+          tooltip={__.group_create}
+          linkButton={true}
+          style={Theme.css.actionButton}>
+          <FontIcon className="material-icons">group_add</FontIcon>
+        </FloatingActionButton>
       </div>
     );
   }
 
 };
 
-GroupList.displayName = 'GroupList';
+GroupList.displayName = "GroupList";

@@ -1,6 +1,6 @@
 
-import Header from '../Header.jsx';
-import GroupList from './List.jsx';
+import Header from "../Header.jsx";
+import GroupList from "./List.jsx";
 
 export default class Groups extends React.Component {
 
@@ -9,9 +9,7 @@ export default class Groups extends React.Component {
     return (
       <div>
         <Header />
-        <div className="container">
-          <GroupList />
-        </div>
+        <GroupList />
       </div>
     );
   }
