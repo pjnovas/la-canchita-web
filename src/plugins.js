@@ -1,7 +1,7 @@
-import 'babel-core/polyfill';
+import "babel-core/polyfill";
 
-import React from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import React from "react";
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 //Needed for React Developer Tools
 window.React = React;

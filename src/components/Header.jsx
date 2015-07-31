@@ -1,15 +1,15 @@
 
-import { Link } from 'react-router';
-import { AppBar } from 'material-ui';
+import { Link } from "react-router";
+import { AppBar } from "material-ui";
 
 export default class Header extends React.Component {
 
   render() {
-    var profilePic = window.user ? window.user.picture : '';
+    var profilePic = window.user ? window.user.picture : null;
 
     return (
       // docs: http://material-ui.com/#/components/appbar
-      <AppBar showMenuIconButton={false} title="la canchita" />
+      <AppBar showMenuIconButton={false} title={__.app_title} />
     );
 
     return (
@@ -23,7 +23,7 @@ export default class Header extends React.Component {
                 params={this.props.backparams}>
                 <i className="material-icons">arrow_back</i>
               </Link>
-            : '' )}
+            : null )}
 
             <a className="brand-logo center">app-logo</a>
 
@@ -43,7 +43,7 @@ export default class Header extends React.Component {
                 );
               })}
 
-              {(this.props.hideprofile ? '' :
+              {(this.props.hideprofile ? null :
                 <li className="profile-item">
                   <Link to="profile">
                     <img className="circle profile" src={profilePic} />
@@ -61,7 +61,7 @@ export default class Header extends React.Component {
                 );
               })}
 
-              {(this.props.hideprofile ? '' :
+              {(this.props.hideprofile ? null :
                 <li>
                   <Link className="profile-item" to="profile">
                     <img className="circle profile" src={profilePic} /> Profile

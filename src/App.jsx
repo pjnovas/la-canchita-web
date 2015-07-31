@@ -1,7 +1,7 @@
 
-import { RouteHandler } from 'react-router';
-import { AppCanvas, Styles } from 'material-ui';
-import Theme from './Theme';
+import { RouteHandler } from "react-router";
+import { AppCanvas, Styles } from "material-ui";
+import Theme from "./Theme";
 
 let ThemeManager = new Styles.ThemeManager();
 

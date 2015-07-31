@@ -1,6 +1,6 @@
 
-import _ from 'lodash';
-import { Styles, Utils } from 'material-ui';
+import _ from "lodash";
+import { Styles, Utils } from "material-ui";
 
 let Colors = Styles.Colors;
 //let Spacing = Styles.Spacing; //TODO: use this one to merge so it wont loose new props
@@ -49,7 +49,7 @@ let components = {
     height: spacing.desktopKeylineIncrement,
   },
   avatar: {
-    borderColor: 'rgba(0, 0, 0, 0.08)',
+    borderColor: "rgba(0, 0, 0, 0.08)",
   },
   button: {
     height: 36,
@@ -102,7 +102,7 @@ let components = {
   menuItem: {
     dataHeight: 32,
     height: 48,
-    hoverColor: 'rgba(0, 0, 0, .035)',
+    hoverColor: "rgba(0, 0, 0, .035)",
     padding: spacing.desktopGutter,
     selectedTextColor: palette.accent1Color,
   },
@@ -145,7 +145,7 @@ let components = {
   },
   snackbar: {
     textColor: Colors.white,
-    backgroundColor: '#323232',
+    backgroundColor: "#323232",
     actionColor: palette.accent1Color,
   },
   table: {
@@ -194,12 +194,12 @@ let components = {
     labelDisabledColor: palette.disabledColor,
   },
   toolbar: {
-    backgroundColor: ColorManipulator.darken('#eeeeee', 0.05),
+    backgroundColor: ColorManipulator.darken("#eeeeee", 0.05),
     height: 56,
     titleFontSize: 20,
-    iconColor: 'rgba(0, 0, 0, .40)',
-    separatorColor: 'rgba(0, 0, 0, .175)',
-    menuHoverColor: 'rgba(0, 0, 0, .10)',
+    iconColor: "rgba(0, 0, 0, .40)",
+    separatorColor: "rgba(0, 0, 0, .175)",
+    menuHoverColor: "rgba(0, 0, 0, .10)",
   },
   tabs: {
     backgroundColor: palette.primary1Color,
@@ -211,7 +211,7 @@ let components = {
     disabledTextColor: palette.disabledColor,
     errorColor: Colors.red500,
     focusColor: palette.primary1Color,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderColor: palette.borderColor,
   }
 };
@@ -227,7 +227,7 @@ components.toggle.trackRequiredColor = ColorManipulator.fade(components.toggle.t
 
 let Theme = {
   spacing: spacing,
-  contentFontFamily: 'Roboto, sans-serif',
+  contentFontFamily: "Roboto, sans-serif",
   getPalette() {
     return palette;
   },
@@ -243,28 +243,28 @@ Theme.components = components;
 
 Theme.css = {
   raisedButtonLink: {
-    padding: '0 10px',
-    lineHeight: '36px',
+    padding: "0 10px",
+    lineHeight: "36px",
     color: components.raisedButton.color
   },
   buttonsSection: {
-    padding: '20px 40px',
-    margin: '20px'
+    padding: "20px 40px",
+    margin: "20px"
   },
   noBackground: {
-    backgroundColor: 'transparent'
+    backgroundColor: "transparent"
   },
   textLeft: {
-    textAlign: 'left'
+    textAlign: "left"
   },
   textRight: {
-    textAlign: 'right'
+    textAlign: "right"
   },
   left: {
-    float: 'left'
+    float: "left"
   },
   right: {
-    float: 'right'
+    float: "right"
   }
 };
 

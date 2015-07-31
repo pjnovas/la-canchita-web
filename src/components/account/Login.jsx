@@ -1,6 +1,6 @@
 
-import { Paper, ClearFix, FlatButton, RaisedButton, FontIcon } from 'material-ui';
-import { Manual, Recover, Register } from './forms';
+import { Paper, ClearFix, FlatButton, RaisedButton, FontIcon } from "material-ui";
+import { Manual, Recover, Register } from "./forms";
 
 export default class Login extends React.Component {
 
@@ -20,12 +20,12 @@ export default class Login extends React.Component {
     }
 
     switch (window.location.pathname){
-      case '/register':
+      case "/register":
         this.state.initial = false;
         this.state.social = false;
         this.state.register = true;
       break;
-      case '/recover':
+      case "/recover":
         this.state.initial = false;
         this.state.social = false;
         this.state.recover = true;
@@ -35,7 +35,7 @@ export default class Login extends React.Component {
     if (window.errors && window.errors.length){
       this.state.errors = window.errors;
 
-      if (window.location.pathname === '/login'){
+      if (window.location.pathname === "/login"){
         this.state.initial = false;
         this.state.social = false;
         this.state.manual = true;
@@ -62,53 +62,53 @@ export default class Login extends React.Component {
   render() {
 
     let uris = {
-      manual: '/auth/local',
-      register: '/auth/local/register',
-      recover: '/auth/local/recover',
+      manual: "/auth/local",
+      register: "/auth/local/register",
+      recover: "/auth/local/recover",
 
-      twitter: '/auth/twitter',
-      facebook: '/auth/facebook',
-      google: '/auth/google'
+      twitter: "/auth/twitter",
+      facebook: "/auth/facebook",
+      google: "/auth/google"
     };
 
     if (this.state.redirect){
       for (let p in uris){
-        uris[p] += '?redirect=' + this.state.redirect;
+        uris[p] += "?redirect=" + this.state.redirect;
       }
     }
 
     let main = {
-      width: '100%',
-      maxWidth: '500px',
-      margin: '0 auto',
-      textAlign: 'center',
-      padding: '20px',
-      marginTop: '20px'
+      width: "100%",
+      maxWidth: "500px",
+      margin: "0 auto",
+      textAlign: "center",
+      padding: "20px",
+      marginTop: "20px"
     };
 
-    let sicon = { color: '#fff' };
+    let sicon = { color: "#fff" };
     let social = {
-      padding: '10px 0',
-      margin: '10px'
+      padding: "10px 0",
+      margin: "10px"
     };
 
-    let tw = Theme.merge(social, { backgroundColor: '#00aced' });
-    let fb = Theme.merge(social, { backgroundColor: '#3b5998' });
-    let gl = Theme.merge(social, { backgroundColor: '#dd4b39' });
+    let tw = Theme.merge(social, { backgroundColor: "#00aced" });
+    let fb = Theme.merge(social, { backgroundColor: "#3b5998" });
+    let gl = Theme.merge(social, { backgroundColor: "#dd4b39" });
 
-    let paperBg = Theme.pick(Theme.components.paper, ['backgroundColor']);
-    let flat = Theme.merge(paperBg, { display: 'inline-table' });
+    let paperBg = Theme.pick(Theme.components.paper, ["backgroundColor"]);
+    let flat = Theme.merge(paperBg, { display: "inline-table" });
 
     return (
       <Paper zDepth={1} rounded={true} style={main}>
-        <h1>app-name</h1>
+        <h1>{__.app_title}</h1>
         <div className="divider"></div>
 
         { this.state.social ?
 
         <ClearFix>
 
-          <h3 className="active">ingresar con tu red social</h3>
+          <h3>{__.account_title_social}</h3>
 
           <FlatButton linkButton={true} href={uris.twitter} style={tw}
             secondary={true}>
@@ -127,8 +127,8 @@ export default class Login extends React.Component {
 
         </ClearFix>
         :
-        <h3>ingresar con
-          <FlatButton linkButton={true} secondary={true} label="tu red social"
+        <h3>{__.account_title_social_1}
+          <FlatButton linkButton={true} secondary={true} label={__.account_title_social_2}
             onClick={ e => { this.onClickSocial(e); }} style={flat} >
           </FlatButton>
         </h3>
@@ -137,8 +137,8 @@ export default class Login extends React.Component {
         <div className="divider"></div>
 
         { this.state.social ?
-          <h3>o con registro
-            <FlatButton linkButton={true} secondary={true} label="manual"
+          <h3>{__.account_title_manual_1}
+            <FlatButton linkButton={true} secondary={true} label={__.account_title_manual_2}
               onClick={ e => { this.onClickManual(e); }} style={flat} >
             </FlatButton>
           </h3>
