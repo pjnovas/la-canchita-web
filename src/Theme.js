@@ -282,6 +282,9 @@ Theme.css = {
     textAlign: "center",
     padding: "20px",
     marginTop: "20px"
+  },
+  paragraph: {
+    whiteSpace: "pre-wrap"
   }
 };
 

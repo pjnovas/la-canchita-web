@@ -18,7 +18,7 @@ export default class MemberItem extends React.Component {
 
     this.kickers = ["owner", "admin"];
   }
-
+/*
   componentDidMount() {
     $(React.findDOMNode(this.refs.roles)).dropdown({
       inDuration: 300,
@@ -29,7 +29,7 @@ export default class MemberItem extends React.Component {
       belowOrigin: false
     });
   }
-
+*/
   render() {
     var model = this.props.model;
     var myRole = this.props.myRole || "member";

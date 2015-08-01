@@ -7,7 +7,10 @@ import MeetingList from "../meeting/List.jsx";
 import Header from "../Header.jsx";
 
 import ReactListener from "../ReactListener";
-import {Button, ButtonAction, Tabs} from "../controls";
+
+import { Link } from "react-router";
+import { Tabs, Tab, FontIcon, FloatingActionButton, RaisedButton,
+  Card, CardMedia, CardTitle, CardActions, CardText } from "material-ui";
 
 export default class GroupView extends ReactListener {
 
@@ -15,6 +18,7 @@ export default class GroupView extends ReactListener {
     super(props);
 
     this.state.id = this.props.params.groupId;
+    this.state.tabSelected = 0;
     this.store = GroupStore;
 
     this.editors = ["owner", "admin"];
@@ -39,96 +43,76 @@ export default class GroupView extends ReactListener {
     window.app.router.transitionTo("groups");
   }
 
+  onChangeTab(idx, tab){
+    this.setState({ tabSelected: idx });
+  }
+
   render() {
     var model = this.state.group || {};
-
-    var style = {};
-    if (model.picture){
-      style = { backgroundImage: "url(/images/groups/" + model.picture + ")" };
-    }
-
-    var navs = [/*{
-      to: "groupedit",
-      params: { groupId: this.state.id },
-      text: "Editar",
-      icon: "mode_edit"
-    }*/];
-
-    var tabs = [{
-      css: "s3",
-      id: "info",
-      icon: "info_outline",
-      text: "Detalle",
-      active: true
-    }, {
-      css: "s3",
-      id: "players",
-      icon: "group",
-      text: "Jugadores"
-    }, {
-      css: "s3",
-      id: "matches",
-      icon: "event_note",
-      text: "Partidos"
-    }, {
-      css: "s3 disabled",
-      id: "chrono",
-      icon: "settings",
-      text: "Configurar"
-    }];
-
     var myRole = this.state.me && this.state.me.role || "member";
     var canEdit = this.editors.indexOf(myRole) > -1;
     var canRemove = this.destroyers.indexOf(myRole) > -1;
 
+    var media = {
+      maxHeight: "200px",
+      overflow: "hidden"
+    };
+
     return (
-      <div className="groups view">
-        <Header backto="groups" navs={navs} />
+      <div>
 
-        <div className="container fluid-mobile">
+        <Header backto="groups"/>
 
-          <div className="row">
+        <Tabs onChange={ (idx, tab) => { this.onChangeTab(idx, tab); } }>
 
-            <div className="col s12">
-              <Tabs tabs={tabs} />
-            </div>
+          <Tab label={__.group_tab_info}>
 
-            <div id="info" className="col s12">
+            <Card zDepth={0} style={{background:"transparent"}}>
 
-              <header style={style}>
-                <h1>{model.title}</h1>
-              </header>
+              <CardMedia overlay={<CardTitle title={model.title}/>} style={media}>
+              { model.picture ? <img src={ "/images/groups/" + model.picture }/> : null }
+              </CardMedia>
 
-              <p className="flow-text description">{model.description}</p>
-
-              { canEdit ?
-              <ButtonAction icon="mode_edit"
-                to="groupedit" params={{groupId: this.state.id}}/>
-              : null }
+              <CardText>
+                <p style={Theme.css.paragraph}>{model.description}</p>
+              </CardText>
 
               { canRemove ?
-              <div className="row">
-                <div className="col s12">
-                  <Button text="eliminar groupo" css="red left"
-                    hidden={this.state.destroying}
-                    onClick={ () => { this.onDestroyClick(); } } />
-                </div>
-              </div>
+              <CardActions>
+                <RaisedButton secondary={true} label={__.remove}
+                  disable={this.state.destroying}
+                  onClick={ () => { this.onDestroyClick(); } } />
+              </CardActions>
               : null }
 
-            </div>
+            </Card>
 
-            <div id="players" className="col s12">
-              <MemberList groupId={this.state.id} />
-            </div>
 
-            <div id="matches" className="col s12">
-              <MeetingList groupId={this.state.id} />
-            </div>
+            { this.state.tabSelected === 0 && canEdit ?
+              <FloatingActionButton primary={true} linkButton={true}
+                containerElement={<Link to="groupedit" params={{groupId: this.state.id}} />}
+                tooltip={__.group_create}
+                style={Theme.css.actionButton}>
+                <FontIcon className="material-icons">mode_edit</FontIcon>
+              </FloatingActionButton>
+            : null }
 
-          </div>
+          </Tab>
 
-        </div>
+          <Tab label={__.group_tab_members}>
+            <MemberList groupId={this.state.id} isVisible={this.state.tabSelected === 1}/>
+          </Tab>
+
+          <Tab label={__.group_tab_meetings}>
+            <MeetingList groupId={this.state.id} isVisible={this.state.tabSelected === 2} />
+          </Tab>
+
+          <Tab label={__.group_tab_settings}>
+            Nothing yet ...
+          </Tab>
+
+        </Tabs>
+
       </div>
     );
   }

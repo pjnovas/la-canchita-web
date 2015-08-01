@@ -6,6 +6,7 @@ export default {
   "send": "enviar",
   "cancel": "Cancelar",
   "save": "Guardar",
+  "remove": "Eliminar",
   "loading": "cargando ...",
 
   "account_title_social": "ingresar con tu red social",
@@ -51,6 +52,11 @@ export default {
 
   "group_picture_msg_drop": "Suelta una imagen o click para seleccionar.",
   "group_picture_error_size": "La imagen no puede superar los 300 kb",
-  "group_picture_error_type": "Solo Imagenes .png .jpg o .gif"
+  "group_picture_error_type": "Solo Imagenes .png .jpg o .gif",
+
+  "group_tab_info": "Detalle",
+  "group_tab_members": "Jugadores",
+  "group_tab_meetings": "Partidos",
+  "group_tab_settings": "Configurar",
 
 };
