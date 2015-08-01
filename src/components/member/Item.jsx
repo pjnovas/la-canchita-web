@@ -1,6 +1,11 @@
 
 import MemberStore from "../../stores/Member";
-import {Icon} from "../controls";
+
+import { ListItem, Avatar, IconButton, FontIcon } from "material-ui";
+
+let IconMenu = require('material-ui/lib/menus/icon-menu');
+let MenuItem = require('material-ui/lib/menus/menu-item');
+let MenuDivider = require('material-ui/lib/menus/menu-divider')
 
 export default class MemberItem extends React.Component {
 
@@ -18,32 +23,21 @@ export default class MemberItem extends React.Component {
 
     this.kickers = ["owner", "admin"];
   }
-/*
-  componentDidMount() {
-    $(React.findDOMNode(this.refs.roles)).dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrain_width: false,
-      hover: false,
-      gutter: 0,
-      belowOrigin: false
-    });
-  }
-*/
+
   render() {
-    var model = this.props.model;
-    var myRole = this.props.myRole || "member";
+    let model = this.props.model;
+    let myRole = this.props.myRole || "member";
 
-    var isMe = (model.user.id == window.user.id);
-    var myRoleIdx = this.roles.indexOf(myRole);
-    var mRoleIdx = this.roles.indexOf(model.role);
+    let isMe = (model.user.id == window.user.id);
+    let myRoleIdx = this.roles.indexOf(myRole);
+    let mRoleIdx = this.roles.indexOf(model.role);
 
-    var canKick = false;
+    let canKick = false;
     if (!isMe && this.kickers.indexOf(myRole) > -1){
       canKick = this.roles.indexOf(model.role) > myRoleIdx;
     }
 
-    var changeRoles = this.roles.filter( role => {
+    let changeRoles = this.roles.filter( role => {
       return (
         model.role !== role &&
         mRoleIdx > myRoleIdx &&
@@ -51,36 +45,49 @@ export default class MemberItem extends React.Component {
       );
     });
 
-    var roleDDL = "roles-ddl-" + model.id;
-    var roleName = this.roleName[model.role];
+    let roleDDL = "roles-ddl-" + model.id;
+    let roleName = this.roleName[model.role];
+
+    let iconButtonElement = null;
+    let rightIconMenu = null;
+
+    if (!isMe && myRole !== "member" && changeRoles.length) {
+
+      // check out for changing the icon to only a remove icon
+      // and the menu into a dropdown of roles
+      // http://material-ui.com/#/components/dropdown-menu
+
+      iconButtonElement = (
+        <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
+          <FontIcon color={Theme.colors.grey400}
+            className="material-icons">more_vert</FontIcon>
+        </IconButton>
+      );
+
+      rightIconMenu = (
+        <IconMenu iconButtonElement={iconButtonElement} >
+
+          { changeRoles.map( role => {
+            return (<MenuItem
+              onClick={ () => { this.props.changeRole(model.id, role); }} >
+                { this.roleName[role] }</MenuItem>)
+          }) }
+
+          { canKick ? <MenuDivider /> : <MenuItem></MenuItem> }
+          { canKick ? <MenuItem
+            onClick={ e => { this.props.kickMember(model.id); } } >
+              {__.remove}</MenuItem> : <MenuItem></MenuItem> }
+
+        </IconMenu>
+      );
+    }
 
     return (
-      <li className={ "collection-item avatar " + (isMe ? "me" : null) }>
-        <img src={model.user.picture} className="circle" />
-        <span className="title">{model.user.name}</span>
-        <p>{roleName}</p>
-
-        { !isMe && myRole !== "member" && changeRoles.length ?
-        <a ref="roles" data-activates={roleDDL} className="dropdown-button secondary-content">
-          <Icon name="more_vert" />
-        </a>
-        : null }
-
-        <ul id={roleDDL} className="dropdown-content">
-          { changeRoles.map( role => {
-            return (
-              <li>
-                <a onClick={ e => { this.props.changeRole(model.id, role); } }>
-                  { this.roleName[role] }
-                </a>
-              </li>
-              );
-            }) }
-          { canKick ? <li className="divider"></li> : null }
-          { canKick ? <li><a className="red-text"
-            onClick={ e => { this.props.kickMember(model.id); } }>Eliminar</a></li> : null }
-        </ul>
-      </li>
+      <ListItem disabled={true} style={{ borderBottom: "1px solid #EAEAEA" }}
+        leftAvatar={<Avatar src={model.user.picture} />}
+        rightIconButton={rightIconMenu}
+        primaryText={model.user.name}
+        secondaryText={<p>{roleName}</p>} />
     );
   }
 

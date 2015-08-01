@@ -304,4 +304,6 @@ Theme.merge = function(){
   return _.assign.apply(null, args);
 };
 
+Theme.colors = Colors;
+
 export default Theme;

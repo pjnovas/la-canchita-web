@@ -6,7 +6,8 @@ import MemberItem from "./Item.jsx";
 import UserInvite from "../user/Search.jsx";
 
 import ReactListener from "../ReactListener";
-import {ButtonAction} from "../controls";
+
+import { List, Avatar, FontIcon, FloatingActionButton } from "material-ui";
 
 export default class MemberList extends ReactListener {
 
@@ -109,32 +110,31 @@ export default class MemberList extends ReactListener {
             onSelect={ users => { this.inviteUsers(users); } }
             onClose={ () => { this.hideInvite(); } } /> : null }
 
-        <div className="members">
-          <ul className="collection">
-          {active.map(member => {
-            return <MemberItem
-              key={member.id} model={member} myRole={myRole}
-              kickMember={ mid => { this.kickMember(mid); } }
-              changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>;
+        <List>
+        {active.map(member => {
+          return <MemberItem
+            key={member.id} model={member} myRole={myRole}
+            kickMember={ mid => { this.kickMember(mid); } }
+            changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>;
+        })}
+        </List>
+
+        { pending.length ?
+        <List subheader="Invitados">
+          {pending.map(member => {
+            return <MemberItem key={member.id} model={member} />;
           })}
-          </ul>
+        </List>
+        : null }
 
-          { pending.length ?
-          <div>
-            <span className="category-title">Invitados</span>
-            <ul className="collection invites">
-            {pending.map(member => {
-              return <MemberItem key={member.id} model={member} />;
-            })}
-            </ul>
-          </div>
-          : null }
+        { this.props.isVisible && canInvite ?
+        <FloatingActionButton primary={true} tooltip={__.group_create}
+          linkButton={true} style={Theme.css.actionButton}
+          onClick={ e => { this.showInvite(e); }} >
+          <FontIcon className="material-icons">person_add</FontIcon>
+        </FloatingActionButton>
+        : null }
 
-          { canInvite ?
-          <ButtonAction icon="person_add" onClick={ e => { this.showInvite(e); }} />
-          : null }
-
-        </div>
       </div>
     );
   }

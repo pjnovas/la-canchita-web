@@ -67,7 +67,7 @@ export default class GroupList extends ReactListener {
 
     return (
       <div style={Theme.css.pageContent}>
-        <div>{list}</div>
+        {list}
         <FloatingActionButton
           primary={true}
           containerElement={<Link to="groupnew" />}
