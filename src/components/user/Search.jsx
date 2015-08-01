@@ -5,7 +5,7 @@ import UserActions from "../../actions/User";
 import UserList from "./List.jsx";
 
 import ReactListener from "../ReactListener";
-import {Button, ButtonFlat} from "../controls";
+import { Dialog, FontIcon, FlatButton, RaisedButton, TextField, IconButton } from "material-ui";
 
 export default class SearchUser extends ReactListener {
 
@@ -15,13 +15,6 @@ export default class SearchUser extends ReactListener {
     this.state.users = [];
     this.state.invites = [];
     this.store = UserStore;
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    $(React.findDOMNode(this.refs.modal)).openModal({
-      dismissible: false
-    });
   }
 
   onKeyUp(e){
@@ -96,7 +89,7 @@ export default class SearchUser extends ReactListener {
   }
 
   clear() {
-    React.findDOMNode(this.refs.searchbox).value = "";
+    this.refs.searchbox.setValue("");
     this.setState({ users: [] });
 
     this.setState({ showAddEmail: false });
@@ -113,14 +106,60 @@ export default class SearchUser extends ReactListener {
 
   onSend(){
     this.props.onSelect(this.state.invites);
-    $(React.findDOMNode(this.refs.modal)).closeModal();
     this.props.onClose();
   }
 
   render() {
+    var iconcss = Theme.merge("raisedButtonLink", "right");
+    var counter = __.member_invitations_count
+      .replace('{1}', this.state.invites.length)
+      .replace('{2}', 10); //TODO: set a dynamic max
+
+    let actions = [
+      <FlatButton label={__.close} secondary={true}
+        onClick={ e => { this.props.onClose(e); } } />,
+
+      <RaisedButton primary={true} label={__.invite}
+        onClick={ e => { this.onSend(e); } }>
+        <FontIcon className="material-icons" style={iconcss}>send</FontIcon>
+      </RaisedButton>
+    ];
 
     return (
-      <div id="user-search" ref="modal" className="modal col s12 m10 l6 modal-full user-search">
+
+      <Dialog openImmediately={true} title={__.member_invite_group_title}
+        actions={actions} modal={true}>
+
+        <span style={Theme.css.right}>{counter}</span>
+
+        <UserList message={__.member_invite_message}
+          users={this.state.invites}
+          onSelect={ invite => { this.onSelectInvite(invite); } } />
+
+        <TextField floatingLabelText={__.user_search} ref="searchbox"
+          hintText={__.user_search_hint}
+          onKeyUp={e => { this.onKeyUp(e); }} />
+
+        { this.state.showAddEmail ?
+          <IconButton tooltip={__.user_add_by_email}
+            onClick={ e => { this.addEmail(e) } }>
+              <FontIcon className="material-icons">mail</FontIcon>
+          </IconButton>
+        : null }
+
+        <UserList users={this.state.users}
+          onSelect={ user => { this.onSelect(user); } } />
+
+      </Dialog>
+    );
+  }
+
+};
+
+SearchUser.displayName = "SearchUser";
+
+/*
+<div id="user-search" ref="modal" className="modal col s12 m10 l6 modal-full user-search">
         <div className="modal-content">
           <h4>Invitar al Grupo</h4>
 
@@ -162,9 +201,4 @@ export default class SearchUser extends ReactListener {
 
         </div>
       </div>
-    );
-  }
-
-};
-
-SearchUser.displayName = "SearchUser";
+*/

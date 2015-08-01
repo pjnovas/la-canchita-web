@@ -1,22 +1,16 @@
 
-import {Icon} from "../controls";
+import { ListItem, Avatar } from "material-ui";
+
 export default class UserItem extends React.Component {
 
   render() {
     var model = this.props.model;
 
     return (
-      <a onClick={ e => { this.props.onSelect(this.props.model); } }
-        className="collection-item avatar">
-
-        { model.isEmail ?
-          <div className="circle">
-            <Icon name="mail"/>
-          </div>
-          : <img src={model.picture} className="circle" />
-        }
-        <span className="title">{model.name}</span>
-      </a>
+      <ListItem style={{ borderBottom: "1px solid #EAEAEA" }}
+        leftAvatar={<Avatar src={model.picture} />}
+        primaryText={model.name}
+        onClick={ e => { this.props.onSelect(this.props.model); } } />
     );
   }
 

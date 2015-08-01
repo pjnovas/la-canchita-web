@@ -31,7 +31,7 @@ export default class GroupItem extends React.Component {
 
       subtitle = __.group_card_invitation_by
         .replace("{1}", m.invitedBy.user.name)
-        .replace("{2}", moment(m.createdAt).fromNow());
+        .replace("{2}", moment(m.updatedAt || m.createdAt).fromNow());
     }
 
     var media = {

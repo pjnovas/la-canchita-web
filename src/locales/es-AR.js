@@ -4,10 +4,12 @@ export default {
   "login": "Ingresar",
   "back": "volver",
   "send": "enviar",
+  "close": "Cerrar",
   "cancel": "Cancelar",
   "save": "Guardar",
   "remove": "Eliminar",
   "loading": "cargando ...",
+  "invite": "Invitar",
 
   "account_title_social": "ingresar con tu red social",
   "account_title_social_1": "ingresar con",
@@ -65,5 +67,12 @@ export default {
   "member_role_member": "Jugador",
 
   "member_invited": "Invitados",
+  "member_invite_group_title": "Invitar al Grupo",
+  "member_invitations_count": "Invitaciones ({1}/ {2})",
+  "member_invite_message": "click para quitar",
+
+  "user_search": "Buscar usuarios",
+  "user_search_hint": "Nombre o email",
+  "user_add_by_email": "Agregar email",
 
 };
