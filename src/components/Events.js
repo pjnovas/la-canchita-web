@@ -14,8 +14,8 @@ class Events {
 
     store.events.forEach(name => {
 
-      var parts = name.split(':');
-      var fName = 'on';
+      var parts = name.split(":");
+      var fName = "on";
 
       parts.forEach(n => {
        fName += n.charAt(0).toUpperCase() + n.slice(1);

@@ -1,5 +1,5 @@
 
-import moment from 'moment';
+import moment from "moment";
 
 import GroupActions from "../../actions/Group";
 import MemberActions from "../../actions/Member";

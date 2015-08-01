@@ -1,11 +1,11 @@
 
-import MeetingStore from '../../stores/Meeting';
-import MeetingActions from '../../actions/Meeting';
+import MeetingStore from "../../stores/Meeting";
+import MeetingActions from "../../actions/Meeting";
 
-import Header from '../Header.jsx';
-import Form from './Form.jsx';
+import Header from "../Header.jsx";
+import Form from "./Form.jsx";
 
-import ReactListener from '../ReactListener';
+import ReactListener from "../ReactListener";
 
 export default class MeetingCreate extends ReactListener {
 
@@ -20,11 +20,11 @@ export default class MeetingCreate extends ReactListener {
 
   redirect(mid){
     if (mid){
-      window.app.router.transitionTo('meeting', { meetingId: mid });
+      window.app.router.transitionTo("meeting", { meetingId: mid });
       return;
     }
 
-    window.app.router.transitionTo('group', { groupId: this.state.gid });
+    window.app.router.transitionTo("group", { groupId: this.state.gid });
   }
 
   onCreate(meeting) {
@@ -72,4 +72,4 @@ export default class MeetingCreate extends ReactListener {
 
 };
 
-MeetingCreate.displayName = 'MeetingCreate';
+MeetingCreate.displayName = "MeetingCreate";

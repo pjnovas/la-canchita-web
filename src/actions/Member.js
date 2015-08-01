@@ -1,6 +1,6 @@
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import MemberConstants from '../constants/Member';
+import AppDispatcher from "../dispatcher/AppDispatcher";
+import MemberConstants from "../constants/Member";
 
 var actions = {};
 actions.find = (gid) => {

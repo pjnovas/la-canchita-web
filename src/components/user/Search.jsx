@@ -1,11 +1,11 @@
 
-import UserStore from '../../stores/User';
-import UserActions from '../../actions/User';
+import UserStore from "../../stores/User";
+import UserActions from "../../actions/User";
 
-import UserList from './List.jsx';
+import UserList from "./List.jsx";
 
-import ReactListener from '../ReactListener';
-import {Button, ButtonFlat} from '../controls';
+import ReactListener from "../ReactListener";
+import {Button, ButtonFlat} from "../controls";
 
 export default class SearchUser extends ReactListener {
 
@@ -56,7 +56,7 @@ export default class SearchUser extends ReactListener {
       this.onSelect({
         id: this.email,
         name: this.email,
-        picture: '',
+        picture: "",
         isEmail: true
       });
     }
@@ -96,7 +96,7 @@ export default class SearchUser extends ReactListener {
   }
 
   clear() {
-    React.findDOMNode(this.refs.searchbox).value = '';
+    React.findDOMNode(this.refs.searchbox).value = "";
     this.setState({ users: [] });
 
     this.setState({ showAddEmail: false });
@@ -143,7 +143,7 @@ export default class SearchUser extends ReactListener {
                 <i className="material-icons teal-text">add_circle</i>
                 <i className="material-icons">mail</i>
               </a>
-            : '' }
+            : null }
           </div>
 
           <UserList cssClass="s12 m10"
@@ -167,4 +167,4 @@ export default class SearchUser extends ReactListener {
 
 };
 
-SearchUser.displayName = 'SearchUser';
+SearchUser.displayName = "SearchUser";

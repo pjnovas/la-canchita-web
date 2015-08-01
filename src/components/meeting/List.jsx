@@ -1,12 +1,12 @@
 
-import MeetingStore from '../../stores/Meeting';
-import MeetingActions from '../../actions/Meeting';
+import MeetingStore from "../../stores/Meeting";
+import MeetingActions from "../../actions/Meeting";
 
-import MeetingItem from './Item.jsx';
-import UserInvite from '../user/Search.jsx';
+import MeetingItem from "./Item.jsx";
+import UserInvite from "../user/Search.jsx";
 
-import ReactListener from '../ReactListener';
-import {ButtonAction} from '../controls';
+import ReactListener from "../ReactListener";
+import {ButtonAction} from "../controls";
 
 export default class MeetingList extends ReactListener {
 
@@ -17,7 +17,7 @@ export default class MeetingList extends ReactListener {
     this.state.meetings = [];
 
     this.store = MeetingStore;
-    this.editors = ['owner', 'admin'];
+    this.editors = ["owner", "admin"];
   }
 
   componentDidMount() {
@@ -71,4 +71,4 @@ export default class MeetingList extends ReactListener {
 
 };
 
-MeetingList.displayName = 'MeetingList';
+MeetingList.displayName = "MeetingList";

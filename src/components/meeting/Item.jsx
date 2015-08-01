@@ -1,5 +1,5 @@
 
-import {Icon} from '../controls';
+import {Icon} from "../controls";
 
 export default class MeetingItem extends React.Component {
 
@@ -22,4 +22,4 @@ export default class MeetingItem extends React.Component {
 
 };
 
-MeetingItem.displayName = 'MeetingItem';
+MeetingItem.displayName = "MeetingItem";

@@ -1,5 +1,5 @@
 
-import {Icon} from '../controls';
+import {Icon} from "../controls";
 export default class UserItem extends React.Component {
 
   render() {
@@ -22,4 +22,4 @@ export default class UserItem extends React.Component {
 
 };
 
-UserItem.displayName = 'UserItem';
+UserItem.displayName = "UserItem";

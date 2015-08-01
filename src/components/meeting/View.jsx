@@ -1,11 +1,11 @@
 
-import MeetingStore from '../../stores/Meeting';
-import MeetingActions from '../../actions/Meeting';
+import MeetingStore from "../../stores/Meeting";
+import MeetingActions from "../../actions/Meeting";
 
-import Header from '../Header.jsx';
+import Header from "../Header.jsx";
 
-import ReactListener from '../ReactListener';
-import {Button, ButtonAction, Tabs} from '../controls';
+import ReactListener from "../ReactListener";
+import {Button, ButtonAction, Tabs} from "../controls";
 
 export default class MeetingView extends ReactListener {
 
@@ -15,8 +15,8 @@ export default class MeetingView extends ReactListener {
     this.state.id = this.props.params.groupId;
     this.store = MeetingStore;
 
-    this.editors = ['owner', 'admin'];
-    this.destroyers = ['owner'];
+    this.editors = ["owner", "admin"];
+    this.destroyers = ["owner"];
   }
 
   componentDidMount() {
@@ -42,4 +42,4 @@ export default class MeetingView extends ReactListener {
 
 };
 
-MeetingView.displayName = 'MeetingView';
+MeetingView.displayName = "MeetingView";

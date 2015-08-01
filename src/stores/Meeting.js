@@ -1,39 +1,39 @@
 
-import ListStore from './ListStore';
-import request from 'superagent';
+import ListStore from "./ListStore";
+import request from "superagent";
 
-import MeetingConstants from '../constants/Meeting';
+import MeetingConstants from "../constants/Meeting";
 
 class MeetingStore extends ListStore {
 
   constructor() {
     super();
 
-    this.uri = '';
-    this.type = 'MEETING';
+    this.uri = "";
+    this.type = "MEETING";
 
     this.events = [
-      'error'
+      "error"
     ];
 
-    ['find', 'create', 'save', 'destroy', 'join', 'leave', 'confirm']
+    ["find", "create", "save", "destroy", "join", "leave", "confirm"]
       .forEach( event => {
-        this.events.push('before:' + event);
+        this.events.push("before:" + event);
         this.events.push(event);
       });
   }
 
   getURI(gid){
-    return '/api/groups/${gid}/meetings/'.replace('${gid}', gid);
+    return "/api/groups/${gid}/meetings/".replace("${gid}", gid);
   }
 
   dispatchCallback(payload) {
-    if (payload.type.split('_')[0] !== this.type){
+    if (payload.type.split("_")[0] !== this.type){
       return;
     }
 
     if (!payload.gid){
-      throw new Error('Expected GroupId on Meeting payload');
+      throw new Error("Expected GroupId on Meeting payload");
     }
 
     switch (payload.type) {
@@ -93,113 +93,113 @@ class MeetingStore extends ListStore {
   find(gid) {
 
     if (this.list.has(gid)){
-      this.emit('find', this.get(gid));
+      this.emit("find", this.get(gid));
       return;
     }
 
-    this.emit('before:find');
+    this.emit("before:find");
 
     request
       .get(this.getURI(gid))
       .end( (err, res) => {
-        if (this.errorHandler(err, 'find')){
+        if (this.errorHandler(err, "find")){
           return;
         }
 
         this.add(gid, res.body);
-        this.emit('find', this.get(gid));
+        this.emit("find", this.get(gid));
       });
   }
 
   create(gid, meeting){
-    this.emit('before:create');
+    this.emit("before:create");
 
     request
       .post(this.getURI(gid))
       .send(meeting)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'create')){
+        if (this.errorHandler(err, "create")){
           return;
         }
 
         this.add(gid, res.body);
-        this.emit('create', this.get(gid));
+        this.emit("create", this.get(gid));
       });
   }
 
   save(gid, meeting){
-    this.emit('before:save');
+    this.emit("before:save");
 
     request
       .put(this.getURI(gid) + meeting.id)
       .send(meeting)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'save')){
+        if (this.errorHandler(err, "save")){
           return;
         }
 
         var meetings = this.getGroup(gid);
         meetings.set(data.id, res.body);
-        this.emit('save', this.get(gid));
+        this.emit("save", this.get(gid));
       });
   }
 
   destroy(gid, id){
-    this.emit('before:destroy');
+    this.emit("before:destroy");
 
     request
       .del(this.getURI(gid) + id)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'destroy')){
+        if (this.errorHandler(err, "destroy")){
           return;
         }
 
         var meetings = this.getGroup(gid);
         meetings.delete(id);
-        this.emit('destroy', this.get(gid));
+        this.emit("destroy", this.get(gid));
       });
   }
 
   join(gid, id){
-    this.emit('before:join');
+    this.emit("before:join");
 
     request
-      .post(this.getURI(gid) + id + '/assistants/me')
+      .post(this.getURI(gid) + id + "/assistants/me")
       .end( (err, res) => {
-        if (this.errorHandler(err, 'join')){
+        if (this.errorHandler(err, "join")){
           return;
         }
 
         var meeting = this.get(gid, id);
         meeting.assistants.push(id);
-        this.emit('join', this.get(gid));
+        this.emit("join", this.get(gid));
       });
   }
 
   leave(gid, id){
-    this.emit('before:leave');
+    this.emit("before:leave");
 
     request
-      .del(this.getURI(gid) + id + '/assistants/me')
+      .del(this.getURI(gid) + id + "/assistants/me")
       .end( (err, res) => {
-        if (this.errorHandler(err, 'leave')){
+        if (this.errorHandler(err, "leave")){
           return;
         }
 
         var meeting = this.get(gid, id);
         var idx = meeting.assistants.indexOf(id);
         meeting.assistants.splice(idx, 1);
-        this.emit('leave', this.get(gid));
+        this.emit("leave", this.get(gid));
       });
   }
 
   confirm(gid, id){
-    this.emit('before:confirm');
+    this.emit("before:confirm");
 
     request
-      .post(this.getURI(gid) + id + '/confirmed/me')
+      .post(this.getURI(gid) + id + "/confirmed/me")
       .end( (err, res) => {
-        if (this.errorHandler(err, 'confirm')){
+        if (this.errorHandler(err, "confirm")){
           return;
         }
 
@@ -208,7 +208,7 @@ class MeetingStore extends ListStore {
         var idx = meeting.assistants.indexOf(id);
         meeting.assistants.splice(idx, 1);
         meeting.confirmed.push(id);
-        this.emit('confirm', this.get(gid));
+        this.emit("confirm", this.get(gid));
       });
   }
 

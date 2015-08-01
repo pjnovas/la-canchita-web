@@ -1,13 +1,13 @@
 
-import GroupStore from '../../stores/Group';
-import GroupActions from '../../actions/Group';
+import GroupStore from "../../stores/Group";
+import GroupActions from "../../actions/Group";
 
-import MemberList from '../member/List.jsx';
-import MeetingList from '../meeting/List.jsx';
-import Header from '../Header.jsx';
+import MemberList from "../member/List.jsx";
+import MeetingList from "../meeting/List.jsx";
+import Header from "../Header.jsx";
 
-import ReactListener from '../ReactListener';
-import {Button, ButtonAction, Tabs} from '../controls';
+import ReactListener from "../ReactListener";
+import {Button, ButtonAction, Tabs} from "../controls";
 
 export default class GroupView extends ReactListener {
 
@@ -17,8 +17,8 @@ export default class GroupView extends ReactListener {
     this.state.id = this.props.params.groupId;
     this.store = GroupStore;
 
-    this.editors = ['owner', 'admin'];
-    this.destroyers = ['owner'];
+    this.editors = ["owner", "admin"];
+    this.destroyers = ["owner"];
   }
 
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class GroupView extends ReactListener {
   }
 
   onDestroy() {
-    window.app.router.transitionTo('groups');
+    window.app.router.transitionTo("groups");
   }
 
   render() {
@@ -44,40 +44,40 @@ export default class GroupView extends ReactListener {
 
     var style = {};
     if (model.picture){
-      style = { backgroundImage: 'url(/images/groups/' + model.picture + ')' };
+      style = { backgroundImage: "url(/images/groups/" + model.picture + ")" };
     }
 
     var navs = [/*{
-      to: 'groupedit',
+      to: "groupedit",
       params: { groupId: this.state.id },
-      text: 'Editar',
-      icon: 'mode_edit'
+      text: "Editar",
+      icon: "mode_edit"
     }*/];
 
     var tabs = [{
-      css: 's3',
-      id: 'info',
-      icon: 'info_outline',
-      text: 'Detalle',
+      css: "s3",
+      id: "info",
+      icon: "info_outline",
+      text: "Detalle",
       active: true
     }, {
-      css: 's3',
-      id: 'players',
-      icon: 'group',
-      text: 'Jugadores'
+      css: "s3",
+      id: "players",
+      icon: "group",
+      text: "Jugadores"
     }, {
-      css: 's3',
-      id: 'matches',
-      icon: 'event_note',
-      text: 'Partidos'
+      css: "s3",
+      id: "matches",
+      icon: "event_note",
+      text: "Partidos"
     }, {
-      css: 's3 disabled',
-      id: 'chrono',
-      icon: 'settings',
-      text: 'Configurar'
+      css: "s3 disabled",
+      id: "chrono",
+      icon: "settings",
+      text: "Configurar"
     }];
 
-    var myRole = this.state.me && this.state.me.role || 'member';
+    var myRole = this.state.me && this.state.me.role || "member";
     var canEdit = this.editors.indexOf(myRole) > -1;
     var canRemove = this.destroyers.indexOf(myRole) > -1;
 
@@ -135,4 +135,4 @@ export default class GroupView extends ReactListener {
 
 };
 
-GroupView.displayName = 'GroupView';
+GroupView.displayName = "GroupView";

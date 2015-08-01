@@ -1,5 +1,5 @@
-import Events from './Events';
-import shortid from 'shortid';
+import Events from "./Events";
+import shortid from "shortid";
 
 export default class ReactListener extends React.Component {
 
@@ -78,10 +78,10 @@ export default class ReactListener extends React.Component {
     };
 
     switch (err.type){
-      case 'find': state.loading = false; break;
-      case 'create': state.creating = false; break;
-      case 'save': state.saving = false; break;
-      case 'destroy': state.destroying = false; break;
+      case "find": state.loading = false; break;
+      case "create": state.creating = false; break;
+      case "save": state.saving = false; break;
+      case "destroy": state.destroying = false; break;
     }
 
     this.setState(state);

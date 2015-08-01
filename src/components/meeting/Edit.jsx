@@ -1,11 +1,11 @@
 
-import MeetingStore from '../../stores/Meeting';
-import MeetingActions from '../../actions/Meeting';
+import MeetingStore from "../../stores/Meeting";
+import MeetingActions from "../../actions/Meeting";
 
-import Header from '../Header.jsx';
-import Form from './Form.jsx';
+import Header from "../Header.jsx";
+import Form from "./Form.jsx";
 
-import ReactListener from '../ReactListener';
+import ReactListener from "../ReactListener";
 
 export default class MeetingEdit extends ReactListener {
 
@@ -32,7 +32,7 @@ export default class MeetingEdit extends ReactListener {
   }
 
   redirect(){
-    window.app.router.transitionTo('meeting', { meetingId: this.state.id });
+    window.app.router.transitionTo("meeting", { meetingId: this.state.id });
   }
 
   onSaveClick() {
@@ -64,7 +64,7 @@ export default class MeetingEdit extends ReactListener {
 
         <div className="row">
 
-          {this.state.loading ? 'Cargando ...' :
+          {this.state.loading ? "Cargando ..." :
 
             <Form
               loading={ this.state.saving }
@@ -86,4 +86,4 @@ export default class MeetingEdit extends ReactListener {
 
 };
 
-MeetingEdit.displayName = 'MeetingEdit';
+MeetingEdit.displayName = "MeetingEdit";

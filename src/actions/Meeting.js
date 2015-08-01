@@ -1,6 +1,6 @@
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import MeetingConstants from '../constants/Meeting';
+import AppDispatcher from "../dispatcher/AppDispatcher";
+import MeetingConstants from "../constants/Meeting";
 
 var actions = {};
 

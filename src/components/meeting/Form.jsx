@@ -1,5 +1,5 @@
 
-import { Button, ButtonFlat, TextInput, TextArea, DateInput, Switch } from '../controls';
+import { Button, ButtonFlat, TextInput, TextArea, DateInput, Switch } from "../controls";
 
 export default class MeetingForm extends React.Component {
 
@@ -99,4 +99,4 @@ export default class MeetingForm extends React.Component {
 
 };
 
-MeetingForm.displayName = 'MeetingForm';
+MeetingForm.displayName = "MeetingForm";

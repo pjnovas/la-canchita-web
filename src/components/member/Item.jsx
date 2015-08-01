@@ -1,22 +1,22 @@
 
-import MemberStore from '../../stores/Member';
-import {Icon} from '../controls';
+import MemberStore from "../../stores/Member";
+import {Icon} from "../controls";
 
 export default class MemberItem extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.roles = ['owner', 'admin', 'moderator', 'member'];
+    this.roles = ["owner", "admin", "moderator", "member"];
 
     this.roleName = {
-      'owner': 'Creador',
-      'admin': 'Admin',
-      'moderator': 'Moderador',
-      'member': 'Jugador'
+      "owner": "Creador",
+      "admin": "Admin",
+      "moderator": "Moderador",
+      "member": "Jugador"
     };
 
-    this.kickers = ['owner', 'admin'];
+    this.kickers = ["owner", "admin"];
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ export default class MemberItem extends React.Component {
 
   render() {
     var model = this.props.model;
-    var myRole = this.props.myRole || 'member';
+    var myRole = this.props.myRole || "member";
 
     var isMe = (model.user.id == window.user.id);
     var myRoleIdx = this.roles.indexOf(myRole);
@@ -55,12 +55,12 @@ export default class MemberItem extends React.Component {
     var roleName = this.roleName[model.role];
 
     return (
-      <li className={ "collection-item avatar " + (isMe ? 'me' : '') }>
+      <li className={ "collection-item avatar " + (isMe ? "me" : null) }>
         <img src={model.user.picture} className="circle" />
         <span className="title">{model.user.name}</span>
         <p>{roleName}</p>
 
-        { !isMe && myRole !== 'member' && changeRoles.length ?
+        { !isMe && myRole !== "member" && changeRoles.length ?
         <a ref="roles" data-activates={roleDDL} className="dropdown-button secondary-content">
           <Icon name="more_vert" />
         </a>
@@ -86,4 +86,4 @@ export default class MemberItem extends React.Component {
 
 };
 
-MemberItem.displayName = 'MemberItem';
+MemberItem.displayName = "MemberItem";

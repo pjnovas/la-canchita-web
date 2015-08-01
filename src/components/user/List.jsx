@@ -1,5 +1,5 @@
 
-import UserItem from './Item.jsx';
+import UserItem from "./Item.jsx";
 
 export default class UserList extends React.Component {
 
@@ -33,5 +33,5 @@ export default class UserList extends React.Component {
 
 };
 
-UserList.displayName = 'UserList';
+UserList.displayName = "UserList";
 

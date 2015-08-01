@@ -1,19 +1,19 @@
 
-import ListStore from './ListStore';
-import request from 'superagent';
+import ListStore from "./ListStore";
+import request from "superagent";
 
-import GroupConstants from '../constants/Group';
+import GroupConstants from "../constants/Group";
 
 class GroupStore extends ListStore {
 
   constructor() {
     super();
 
-    this.uri = '/api/groups/';
-    this.type = 'GROUP';
+    this.uri = "/api/groups/";
+    this.type = "GROUP";
 
     this.events = this.events.concat([
-      'change', 'remove'
+      "change", "remove"
     ]);
   }
 
@@ -25,13 +25,13 @@ class GroupStore extends ListStore {
       case GroupConstants.ACCEPTED:
         var group = this.get(payload.id);
         //group.member = payload.member;
-        group.member.role = 'member';
-        group.member.state = 'active';
-        this.emit('change', this.get(), group);
+        group.member.role = "member";
+        group.member.state = "active";
+        this.emit("change", this.get(), group);
         break;
       case GroupConstants.DECLINED:
         this.remove(payload.id);
-        this.emit('remove', this.get(), payload.id);
+        this.emit("remove", this.get(), payload.id);
         break;
     };
   }
@@ -39,8 +39,8 @@ class GroupStore extends ListStore {
   sendImage (id, picture, done) {
 
     request
-      .post(this.uri + id + '/picture')
-      .attach('image', picture)
+      .post(this.uri + id + "/picture")
+      .attach("image", picture)
       .end( (err, res) => {
         if (err) {
           return done(err);
@@ -55,10 +55,10 @@ class GroupStore extends ListStore {
   }
 
   send (type, item) {
-    this.emit('before:' + type);
+    this.emit("before:" + type);
 
-    var method = (type === 'create' ? 'post' : 'put');
-    var uri = (type === 'create' ? this.uri : this.uri + item.id);
+    var method = (type === "create" ? "post" : "put");
+    var uri = (type === "create" ? this.uri : this.uri + item.id);
 
     request[method](uri)
       .send({
@@ -71,7 +71,7 @@ class GroupStore extends ListStore {
         }
 
         var group = res.body;
-        if (type === 'create'){
+        if (type === "create"){
           this.add(group);
         }
         else {
@@ -95,11 +95,11 @@ class GroupStore extends ListStore {
   }
 
   create(item) {
-    this.send('create', item);
+    this.send("create", item);
   }
 
   update(item) {
-    this.send('save', item);
+    this.send("save", item);
   }
 
 }

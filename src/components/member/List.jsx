@@ -1,12 +1,12 @@
 
-import MemberStore from '../../stores/Member';
-import MemberActions from '../../actions/Member';
+import MemberStore from "../../stores/Member";
+import MemberActions from "../../actions/Member";
 
-import MemberItem from './Item.jsx';
-import UserInvite from '../user/Search.jsx';
+import MemberItem from "./Item.jsx";
+import UserInvite from "../user/Search.jsx";
 
-import ReactListener from '../ReactListener';
-import {ButtonAction} from '../controls';
+import ReactListener from "../ReactListener";
+import {ButtonAction} from "../controls";
 
 export default class MemberList extends ReactListener {
 
@@ -17,7 +17,7 @@ export default class MemberList extends ReactListener {
     this.state.members = [];
 
     this.store = MemberStore;
-    this.inviters = ['owner', 'admin', 'moderator'];
+    this.inviters = ["owner", "admin", "moderator"];
   }
 
   componentDidMount() {
@@ -82,11 +82,11 @@ export default class MemberList extends ReactListener {
     var list = this.state.members;
 
     var active = list.filter( member => {
-      return member.state === 'active';
+      return member.state === "active";
     });
 
     var pending = list.filter( member => {
-      return member.state === 'pending';
+      return member.state === "pending";
     });
 
     var skipIds = active.concat(pending).map( member => {
@@ -97,7 +97,7 @@ export default class MemberList extends ReactListener {
       return member.user.id === window.user.id;
     });
 
-    var myRole = me && me.role || 'member';
+    var myRole = me && me.role || "member";
     var canInvite = this.inviters.indexOf(myRole) > -1;
 
     return (
@@ -107,7 +107,7 @@ export default class MemberList extends ReactListener {
           <UserInvite
             skipIds={ skipIds }
             onSelect={ users => { this.inviteUsers(users); } }
-            onClose={ () => { this.hideInvite(); } } /> : '' }
+            onClose={ () => { this.hideInvite(); } } /> : null }
 
         <div className="members">
           <ul className="collection">
@@ -141,4 +141,4 @@ export default class MemberList extends ReactListener {
 
 };
 
-MemberList.displayName = 'MemberList';
+MemberList.displayName = "MemberList";

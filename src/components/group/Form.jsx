@@ -1,5 +1,4 @@
 
-import { Button, ButtonFlat } from "../controls";
 import DropPicture from "./DropPicture.jsx";
 
 import { Paper, FlatButton, FontIcon, RaisedButton, TextField } from "material-ui";
@@ -73,33 +72,3 @@ export default class GroupForm extends React.Component {
 };
 
 GroupForm.displayName = "GroupForm";
-
-/*
-
-
-            <input id="title" type="text" className="validate"
-              placeholder="Los pibes de la esquina"
-              onChange={e => { this.changeTitle(e); }}
-              value={this.props.title} />
-
-            <label htmlFor="title">Título</label>
-
-            <textarea id="description" className="materialize-textarea"
-              placeholder="Para el fulbito de los sábados. Si llueve se suspende!"
-              onChange={e => { this.changeDescription(e); }}
-              value={this.props.description} />
-
-            <label htmlFor="description">Descripción</label>
-
-          <div className="col s12">
-            <ButtonFlat css="left" text="cancelar" hidden={this.props.loading}
-              onClick={ e => { this.props.onCancel(e); } } />
-
-            <Button
-              text="Guardar" css="right" icon="check"
-              loadingText="Guardando" loading={this.props.loading}
-              onClick={ e => { this.save(e); } } />
-          </div>
-
-        </div>
-*/

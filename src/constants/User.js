@@ -1,5 +1,5 @@
-import builder from './builder';
+import builder from "./builder";
 
-export default builder('USER', [
-  'SEARCH'
+export default builder("USER", [
+  "SEARCH"
 ]);

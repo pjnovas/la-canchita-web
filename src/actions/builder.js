@@ -1,5 +1,5 @@
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
+import AppDispatcher from "../dispatcher/AppDispatcher";
 
 export default function(constants){
 

@@ -1,7 +1,7 @@
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import { EventEmitter } from 'events';
-import request from 'superagent';
+import AppDispatcher from "../dispatcher/AppDispatcher";
+import { EventEmitter } from "events";
+import request from "superagent";
 
 //var DEFAULT_MAX_LISTENERS = 12
 
@@ -15,16 +15,16 @@ class ListStore extends EventEmitter {
     });
 
     this.list = new Map();
-    this.uri = '/';
-    this.type = '';
+    this.uri = "/";
+    this.type = "";
 
     this.events = [
-      'error'
+      "error"
     ];
 
-    ['find', 'create', 'save', 'destroy']
+    ["find", "create", "save", "destroy"]
       .forEach( event => {
-        this.events.push('before:' + event);
+        this.events.push("before:" + event);
         this.events.push(event);
       });
 
@@ -35,25 +35,25 @@ class ListStore extends EventEmitter {
     // default dispatcher
     // manage constants as [this.type]_[action]
 
-    var parts = payload.type.split('_');
+    var parts = payload.type.split("_");
     if (parts[0] !== this.type) { // store
       return;
     }
 
     switch (parts[1]) {
-      case 'FIND':
+      case "FIND":
         this.find();
         break;
-      case 'FINDONE':
+      case "FINDONE":
         this.findOne(payload.id);
         break;
-      case 'CREATE':
+      case "CREATE":
         this.create(payload.data);
         break;
-      case 'UPDATE':
+      case "UPDATE":
         this.update(payload.data);
         break;
-      case 'DESTROY':
+      case "DESTROY":
         this.destroy(payload.id);
         break;
     }
@@ -88,93 +88,93 @@ class ListStore extends EventEmitter {
 
   find() {
 
-    this.emit('before:find');
+    this.emit("before:find");
 
     request
       .get(this.uri)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'find')){
+        if (this.errorHandler(err, "find")){
           return;
         }
 
         this.add(res.body);
-        this.emit('find', this.get());
+        this.emit("find", this.get());
       });
   }
 
   findOne(id) {
     if (this.list.has(id)){
       //TODO: should fire a before:find?
-      this.emit('find', this.get(id));
+      this.emit("find", this.get(id));
       return;
     }
 
-    this.emit('before:find');
+    this.emit("before:find");
 
     request
       .get(this.uri + id)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'find')){
+        if (this.errorHandler(err, "find")){
           return;
         }
 
         this.set(res.body);
-        this.emit('find', this.get(id));
+        this.emit("find", this.get(id));
       });
   }
 
   create(item) {
     // override
 
-    this.emit('before:create');
+    this.emit("before:create");
 
     request
       .post(this.uri)
       .send(item)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'create')){
+        if (this.errorHandler(err, "create")){
           return;
         }
 
         var nItem = res.body;
         this.add(nItem.id, nItem);
-        this.emit('create', nItem);
+        this.emit("create", nItem);
       });
   }
 
   update(item) {
     // override
 
-    this.emit('before:save');
+    this.emit("before:save");
 
     request
       .put(this.uri + item.id)
       .send(item)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'save')){
+        if (this.errorHandler(err, "save")){
           return;
         }
 
         var nItem = res.body;
         this.set(item.id, nItem);
-        this.emit('save', nItem);
+        this.emit("save", nItem);
       });
   }
 
   destroy(id){
     //override
 
-    this.emit('before:destroy');
+    this.emit("before:destroy");
 
     request
       .del(this.uri + id)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'destroy')){
+        if (this.errorHandler(err, "destroy")){
           return;
         }
 
         this.list.delete(id);
-        this.emit('destroy');
+        this.emit("destroy");
       });
   }
 
@@ -182,7 +182,7 @@ class ListStore extends EventEmitter {
 
     if (err) {
 
-      this.emit('error', {
+      this.emit("error", {
         store: this.type,
         type,
         status: err.status,

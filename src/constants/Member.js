@@ -1,10 +1,10 @@
-import builder from './builder';
+import builder from "./builder";
 
-export default builder('MEMBER', [
-  'FIND',
-  'ACCEPT',
-  'DECLINE',
-  'INVITE',
-  'SETROLE',
-  'KICK'
+export default builder("MEMBER", [
+  "FIND",
+  "ACCEPT",
+  "DECLINE",
+  "INVITE",
+  "SETROLE",
+  "KICK"
 ]);

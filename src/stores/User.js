@@ -1,24 +1,24 @@
 
-import ListStore from './ListStore';
-import request from 'superagent';
+import ListStore from "./ListStore";
+import request from "superagent";
 
-import UserConstants from '../constants/User';
+import UserConstants from "../constants/User";
 
 class GroupStore extends ListStore {
 
   constructor() {
     super();
 
-    this.uri = '/api/users/';
-    this.type = 'USER';
+    this.uri = "/api/users/";
+    this.type = "USER";
 
     this.events = [
-      'error'
+      "error"
     ];
 
-    ['search']
+    ["search"]
       .forEach( event => {
-        this.events.push('before:' + event);
+        this.events.push("before:" + event);
         this.events.push(event);
       });
   }
@@ -34,16 +34,16 @@ class GroupStore extends ListStore {
   }
 
   search(query) {
-    this.emit('before:search');
+    this.emit("before:search");
 
     request
-      .get(this.uri + 'search?q=' + query)
+      .get(this.uri + "search?q=" + query)
       .end( (err, res) => {
-        if (this.errorHandler(err, 'search')){
+        if (this.errorHandler(err, "search")){
           return;
         }
 
-        this.emit('search', res.body);
+        this.emit("search", res.body);
       });
   }
 
