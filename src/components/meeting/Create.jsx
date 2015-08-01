@@ -52,19 +52,23 @@ export default class MeetingCreate extends ReactListener {
   render() {
 
     return (
-      <div className="meetings create">
-        <Header title="Crear Grupo"
-          backto="group" backparams={{ groupId: this.state.gid }} />
+      <div>
+        <Header backto="group" backparams={{ groupId: this.state.gid }} />
 
-        <div className="row">
+        <Form
+          formTitle={__.meeting_title_create}
+          loading={ this.state.creating }
 
-          <Form
-            loading={ this.state.creating }
-            onChange={ model => { this.onChange(model); }}
-            onSave={ model => { this.onSaveClick(model); }}
-            onCancel={ () => { this.onCancel(); }} />
+          title={ this.state.title }
+          info={ this.state.info }
+          place={ this.state.place }
 
-        </div>
+          min={ this.state.min }
+          max={ this.state.max }
+
+          onChange={ model => { this.onChange(model); }}
+          onSave={ model => { this.onSaveClick(model); }}
+          onCancel={ () => { this.onCancel(); }} />
 
       </div>
     );

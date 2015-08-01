@@ -27,4 +27,28 @@ a {
   margin: 10px 0;
 }
 
+.half-width-control {
+  width: 40%;
+  display: inline-block;
+  padding: 10px;
+
+  >div {
+    >div {
+      width: 100%!important;
+
+      input {
+        text-align: center!important;
+      }
+    }
+  }
+}
+
+.meeting-confirmation,
+.meeting-limits {
+  padding: 20px;
+  margin: 10px 0;
+  border: 1px solid rgb(227, 227, 227);
+  border-radius: 4px;
+}
+
 @import './groups';

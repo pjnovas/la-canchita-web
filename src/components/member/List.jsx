@@ -7,7 +7,7 @@ import UserInvite from "../user/Search.jsx";
 
 import ReactListener from "../ReactListener";
 
-import { List, Avatar, FontIcon, FloatingActionButton } from "material-ui";
+import { List, FontIcon, FloatingActionButton } from "material-ui";
 
 export default class MemberList extends ReactListener {
 

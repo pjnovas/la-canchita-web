@@ -75,4 +75,25 @@ export default {
   "user_search_hint": "Nombre o email",
   "user_add_by_email": "Agregar email",
 
+  "meeting_past": "Finalizados",
+  "meeting_title_create": "Crear partido",
+  "meeting_title_edit": "Editar partido",
+
+  "meeting_title": "Título",
+  "meeting_info": "Información",
+  "meeting_place": "Lugar",
+  "meeting_replacements": "Se aceptan suplentes",
+  "meeting_has_confirmation": "Se necesita confirmación",
+
+  "meeting_title_hint": "Partido de los Lunes en LaCanchita",
+  "meeting_info_hint": "Nos encontramos 15 minutos antes, tiene estacionamiento. Si llueve se suspende!",
+  "meeting_place_hint": "Juan B. Justo 1234, Ciudad Autónoma de Buenos Aires",
+  "meeting_when_date_hint": "Cuando",
+  "meeting_when_time_hint": "a que hora",
+  "meeting_when_confirm_start_hint": "Desde",
+  "meeting_when_confirm_end_hint": "Hasta",
+  "meeting_has_limit": "Límite de participantes",
+  "meeting_min": "mínimo",
+  "meeting_max": "máximo",
+
 };

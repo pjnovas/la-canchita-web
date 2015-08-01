@@ -53,17 +53,17 @@ export default class GroupCreate extends ReactListener {
       <div>
         <Header backto="groups" />
 
-          <Form
-            formTitle={__.group_title_create}
-            loading={ this.state.creating }
+        <Form
+          formTitle={__.group_title_create}
+          loading={ this.state.creating }
 
-            title={ this.state.title }
-            description={ this.state.description }
-            picture={ this.state.picture }
+          title={ this.state.title }
+          description={ this.state.description }
+          picture={ this.state.picture }
 
-            onChange={ model => { this.onChange(model); }}
-            onSave={ model => { this.onSaveClick(model); }}
-            onCancel={ () => { this.onCancel(); }} />
+          onChange={ model => { this.onChange(model); }}
+          onSave={ model => { this.onSaveClick(model); }}
+          onCancel={ () => { this.onCancel(); }} />
 
       </div>
     );

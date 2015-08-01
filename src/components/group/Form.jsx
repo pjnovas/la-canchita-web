@@ -1,6 +1,5 @@
 
 import DropPicture from "./DropPicture.jsx";
-
 import { Paper, FlatButton, FontIcon, RaisedButton, TextField } from "material-ui";
 
 export default class GroupForm extends React.Component {
@@ -51,8 +50,6 @@ export default class GroupForm extends React.Component {
           hintText={__.group_description_hint}
           onChange={e => { this.changeDescription(e); }}
           value={this.props.description} />
-
-        <div className="divider"></div>
 
         <div style={css.buttonsSection}>
           <FlatButton label={__.cancel} default={true} linkButton={true}

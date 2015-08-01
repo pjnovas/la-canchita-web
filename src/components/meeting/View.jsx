@@ -5,14 +5,13 @@ import MeetingActions from "../../actions/Meeting";
 import Header from "../Header.jsx";
 
 import ReactListener from "../ReactListener";
-import {Button, ButtonAction, Tabs} from "../controls";
 
 export default class MeetingView extends ReactListener {
 
   constructor(props) {
     super(props);
 
-    this.state.id = this.props.params.groupId;
+    this.state.gid = this.props.params.groupId;
     this.store = MeetingStore;
 
     this.editors = ["owner", "admin"];
@@ -32,9 +31,8 @@ export default class MeetingView extends ReactListener {
   render() {
 
     return (
-      <div className="groups view">
-        <Header backto="groups" navs={navs} />
-
+      <div>
+        <Header backto="group" backparams={ { groupId: this.state.gid }} />
         Un PARTIDO!
       </div>
     );

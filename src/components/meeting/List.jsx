@@ -3,10 +3,11 @@ import MeetingStore from "../../stores/Meeting";
 import MeetingActions from "../../actions/Meeting";
 
 import MeetingItem from "./Item.jsx";
-import UserInvite from "../user/Search.jsx";
 
 import ReactListener from "../ReactListener";
-import {ButtonAction} from "../controls";
+
+import { Link } from "react-router";
+import { List, FontIcon, FloatingActionButton } from "material-ui";
 
 export default class MeetingList extends ReactListener {
 
@@ -41,30 +42,28 @@ export default class MeetingList extends ReactListener {
     return (
       <div>
 
-        <div className="meetings">
+        <List>
+        {active.map(meeting => {
+          return <MeetingItem key={meeting.id} model={meeting}/>;
+        })}
+        </List>
 
-          <ul className="collection">
-          {active.map(meeting => {
-            return <MeetingItem key={meeting.id} model={meeting}/>;
+        { past.length ?
+        <List subheader={__.meeting_past}>
+          {past.map(meeting => {
+            return <MeetingItem key={meeting.id} model={meeting} />;
           })}
-          </ul>
-
-          { past.length ?
-          <div>
-            <span className="category-title">Finalizados</span>
-            <ul className="collection done">
-            {past.map(meeting => {
-              return <MeetingItem key={meeting.id} model={meeting} />;
-            })}
-            </ul>
-          </div>
-          : null }
-
-        </div>
-
-        { canCreate ?
-        <ButtonAction icon="add" to="meetingnew" params={{ groupId: this.state.gid }}/>
+        </List>
         : null }
+
+        { this.props.isVisible && canCreate ?
+        <FloatingActionButton primary={true} tooltip={__.group_create}
+          containerElement={<Link to="meetingnew" params={{groupId: this.state.gid}} />}
+          linkButton={true} style={Theme.css.actionButton} >
+          <FontIcon className="material-icons">add</FontIcon>
+        </FloatingActionButton>
+        : null }
+
       </div>
     );
   }

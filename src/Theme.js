@@ -279,7 +279,7 @@ Theme.css = {
     width: "100%",
     maxWidth: "500px",
     margin: "0 auto",
-    textAlign: "center",
+    textAlign: "left",
     padding: "20px",
     marginTop: "20px"
   },

@@ -58,27 +58,25 @@ export default class MeetingEdit extends ReactListener {
 
     return (
       <div>
-        <Header title="Editar Partido"
-          backto="meeting"
-          backparams={ { meetingId: this.state.id }} />
+        <Header backto="meeting" backparams={ { meetingId: this.state.id }} />
 
-        <div className="row">
+        {this.state.loading ? __.loading :
 
-          {this.state.loading ? "Cargando ..." :
+        <Form
+          formTitle={__.meeting_title_edit}
+          loading={ this.state.saving }
 
-            <Form
-              loading={ this.state.saving }
+          title={ this.state.title }
+          info={ this.state.info }
+          place={ this.state.place }
 
-              title={ this.state.title }
-              description={ this.state.description }
-              picture={ this.state.picture }
+          min={ this.state.min }
+          max={ this.state.max }
 
-              onChange={ model => { this.onChange(model); }}
-              onSave={ model => { this.onSaveClick(model); }}
-              onCancel={ () => { this.onCancel(); }} />
-          }
-
-        </div>
+          onChange={ model => { this.onChange(model); }}
+          onSave={ model => { this.onSaveClick(model); }}
+          onCancel={ () => { this.onCancel(); }} />
+        }
 
       </div>
     );

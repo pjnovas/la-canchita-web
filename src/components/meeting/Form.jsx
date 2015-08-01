@@ -1,5 +1,6 @@
 
-import { Button, ButtonFlat, TextInput, TextArea, DateInput, Switch } from "../controls";
+import { Paper, FlatButton, FontIcon, RaisedButton, TextField,
+  DatePicker, TimePicker, Checkbox, Toggle } from "material-ui";
 
 export default class MeetingForm extends React.Component {
 
@@ -16,84 +17,97 @@ export default class MeetingForm extends React.Component {
   }
 
   render() {
+    var css = Theme.css;
+    var iconcss = Theme.merge("raisedButtonLink", "right");
+
+    var today = new Date();
 
     return (
 
-      <form className="white col center s12 m8 offset-m2 l6 offset-l3 z-depth-1">
+      <Paper zDepth={1} rounded={true} style={css.form}>
 
-        <div className="row">
+        <h1>{this.props.formTitle}</h1>
+        <div className="divider"></div>
 
-          <TextInput css="s12" field="title" value={this.props.title} name="Título"
-            placeholder="Partido de los Lunes en LaCanchita"
-            onChange={ (field, value) => { this.changeField(field, value); }} />
+        <TextField floatingLabelText={__.meeting_title}
+          fullWidth={true}
+          hintText={__.meeting_title_hint}
+          onChange={e => { this.changeField('title', e.target.vale); }}
+          value={this.props.title} />
 
-          <TextArea css="s12" field="info" value={this.props.info} name="Información"
-            placeholder="Nos encontramos 15 minutos antes, tiene estacionamiento. Si llueve se suspende!"
-            onChange={ (field, value) => { this.changeField(field, value); }} />
+        <TextField floatingLabelText={__.meeting_info} multiLine={true}
+          fullWidth={true} rows={3}
+          hintText={__.meeting_info_hint}
+          onChange={e => { this.changeField('info', e.target.vale); }}
+          value={this.props.info} />
 
-          <TextInput css="s12" field="place" value={this.props.place} name="Lugar"
-            placeholder="Juan B. Justo 1234, Ciudad Autónoma de Buenos Aires"
-            onChange={ (field, value) => { this.changeField(field, value); }} />
+        <TextField floatingLabelText={__.meeting_place} fullWidth={true}
+          hintText={__.meeting_place_hint}
+          onChange={e => { this.changeField('place', e.target.vale); }}
+          value={this.props.place} />
 
-          <DateInput css="s12" field="when" value={this.props.when} name="Cuando"
-            onChange={ (field, value) => { this.changeField(field, value); }} />
+        <div className="half-width-control">
+          <DatePicker hintText={__.meeting_when_date_hint} autoOk={true}
+            minDate={today} />
+        </div>
 
-          <div className="col s12">
-            <label className="field-title left">Reemplazos</label>
+        <div className="half-width-control">
+          <TimePicker format="24hr" hintText={__.meeting_when_time_hint} />
+        </div>
+
+        <Toggle label={__.meeting_replacements}/>
+
+        <div className="meeting-confirmation">
+          <Toggle label={__.meeting_has_confirmation}/>
+
+          <div className="half-width-control">
+            <DatePicker hintText={__.meeting_when_confirm_start_hint} autoOk={true}
+              minDate={today} />
           </div>
 
-          <div className="col s12 margin-bottom">
-            <Switch field="replacements" value={this.props.replacements} css="left"
-              onChange={ (field, value) => { this.changeField(field, value); }} />
+          <div className="half-width-control">
+            <TimePicker format="24hr"/>
           </div>
 
-          <div className="col s12">
-            <label className="field-title left">Confirmaciones</label>
+          <div className="half-width-control">
+            <DatePicker hintText={__.meeting_when_confirm_end_hint} autoOk={true}
+              minDate={today} />
           </div>
 
-          <div className="col s12">
+          <div className="half-width-control">
+            <TimePicker format="24hr" />
+          </div>
+        </div>
 
-            <div className="col s4">
-              <Switch field="confirmation" value={this.props.confirmation} css="left"
-                onChange={ (field, value) => { this.changeField(field, value); }} />
-            </div>
+        <div className="meeting-limits">
+          <Toggle label={__.meeting_has_limit}/>
 
-            <DateInput css="s4" field="confirmStart" value={this.props.confirmStart} name="Incio"
-              onChange={ (field, value) => { this.changeField(field, value); }} />
-
-            <DateInput css="s4" field="confirmEnd" value={this.props.confirmEnd} name="Fin"
-              onChange={ (field, value) => { this.changeField(field, value); }} />
-
+          <div className="half-width-control">
+            <TextField floatingLabelText={__.meeting_min} fullWidth={true}
+              hintText="0" value={this.props.min}
+              onChange={e => { this.changeField('min', e.target.vale); }} />
           </div>
 
-          <div className="col s12">
-            <label className="field-title left">Límite de participantes</label>
-          </div>
-
-          <div className="col s12">
-
-            <TextInput css="s6" field="min" value={this.props.min} name="Mínimo (0 sin límite)"
-              onChange={ (field, value) => { this.changeField(field, value); }} />
-
-            <TextInput css="s6" field="max" value={this.props.max} name="Máximo (0 sin límite)"
-              onChange={ (field, value) => { this.changeField(field, value); }} />
-
-          </div>
-
-
-          <div className="col s12">
-            <ButtonFlat css="left" text="cancelar" hidden={this.props.loading}
-              onClick={ e => { this.props.onCancel(e); } } />
-
-            <Button
-              text="Guardar" css="right" icon="check"
-              loadingText="Guardando" loading={this.props.loading}
-              onClick={ e => { this.save(e); } } />
+          <div className="half-width-control">
+            <TextField floatingLabelText={__.meeting_max} fullWidth={true}
+              hintText="0" value={this.props.max}
+              onChange={e => { this.changeField('max', e.target.vale); }} />
           </div>
 
         </div>
 
-      </form>
+        <div style={css.buttonsSection}>
+          <FlatButton label={__.cancel} default={true} linkButton={true}
+            onClick={ e => { this.props.onCancel(e); } } style={css.left}>
+          </FlatButton>
+
+          <RaisedButton primary={true} label={__.save} style={css.right}
+            onClick={ e => { this.save(e); } }>
+            <FontIcon className="material-icons" style={iconcss}>check</FontIcon>
+          </RaisedButton>
+        </div>
+
+      </Paper>
     );
   }
 
