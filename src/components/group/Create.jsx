@@ -1,11 +1,11 @@
 
-import GroupStore from '../../stores/Group';
-import GroupActions from '../../actions/Group';
+import GroupStore from "../../stores/Group";
+import GroupActions from "../../actions/Group";
 
-import Header from '../Header.jsx';
-import Form from './Form.jsx';
+import Header from "../Header.jsx";
+import Form from "./Form.jsx";
 
-import ReactListener from '../ReactListener';
+import ReactListener from "../ReactListener";
 
 export default class GroupCreate extends ReactListener {
 
@@ -18,11 +18,11 @@ export default class GroupCreate extends ReactListener {
 
   redirect(gid){
     if (gid){
-      window.app.router.transitionTo('group', { groupId: gid });
+      window.app.router.transitionTo("group", { groupId: gid });
       return;
     }
 
-    window.app.router.transitionTo('groups');
+    window.app.router.transitionTo("groups");
   }
 
   onCreate(group) {
@@ -51,17 +51,19 @@ export default class GroupCreate extends ReactListener {
 
     return (
       <div>
-        <Header title="Crear Grupo" backto="groups" />
-
-        <div className="row">
+        <Header backto="groups" />
 
           <Form
+            formTitle={__.group_title_create}
             loading={ this.state.creating }
+
+            title={ this.state.title }
+            description={ this.state.description }
+            picture={ this.state.picture }
+
             onChange={ model => { this.onChange(model); }}
             onSave={ model => { this.onSaveClick(model); }}
             onCancel={ () => { this.onCancel(); }} />
-
-        </div>
 
       </div>
     );
@@ -69,4 +71,4 @@ export default class GroupCreate extends ReactListener {
 
 };
 
-GroupCreate.displayName = 'GroupCreate';
+GroupCreate.displayName = "GroupCreate";

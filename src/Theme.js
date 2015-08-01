@@ -274,6 +274,14 @@ Theme.css = {
   pageContent: {
     maxWidth: "800px",
     margin: "10px auto"
+  },
+  form: {
+    width: "100%",
+    maxWidth: "500px",
+    margin: "0 auto",
+    textAlign: "center",
+    padding: "20px",
+    marginTop: "20px"
   }
 };
 

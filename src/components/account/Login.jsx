@@ -77,15 +77,6 @@ export default class Login extends React.Component {
       }
     }
 
-    let main = {
-      width: "100%",
-      maxWidth: "500px",
-      margin: "0 auto",
-      textAlign: "center",
-      padding: "20px",
-      marginTop: "20px"
-    };
-
     let sicon = { color: "#fff" };
     let social = {
       padding: "10px 0",
@@ -100,7 +91,7 @@ export default class Login extends React.Component {
     let flat = Theme.merge(paperBg, { display: "inline-table" });
 
     return (
-      <Paper zDepth={1} rounded={true} style={main}>
+      <Paper zDepth={1} rounded={true} style={Theme.css.form}>
         <h1>{__.app_title}</h1>
         <div className="divider"></div>
 

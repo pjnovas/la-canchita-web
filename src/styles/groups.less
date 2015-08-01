@@ -1,5 +1,4 @@
-
-@group-picture-max-width: 300px;
+@group-picture-max-width: 450px;
 @group-picture-height: 150px;
 @group-picture-radius: 6px;
 
@@ -40,7 +39,6 @@
       height: 100%;
       font-size: 20px;
       vertical-align: middle;
-      padding: 20px;
       border-radius: @group-picture-radius;
       color: #1b5e20;
       background-color: rgba(0,0,0,0.15);
@@ -52,130 +50,5 @@
       }
     }
 
-  }
-}
-
-.groups {
-
-  &.view {
-
-    header {
-
-      height: 150px;
-      background-position: center;
-      background-size: cover;
-
-      position: relative;
-
-      h1 {
-        margin: 0;
-        color: #fff;
-
-        position: absolute;
-        bottom: 0;
-        left: 0;
-
-        padding: 10px;
-        width: 100%;
-        background: rgba(0,0,0,0.45);
-      }
-
-    }
-
-    .description {
-      padding:  0 10px;
-    }
-
-  }
-}
-
-.members {
-
-  .category-title {
-    .grey-text;
-
-    margin: 20px 10px 10px 10px;
-    display: inline-block;
-    font-size: 18px;
-  }
-
-  .collection {
-    margin: 0;
-    overflow: visible;
-
-    .collection-item {
-      min-height: 64px;
-
-      &.me {
-        .yellow.lighten-4;
-      }
-    }
-
-    &.invites {
-      .collection-item {
-        opacity: 0.6;
-
-        p {
-          display: none;
-        }
-      }
-    }
-  }
-}
-
-.user-search {
-
-  .collection {
-
-    /* fix collection */
-    @media @large-and-up {
-      padding: 0;
-      border-right: 2px solid #e0e0e0;
-    }
-
-    .collection-item.avatar {
-      cursor: pointer;
-      min-height: 45px;
-
-      img {
-        width: 25px;
-        height: 25px;
-        left: 25px;
-      }
-
-      .title {
-        font-size: 18px;
-      }
-    }
-
-    &.invites {
-      overflow: initial;
-      border: none;
-
-      .collection-item {
-        cursor: pointer;
-        min-height: 45px;
-        display: inline-block;
-        border: 1px solid #e0e0e0;
-        border-radius: 2px;
-        margin: 0.1rem;
-      }
-
-    }
-  }
-
-}
-
-.meetings {
-
-  &.create {
-
-    .field-title {
-      font-size: 16px;
-    }
-
-    .margin-bottom {
-      margin-bottom: 15px;
-    }
   }
 }

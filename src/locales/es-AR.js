@@ -4,6 +4,8 @@ export default {
   "login": "Ingresar",
   "back": "volver",
   "send": "enviar",
+  "cancel": "Cancelar",
+  "save": "Guardar",
   "loading": "cargando ...",
 
   "account_title_social": "ingresar con tu red social",
@@ -36,5 +38,19 @@ export default {
   "group_card_accept": "Aceptar",
   "group_card_decline": "Ignorar",
   "group_card_invitation": "Invitación",
-  "group_card_invitation_by": "por {1}, {2}"
+  "group_card_invitation_by": "por {1}, {2}",
+
+  "group_title_create": "Crear Grupo",
+  "group_title_edit": "Editar Grupo",
+
+  "group_title": "Título",
+  "group_description": "Descripción",
+
+  "group_title_hint": "Los pibes de la esquina",
+  "group_description_hint": "Para el fulbito de los sábados. Si llueve se suspende!",
+
+  "group_picture_msg_drop": "Suelta una imagen o click para seleccionar.",
+  "group_picture_error_size": "La imagen no puede superar los 300 kb",
+  "group_picture_error_type": "Solo Imagenes .png .jpg o .gif"
+
 };

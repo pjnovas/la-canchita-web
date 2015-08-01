@@ -40,7 +40,7 @@ export default class GroupItem extends React.Component {
     };
 
     return (
-      <Card>
+      <Card style={ {margin: "20px 0"} }>
 
         { isInvite ?
         <CardHeader
@@ -68,7 +68,8 @@ export default class GroupItem extends React.Component {
               onClick={ e => { this.onAcceptClick(e); } }/>
           </div>
           :
-            <FlatButton label={__.group_card_open} />
+            <FlatButton linkButton={true} label={__.group_card_open}
+              containerElement={<Link to="group" params={{groupId: model.id}} />} />
           }
         </CardActions>
       </Card>
@@ -78,41 +79,3 @@ export default class GroupItem extends React.Component {
 };
 
 GroupItem.displayName = "GroupItem";
-
-/*
-
-
-      <div className="col s12 m6 l4">
-        <div className="card small">
-
-          { isInvite ?
-          <div className="card-tag invite">
-            <Icon name="arrow_forward" />
-            <span>Invitación</span>
-          </div>
-          : null }
-
-          <div className="card-image">
-            <img src={ "/images/groups/" + model.picture }/>
-            <span className="card-title">{model.title}</span>
-          </div>
-          <div className="card-content">
-            <p>{model.description}</p>
-          </div>
-          <div className="card-action">
-
-            { isInvite ?
-              <div>
-                <a className="left muted"
-                  onClick={ e => { this.onDeclineClick(e); } }>ignorar</a>
-                <a className="right"
-                  onClick={ e => { this.onAcceptClick(e); } }>aceptar</a>
-              </div>
-            :
-              <Link className="right" to="group" params={{groupId: model.id}}>Abrir</Link>
-            }
-
-          </div>
-        </div>
-      </div>
-      */

@@ -1,11 +1,11 @@
 
-import GroupStore from '../../stores/Group';
-import GroupActions from '../../actions/Group';
+import GroupStore from "../../stores/Group";
+import GroupActions from "../../actions/Group";
 
-import Header from '../Header.jsx';
-import Form from './Form.jsx';
+import Header from "../Header.jsx";
+import Form from "./Form.jsx";
 
-import ReactListener from '../ReactListener';
+import ReactListener from "../ReactListener";
 
 export default class GroupEdit extends ReactListener {
 
@@ -32,7 +32,7 @@ export default class GroupEdit extends ReactListener {
   }
 
   redirect(){
-    window.app.router.transitionTo('group', { groupId: this.state.id });
+    window.app.router.transitionTo("group", { groupId: this.state.id });
   }
 
   onSaveClick() {
@@ -58,27 +58,22 @@ export default class GroupEdit extends ReactListener {
 
     return (
       <div>
-        <Header title="Editar Grupo"
-          backto="group"
-          backparams={ { groupId: this.state.id }} />
+        <Header backto="group" backparams={ { groupId: this.state.id }} />
 
-        <div className="row">
+        {this.state.loading ? __.loading :
 
-          {this.state.loading ? 'Cargando ...' :
+          <Form
+            formTitle={__.group_title_edit}
+            loading={ this.state.saving }
 
-            <Form
-              loading={ this.state.saving }
+            title={ this.state.title }
+            description={ this.state.description }
+            picture={ this.state.picture }
 
-              title={ this.state.title }
-              description={ this.state.description }
-              picture={ this.state.picture }
-
-              onChange={ model => { this.onChange(model); }}
-              onSave={ model => { this.onSaveClick(model); }}
-              onCancel={ () => { this.onCancel(); }} />
-          }
-
-        </div>
+            onChange={ model => { this.onChange(model); }}
+            onSave={ model => { this.onSaveClick(model); }}
+            onCancel={ () => { this.onCancel(); }} />
+        }
 
       </div>
     );
@@ -86,4 +81,4 @@ export default class GroupEdit extends ReactListener {
 
 };
 
-GroupEdit.displayName = 'GroupEdit';
+GroupEdit.displayName = "GroupEdit";
