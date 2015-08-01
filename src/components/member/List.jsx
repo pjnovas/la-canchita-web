@@ -120,7 +120,7 @@ export default class MemberList extends ReactListener {
         </List>
 
         { pending.length ?
-        <List subheader="Invitados">
+        <List subheader={__.member_invited}>
           {pending.map(member => {
             return <MemberItem key={member.id} model={member} />;
           })}

@@ -15,10 +15,10 @@ export default class MemberItem extends React.Component {
     this.roles = ["owner", "admin", "moderator", "member"];
 
     this.roleName = {
-      "owner": "Creador",
-      "admin": "Admin",
-      "moderator": "Moderador",
-      "member": "Jugador"
+      "owner": __.member_role_owner,
+      "admin": __.member_role_admin,
+      "moderator": __.member_role_moderator,
+      "member": __.member_role_member
     };
 
     this.kickers = ["owner", "admin"];

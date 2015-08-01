@@ -59,4 +59,11 @@ export default {
   "group_tab_meetings": "Partidos",
   "group_tab_settings": "Configurar",
 
+  "member_role_owner": "Creador",
+  "member_role_admin": "Admin",
+  "member_role_moderator": "Moderador",
+  "member_role_member": "Jugador",
+
+  "member_invited": "Invitados",
+
 };
