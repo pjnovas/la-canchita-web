@@ -1,33 +1,162 @@
 
-export default class Profile extends React.Component {
+import UserStore from "../../stores/User";
+import UserActions from "../../actions/User";
+
+import ReactListener from "../ReactListener";
+
+import Header from "../Header.jsx";
+import {Paper, TextField, FontIcon, RaisedButton, FlatButton } from "material-ui";
+
+export default class Profile extends ReactListener {
 
   constructor(props) {
     super(props);
+
+    this.state = {};
+    this.store = UserStore;
+
+    this.state.showChangePassword = false;
+  }
+
+  redirect(){
+    window.app.router.transitionTo("groups");
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    UserActions.findMe();
+  }
+
+  onFindme(me) {
+    super.onFind();
+    this.setState(me);
+  }
+
+  onUpdateme(me) {
+    window.user = me;
+    this.redirect();
+  }
+
+  onClickChangePassword(e){
+    this.setState({ showChangePassword: !this.state.showChangePassword });
+  }
+
+  changeName(e) {
+    this.props.onChange({ name: e.target.value });
+  }
+
+  changeEmail(e) {
+    this.props.onChange({ email: e.target.value });
+  }
+
+  onCancel() {
+    this.redirect();
+  }
+
+  onSave(){
+    UserActions.updateMe({
+      name: this.state.name
+    });
   }
 
   render() {
+    let css = Theme.css;
+    let iconcss = Theme.merge("raisedButtonLink", "right");
+
+    let passports = this.state.passports || [];
+
+    let hasPassword = false;
+    if (passports) {
+      hasPassword = passports.indexOf('local') > -1 ? true : false;
+    }
+
+    let uris = {
+      twitter: "https://twitter.com/",
+      facebook: "https://www.facebook.com/",
+      google: "https://www.google.com.ar"
+    };
 
     return (
-      <form className="row" action="" method="post">
-        <h3 className="active">Profile</h3>
+      <div>
+        <Header backto="groups" hideprofile={true} />
+        <Paper zDepth={1} rounded={true} style={css.form}>
 
-        <div className="input-field col s12">
-          <input id="identifier" type="text" name="identifier" required  className="validate"/>
-          <label htmlFor="identifier">Usuario o email</label>
-        </div>
+          <h1 style={{float: "left"}}>{__.profile_title}</h1>
+          <span className="profile-username" title={__.account_user}>{this.state.username}</span>
+          <div className="divider"></div>
 
-        <div className="input-field col s12">
-          <input id="password" type="password" name="password" className="validate" required/>
-          <label htmlFor="password">Contraseña</label>
-        </div>
+          <div className="profile-picture">
+            <img src={this.state.picture} />
+          </div>
 
-        <div className="col s12">
-          <button className="btn btn-large waves-effect waves-light right" type="submit">Ingresar
-            <i className="material-icons right">send</i>
-          </button>
-        </div>
+          <TextField floatingLabelText={__.account_displayName}
+            fullWidth={true}
+            hintText={__.account_displayName_hint}
+            onChange={e => { this.changeName(e); }}
+            value={this.state.name} />
 
-      </form>
+          <TextField floatingLabelText={__.account_email}
+            fullWidth={true}
+            hintText={__.account_email_hint}
+            onChange={e => { this.changeEmail(e); }}
+            value={this.state.email} />
+
+          <div className="profile-change-password">
+            <h3 onClick={ e => { this.onClickChangePassword(e); }} style={{cursor: "pointer"}}>
+              { this.state.showChangePassword ?
+                <FontIcon className="material-icons">expand_less</FontIcon>
+                :
+                <FontIcon className="material-icons">expand_more</FontIcon>
+              }
+              {__.account_password_change}
+            </h3>
+          { this.state.showChangePassword ?
+          <div>
+            { hasPassword ?
+            <div>
+              <TextField floatingLabelText={__.account_password_actual}
+                fullWidth={true} type="password"
+                onChange={e => { this.changeActualPassword(e); }} />
+
+              <TextField floatingLabelText={__.account_password_new}
+                fullWidth={true} type="password"
+                onChange={e => { this.changeNewPasword(e); }}/>
+
+              <TextField floatingLabelText={__.account_password_new_re}
+                fullWidth={true} type="password"
+                onChange={e => { this.changeNewPaswordRe(e); }}/>
+            </div>
+            :
+              <div className="profile-change-password-social">
+                <span>{__.account_no_password_msg}</span>
+                { passports.map( passport => {
+                  return (
+                    <FlatButton key={passport} linkButton={true} target="_blank" href={uris[passport]}
+                      style={css[passport]} secondary={true}>
+
+                      <FontIcon className={"icon icon-" + passport}></FontIcon>
+                    </FlatButton>
+                  );
+                })}
+              </div>
+            }
+
+          </div> : null }
+          </div>
+
+          <div style={css.buttonsSection}>
+            <FlatButton label={__.cancel} default={true} linkButton={true}
+              onClick={ e => { this.onCancel(e); } } style={css.left}>
+            </FlatButton>
+
+            <RaisedButton primary={true} label={__.save} style={css.right}
+              onClick={ e => { this.onSave(e); } }>
+              <FontIcon className="material-icons" style={iconcss}>check</FontIcon>
+            </RaisedButton>
+          </div>
+
+        </Paper>
+      </div>
     );
   }
 

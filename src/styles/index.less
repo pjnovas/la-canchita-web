@@ -16,8 +16,20 @@ h1,h2,h3 {
   text-transform: uppercase;
 }
 
+h1,h2,h3 {
+  .material-icons {
+    vertical-align: bottom;
+  }
+}
+
 a {
   cursor: pointer;
+}
+
+.hide-left {
+  >button {
+    display: none!important;
+  }
 }
 
 .divider {
@@ -25,6 +37,7 @@ a {
   height: 1px;
   display: block;
   margin: 10px 0;
+  clear: both;
 }
 
 .half-width-control {
@@ -49,6 +62,52 @@ a {
   margin: 10px 0;
   border: 1px solid rgb(227, 227, 227);
   border-radius: 4px;
+}
+
+.profile-username {
+  color: silver;
+  text-align: right;
+  font-style: italic;
+  float: right;
+  padding-top: 17px;
+}
+
+.profile-picture {
+  width: 100%;
+
+  img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 50%;
+  }
+}
+
+.profile-change-password {
+  padding: 20px;
+  margin: 10px 0;
+  border: 1px solid rgb(227, 227, 227);
+  border-radius: 4px;
+}
+
+.profile-change-password-social {
+  span {
+    margin: 5px;
+    display: block;
+  }
+
+  a {
+
+  }
+}
+
+.icon {
+  &.icon-twitter,
+  &.icon-facebook,
+  &.icon-google {
+    color: #fff!important;
+  }
 }
 
 @import './groups';

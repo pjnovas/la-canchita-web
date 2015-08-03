@@ -14,6 +14,10 @@ let ColorManipulator = Utils.ColorManipulator;
  *  Colors: http://material-ui.com/#/customization/colors
  */
 
+Colors.twitter = "#00aced";
+Colors.facebook = "#3b5998";
+Colors.google = "#dd4b39";
+
 let spacing = {
   iconSize: 24,
 
@@ -242,6 +246,11 @@ Theme.palette = palette;
 Theme.components = components;
 
 Theme.css = {
+  socialButton: {
+    padding: "10px 0",
+    margin: "10px",
+    textAlign: "center"
+  },
   raisedButtonLink: {
     padding: "0 10px",
     lineHeight: "36px",
@@ -256,6 +265,9 @@ Theme.css = {
   },
   textLeft: {
     textAlign: "left"
+  },
+  textCenter: {
+    textAlign: "center"
   },
   textRight: {
     textAlign: "right"
@@ -305,5 +317,9 @@ Theme.merge = function(){
 };
 
 Theme.colors = Colors;
+
+Theme.css.twitter = Theme.merge(Theme.css.socialButton, { backgroundColor: Colors.twitter });
+Theme.css.facebook = Theme.merge(Theme.css.socialButton, { backgroundColor: Colors.facebook });
+Theme.css.google = Theme.merge(Theme.css.socialButton, { backgroundColor: Colors.google });
 
 export default Theme;

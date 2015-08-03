@@ -4,6 +4,7 @@ import Router, {Route, NotFoundRoute, DefaultRoute} from "react-router";
 import App from "./App.jsx";
 import Login from "./components/account/Login.jsx";
 import Home from "./components/Home.jsx";
+import Profile from "./components/account/Profile.jsx";
 
 import Groups from "./components/group/Index.jsx";
 import GroupCreate from "./components/group/Create.jsx";
@@ -34,7 +35,7 @@ var routes = (
     <Route name="meeting" path="/meetings/:meetingId" handler={MeetingView} />
     <Route name="meetingedit" path="/meetings/:meetingId/edit" handler={MeetingEdit} />
 
-    <Route name="profile" path="/profile" handler={Login} />
+    <Route name="profile" path="/profile" handler={Profile} />
     <Route name="login" path="/login" handler={Login} />
     <Route name="register" path="/register" handler={Login} />
     <Route name="recover" path="/recover" handler={Login} />

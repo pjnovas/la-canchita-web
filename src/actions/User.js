@@ -12,4 +12,21 @@ actions.search = (query) => {
 
 };
 
+actions.findMe = () => {
+
+  AppDispatcher.dispatch({
+    type: UserConstants.FINDME
+  });
+
+};
+
+actions.updateMe = (data) => {
+
+  AppDispatcher.dispatch({
+    type: UserConstants.UPDATE,
+    data
+  });
+
+};
+
 export default actions;

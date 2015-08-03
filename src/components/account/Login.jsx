@@ -77,21 +77,14 @@ export default class Login extends React.Component {
       }
     }
 
-    let sicon = { color: "#fff" };
-    let social = {
-      padding: "10px 0",
-      margin: "10px"
-    };
-
-    let tw = Theme.merge(social, { backgroundColor: "#00aced" });
-    let fb = Theme.merge(social, { backgroundColor: "#3b5998" });
-    let gl = Theme.merge(social, { backgroundColor: "#dd4b39" });
+    let css = Theme.css;
 
     let paperBg = Theme.pick(Theme.components.paper, ["backgroundColor"]);
     let flat = Theme.merge(paperBg, { display: "inline-table" });
+    let form = Theme.merge(Theme.css.form, "textCenter");
 
     return (
-      <Paper zDepth={1} rounded={true} style={Theme.css.form}>
+      <Paper zDepth={1} rounded={true} style={form}>
         <h1>{__.app_title}</h1>
         <div className="divider"></div>
 
@@ -101,19 +94,19 @@ export default class Login extends React.Component {
 
           <h3>{__.account_title_social}</h3>
 
-          <FlatButton linkButton={true} href={uris.twitter} style={tw}
+          <FlatButton linkButton={true} href={uris.twitter} style={css.twitter}
             secondary={true}>
-            <FontIcon className="icon icon-twitter" style={sicon}></FontIcon>
+            <FontIcon className="icon icon-twitter"></FontIcon>
           </FlatButton>
 
-          <FlatButton linkButton={true} href={uris.facebook} style={fb}
+          <FlatButton linkButton={true} href={uris.facebook} style={css.facebook}
             secondary={true}>
-            <FontIcon className="icon icon-facebook" style={sicon}></FontIcon>
+            <FontIcon className="icon icon-facebook"></FontIcon>
           </FlatButton>
 
-          <FlatButton linkButton={true} href={uris.google} style={gl}
+          <FlatButton linkButton={true} href={uris.google} style={css.google}
             secondary={true}>
-            <FontIcon className="icon icon-google" style={sicon}></FontIcon>
+            <FontIcon className="icon icon-google"></FontIcon>
           </FlatButton>
 
         </ClearFix>

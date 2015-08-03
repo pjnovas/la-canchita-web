@@ -32,6 +32,17 @@ export default {
   "account_recover_info": "Recuperar contraseña",
   "account_recover_title": "recuperar contraseña",
 
+  "account_displayName": "Nombre",
+  "account_displayName_hint": "Un nombre que te identifique",
+
+  "account_password_change": "Cambiar contraseña",
+  "account_password_actual": "Contraseña Actual",
+  "account_password_new": "Contraseña Nueva",
+  "account_password_new_re": "Re ingresar contraseña",
+  "account_no_password_msg": "Para cambiar la contraseña, tenes que hacerlo en la red social con la que ingresas",
+
+  "profile_title": "Mi perfil",
+
   "group_start_1": "Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.",
   "group_start_2": "Podés recibir invitaciones o crear un grupo e invitar vos",
   "group_start_3": "Empieza creando un groupo e invitando a los jugadores!",

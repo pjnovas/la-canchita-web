@@ -4,7 +4,7 @@ import request from "superagent";
 
 import UserConstants from "../constants/User";
 
-class GroupStore extends ListStore {
+class UserStore extends ListStore {
 
   constructor() {
     super();
@@ -16,7 +16,7 @@ class GroupStore extends ListStore {
       "error"
     ];
 
-    ["search"]
+    ["search", "findme", "updateme"]
       .forEach( event => {
         this.events.push("before:" + event);
         this.events.push(event);
@@ -28,6 +28,12 @@ class GroupStore extends ListStore {
     switch (payload.type) {
       case UserConstants.SEARCH:
         this.search(payload.query);
+        break;
+      case UserConstants.FINDME:
+        this.findMe();
+        break;
+      case UserConstants.UPDATEME:
+        this.updateMe(payload.data);
         break;
     };
 
@@ -47,6 +53,35 @@ class GroupStore extends ListStore {
       });
   }
 
+  findMe() {
+    this.emit("before:findme");
+
+    request
+      .get(this.uri + "me")
+      .end( (err, res) => {
+        if (this.errorHandler(err, "findme")){
+          return;
+        }
+
+        this.emit("findme", res.body);
+      });
+  }
+
+  updateMe(data) {
+    this.emit("before:updateme");
+
+    request
+      .put(this.uri + "me")
+      .send(data)
+      .end( (err, res) => {
+        if (this.errorHandler(err, "updateme")){
+          return;
+        }
+
+        this.emit("updateme", res.body);
+      });
+  }
+
 }
 
-export default new GroupStore();
+export default new UserStore();
