@@ -70,6 +70,9 @@ export default class MeetingEdit extends ReactListener {
           info={ this.state.info }
           place={ this.state.place }
 
+          confirmation={ this.state.confirmation }
+          replacements={ this.state.replacements }
+
           min={ this.state.min }
           max={ this.state.max }
 

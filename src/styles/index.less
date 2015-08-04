@@ -1,10 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,500);
 @import './icons';
 
+@bar-height: 48px;
+
 body {
-  margin: 0;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
+
+  margin: 0;
+  padding-top: @bar-height;
 }
 
 h1,h2,h3,h4,h5 {
@@ -26,11 +30,33 @@ a {
   cursor: pointer;
 }
 
-.hide-left {
-  >button {
-    display: none!important;
+.app-bar {
+  position: fixed!important;
+  top: 0!important;
+  min-height: @bar-height!important;
+
+  >div {
+    margin-top: 0!important;
+
+    a.profile-bar {
+      img {
+        margin-top: 3px!important;
+      }
+    }
   }
+
+  h1 {
+    line-height: @bar-height!important;
+  }
+
+  &.hide-left {
+    >button {
+      display: none!important;
+    }
+  }
+
 }
+
 
 .divider {
   background: #EFEFEF;
@@ -44,6 +70,8 @@ a {
   width: 40%;
   display: inline-block;
   padding: 10px;
+  padding-left: 0;
+  margin: 10px 0;
 
   >div {
     >div {
@@ -56,12 +84,47 @@ a {
   }
 }
 
+.date-field {
+  max-width: 90px!important;
+}
+
+.time-field {
+  max-width: 70px!important;
+}
+
+.number-field {
+  max-width: 70px!important;
+  margin: 0;
+  padding: 0 10px;
+}
+
 .meeting-confirmation,
 .meeting-limits {
-  padding: 20px;
   margin: 10px 0;
   border: 1px solid rgb(227, 227, 227);
   border-radius: 4px;
+}
+
+.meeting-confirmation {
+  padding: 0 20px 20px 20px;
+}
+
+.meeting-limits {
+  padding: 0 20px;
+}
+
+.meeting-switch {
+  margin: 20px 0;
+}
+
+.fix-bs-select {
+  height: 53px!important;
+}
+
+.input-center {
+  input {
+    text-align: center;
+  }
 }
 
 .profile-username {

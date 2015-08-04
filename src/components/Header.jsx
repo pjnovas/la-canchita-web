@@ -8,7 +8,8 @@ export default class Header extends React.Component {
     var profilePic = window.user ? window.user.picture : null;
 
     return (
-      <AppBar className={this.props.backto ? "": "hide-left"}
+      <AppBar zDepth={0}
+        className={"app-bar " + (this.props.backto ? "": "hide-left") }
         title={this.props.title || __.app_title}
 
         iconElementLeft={(this.props.backto ?
@@ -20,7 +21,7 @@ export default class Header extends React.Component {
           : null )}
 
         iconElementRight={(this.props.hideprofile ? null :
-          <Link to="profile">
+          <Link to="profile" className="profile-bar">
             <Avatar src={profilePic} />
           </Link>
           )}
