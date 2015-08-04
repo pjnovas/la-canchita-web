@@ -1,8 +1,8 @@
 
 import Header from "./Header.jsx";
 
-import { Link } from "react-router";
-import { IconButton } from "material-ui";
+import { ButtonLink } from "react-router-bootstrap";
+import { Icon } from "./controls";
 
 export default class Home extends React.Component {
 
@@ -12,13 +12,10 @@ export default class Home extends React.Component {
         <Header />
         <h1>LANDING PAGE HERE</h1>
 
-        <IconButton
-          iconClassName="material-icons"
-          containerElement={<Link to="login" />}
-          tooltip={__.login}
-          linkButton={true}>
-          person
-        </IconButton>
+        <ButtonLink bsSize="large" to="login">
+          <Icon name="twitter" />
+        </ButtonLink>
+
       </div>
     );
   }

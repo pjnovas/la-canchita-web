@@ -1,6 +1,7 @@
 
-import { Link } from "react-router";
-import { AppBar, IconButton, Avatar } from "material-ui";
+import { NavItemLink } from "react-router-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
+import { Icon, Avatar } from './controls';
 
 export default class Header extends React.Component {
 
@@ -8,24 +9,29 @@ export default class Header extends React.Component {
     var profilePic = window.user ? window.user.picture : null;
 
     return (
-      <AppBar zDepth={0}
-        className={"app-bar " + (this.props.backto ? "": "hide-left") }
-        title={this.props.title || __.app_title}
+      <Navbar fluid={true}>
 
-        iconElementLeft={(this.props.backto ?
-          <IconButton
-            linkButton={true}
-            iconClassName="material-icons"
-            containerElement={<Link to={this.props.backto} params={this.props.backparams} />}
-          >arrow_back</IconButton>
-          : null )}
+      {(this.props.backto ?
+        <Nav left>
+          <NavItemLink to={this.props.backto} params={this.props.backparams}>
+            <Icon name="twitter" />
+          </NavItemLink>
+        </Nav>
+      : null )}
 
-        iconElementRight={(this.props.hideprofile ? null :
-          <Link to="profile" className="profile-bar">
+      <Nav left>
+        <a className="navbar-brand">{this.props.title || __.app_title}</a>
+      </Nav>
+
+      {(this.props.hideprofile ? null :
+        <Nav right>
+          <NavItemLink to="profile" className="navbar-profile">
             <Avatar src={profilePic} />
-          </Link>
-          )}
-      />
+          </NavItemLink>
+        </Nav>
+      )}
+
+    </Navbar>
     );
 
   }

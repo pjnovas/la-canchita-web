@@ -7,6 +7,9 @@ import ReactListener from "../ReactListener";
 import Header from "../Header.jsx";
 import {Paper, TextField, FontIcon, RaisedButton, FlatButton } from "material-ui";
 
+//TODO: change avatar with
+// http://dropsofserenity.github.io/react-avatar-cropper/
+
 export default class Profile extends ReactListener {
 
   constructor(props) {

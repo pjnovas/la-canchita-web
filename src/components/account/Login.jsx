@@ -1,5 +1,6 @@
 
-import { Paper, ClearFix, FlatButton, RaisedButton, FontIcon } from "material-ui";
+import { Button, Grid, Row, Col } from "react-bootstrap";
+import { Icon, Paper, Divider } from "../controls";
 import { Manual, Recover, Register } from "./forms";
 
 export default class Login extends React.Component {
@@ -77,73 +78,101 @@ export default class Login extends React.Component {
       }
     }
 
-    let css = Theme.css;
-
-    let paperBg = Theme.pick(Theme.components.paper, ["backgroundColor"]);
-    let flat = Theme.merge(paperBg, { display: "inline-table" });
-    let form = Theme.merge(Theme.css.form, "textCenter");
-
     return (
-      <Paper zDepth={1} rounded={true} style={form}>
-        <h1>{__.app_title}</h1>
-        <div className="divider"></div>
+      <Grid>
+        <Paper>
 
-        { this.state.social ?
+          <form>
 
-        <ClearFix>
+            <h1>{__.app_title}</h1>
+            <Divider />
 
-          <h3>{__.account_title_social}</h3>
+            { this.state.social ?
 
-          <FlatButton linkButton={true} href={uris.twitter} style={css.twitter}
-            secondary={true}>
-            <FontIcon className="icon icon-twitter"></FontIcon>
-          </FlatButton>
+            <Row>
 
-          <FlatButton linkButton={true} href={uris.facebook} style={css.facebook}
-            secondary={true}>
-            <FontIcon className="icon icon-facebook"></FontIcon>
-          </FlatButton>
+              <Col xs={12}>
+                <h3>{__.account_title_social}</h3>
+              </Col>
 
-          <FlatButton linkButton={true} href={uris.google} style={css.google}
-            secondary={true}>
-            <FontIcon className="icon icon-google"></FontIcon>
-          </FlatButton>
+              <Col xs={8} xsOffset={2} md={6} mdOffset={3}>
 
-        </ClearFix>
-        :
-        <h3>{__.account_title_social_1}
-          <FlatButton linkButton={true} secondary={true} label={__.account_title_social_2}
-            onClick={ e => { this.onClickSocial(e); }} style={flat} >
-          </FlatButton>
-        </h3>
-        }
+                <Row>
+                  <Col xs={4} className="text-center">
+                    <Button href={uris.twitter} className="btn-social twitter">
+                      <Icon name="twitter" />
+                    </Button>
+                  </Col>
 
-        <div className="divider"></div>
+                  <Col xs={4} className="text-center">
+                    <Button href={uris.facebook} className="btn-social facebook">
+                      <Icon name="facebook" />
+                    </Button>
+                  </Col>
 
-        { this.state.social ?
-          <h3>{__.account_title_manual_1}
-            <FlatButton linkButton={true} secondary={true} label={__.account_title_manual_2}
-              onClick={ e => { this.onClickManual(e); }} style={flat} >
-            </FlatButton>
-          </h3>
-          : null }
+                  <Col xs={4} className="text-center">
+                    <Button href={uris.google} className="btn-social google">
+                      <Icon name="google" />
+                    </Button>
+                  </Col>
+                </Row>
 
-        { this.state.manual ?
-          <Manual uri={uris.manual} errors={this.state.errors}
-            onBack={ e => {this.onClickManual(e); } }
-            onRecover={ e => {this.onClickRecover(e); } }
-            onRegister={ e => {this.onClickRegister(e); } } /> : null }
+              </Col>
+            </Row>
 
-        { this.state.register ?
-          <Register uri={uris.register} errors={this.state.errors}
-            onBack={ e => {this.onClickManual(e); } } /> : null }
+            :
 
-        { this.state.recover ?
-          <Recover uri={uris.recover} errors={this.state.errors}
-            onBack={ e => {this.onClickManual(e); } } /> : null }
+            <Row>
+              <Col xs={12}>
+                <h3>{__.account_title_social_1}
+                  <Button bsStyle="link" onClick={ e => { this.onClickSocial(e); }} >
+                    {__.account_title_social_2}
+                  </Button>
+                </h3>
+              </Col>
+            </Row>
 
-      </Paper>
+            }
+
+            <Divider />
+
+            { this.state.social ?
+              <Row>
+                <Col xs={12}>
+                  <h3>{__.account_title_manual_1}
+                    <Button bsStyle="link" onClick={ e => { this.onClickManual(e); }} >
+                      {__.account_title_manual_2}
+                    </Button>
+                  </h3>
+                </Col>
+              </Row>
+              : null }
+
+            <Row>
+              <Col xs={12}>
+
+              { this.state.manual ?
+                <Manual uri={uris.manual} errors={this.state.errors}
+                  onBack={ e => {this.onClickManual(e); } }
+                  onRecover={ e => {this.onClickRecover(e); } }
+                  onRegister={ e => {this.onClickRegister(e); } } /> : null }
+
+              { this.state.register ?
+                <Register uri={uris.register} errors={this.state.errors}
+                  onBack={ e => {this.onClickManual(e); } } /> : null }
+
+              { this.state.recover ?
+                <Recover uri={uris.recover} errors={this.state.errors}
+                  onBack={ e => {this.onClickManual(e); } } /> : null }
+
+              </Col>
+            </Row>
+
+          </form>
+
+        </Paper>
+      </Grid>
     );
   }
 
-}
+};
