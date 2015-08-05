@@ -4,8 +4,9 @@ import GroupItem from "./Item.jsx";
 import GroupActions from "../../actions/Group";
 
 import ReactListener from "../ReactListener";
-import { Link } from "react-router";
-import { FontIcon, FloatingActionButton } from "material-ui";
+
+import { Button, Grid, Row, Col } from "react-bootstrap";
+import { ActionButton } from "../controls";
 
 export default class GroupList extends ReactListener {
 
@@ -66,17 +67,16 @@ export default class GroupList extends ReactListener {
     }();
 
     return (
-      <div style={Theme.css.pageContent}>
-        {list}
-        <FloatingActionButton
-          primary={true}
-          containerElement={<Link to="groupnew" />}
-          tooltip={__.group_create}
-          linkButton={true}
-          style={Theme.css.actionButton}>
-          <FontIcon className="material-icons">group_add</FontIcon>
-        </FloatingActionButton>
-      </div>
+      <Grid>
+
+        <Row>
+          <Col xs={12} sm={10} smOffset={1} md={8} mdOffset={2} lg={6} lgOffset={3}>
+            {list}
+          </Col>
+        </Row>
+
+        <ActionButton bsStyle="primary" icon="facebook" to="groupnew" />
+      </Grid>
     );
   }
 

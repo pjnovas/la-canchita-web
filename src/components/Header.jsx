@@ -7,28 +7,28 @@ export default class Header extends React.Component {
 
   render() {
     var profilePic = window.user ? window.user.picture : null;
-
+    this.props.backto = "groups";
     return (
-      <Navbar fluid={true}>
+      <Navbar fluid={true} fixedTop={true} className="z2">
 
       {(this.props.backto ?
-        <Nav left>
-          <NavItemLink to={this.props.backto} params={this.props.backparams}>
+        <ul className="nav navbar-nav navbar-left">
+          <NavItemLink className="navbar-back" to={this.props.backto} params={this.props.backparams}>
             <Icon name="twitter" />
           </NavItemLink>
-        </Nav>
+        </ul>
       : null )}
 
-      <Nav left>
-        <a className="navbar-brand">{this.props.title || __.app_title}</a>
-      </Nav>
+      <ul className="nav navbar-nav navbar-left">
+        <li className="navbar-brand">{this.props.title || __.app_title}</li>
+      </ul>
 
       {(this.props.hideprofile ? null :
-        <Nav right>
+        <ul className="nav navbar-nav navbar-right">
           <NavItemLink to="profile" className="navbar-profile">
             <Avatar src={profilePic} />
           </NavItemLink>
-        </Nav>
+        </ul>
       )}
 
     </Navbar>

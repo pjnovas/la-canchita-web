@@ -1,5 +1,10 @@
+*:focus {
+  outline: 0 none !important;
+}
+
 body {
   background: #EAEAEA;
+  padding-top: 60px;
 }
 
 body, h1, h2, h3, h4, h5, h6,
@@ -28,5 +33,30 @@ body, h1, h2, h3, h4, h5, h6,
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
+  }
+}
+
+.navbar-nav {
+  margin: 0!important;
+
+  &.navbar-left {
+    float: left!important;
+  }
+
+  &.navbar-right {
+    float: right!important;
+  }
+}
+
+.navbar-back {
+  >a {
+
+    @media @xs-and-down {
+      padding: 15px 0 !important;
+    }
+
+    @media @sm-and-up {
+      padding: 15px 15px 15px 0 !important;
+    }
   }
 }
