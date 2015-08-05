@@ -5,6 +5,9 @@ import GroupActions from "../../actions/Group";
 import Header from "../Header.jsx";
 import Form from "./Form.jsx";
 
+import { Grid } from "react-bootstrap";
+import { Paper } from "../controls";
+
 import ReactListener from "../ReactListener";
 
 export default class GroupEdit extends ReactListener {

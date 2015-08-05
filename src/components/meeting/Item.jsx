@@ -1,5 +1,5 @@
 
-import { ListItem } from "material-ui";
+import { ListGroupItem } from "react-bootstrap";
 
 export default class MeetingItem extends React.Component {
 
@@ -7,8 +7,7 @@ export default class MeetingItem extends React.Component {
     var model = this.props.model;
 
     return (
-      <ListItem style={{ borderBottom: "1px solid #EAEAEA" }}
-        primaryText={model.title}/>
+      <ListGroupItem>{model.title}</ListGroupItem>
     );
   }
 

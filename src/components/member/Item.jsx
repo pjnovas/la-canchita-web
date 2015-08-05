@@ -1,11 +1,8 @@
 
 import MemberStore from "../../stores/Member";
 
-import { ListItem, Avatar, IconButton, FontIcon } from "material-ui";
-
-let IconMenu = require('material-ui/lib/menus/icon-menu');
-let MenuItem = require('material-ui/lib/menus/menu-item');
-let MenuDivider = require('material-ui/lib/menus/menu-divider')
+import { Button, Row, Col, ListGroupItem } from "react-bootstrap";
+import { Avatar } from "../controls";
 
 export default class MemberItem extends React.Component {
 
@@ -56,7 +53,7 @@ export default class MemberItem extends React.Component {
       // check out for changing the icon to only a remove icon
       // and the menu into a dropdown of roles
       // http://material-ui.com/#/components/dropdown-menu
-
+/*
       iconButtonElement = (
         <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
           <FontIcon color={Theme.colors.grey400}
@@ -80,14 +77,14 @@ export default class MemberItem extends React.Component {
 
         </IconMenu>
       );
+*/
     }
 
     return (
-      <ListItem disabled={true} style={{ borderBottom: "1px solid #EAEAEA" }}
-        leftAvatar={<Avatar src={model.user.picture} />}
-        rightIconButton={rightIconMenu}
-        primaryText={model.user.name}
-        secondaryText={<p>{roleName}</p>} />
+      <ListGroupItem>
+        <Avatar src={model.user.picture} />
+        <span>{model.user.name} - {roleName}</span>
+      </ListGroupItem>
     );
   }
 

@@ -4,6 +4,7 @@ import moment from "moment";
 import GroupActions from "../../actions/Group";
 import MemberActions from "../../actions/Member";
 
+import { ButtonLink } from "react-router-bootstrap";
 import { Button } from "react-bootstrap";
 import { Card, Icon } from "../controls";
 
@@ -39,9 +40,9 @@ export default class GroupItem extends React.Component {
     }
 
     let actions = [
-      (<Button bsStyle="link" to="group" params={{groupId: model.id}}>
+      (<ButtonLink bsStyle="link" to="group" params={{groupId: model.id}}>
         {__.group_card_open}
-      </Button>)
+      </ButtonLink>)
     ];
 
     if (isInvite){

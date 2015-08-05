@@ -8,9 +8,8 @@ import Header from "../Header.jsx";
 
 import ReactListener from "../ReactListener";
 
-import { Link } from "react-router";
-import { Tabs, Tab, FontIcon, FloatingActionButton, RaisedButton,
-  Card, CardMedia, CardTitle, CardActions, CardText } from "material-ui";
+import { Button, Grid, Row, Col, TabbedArea, TabPane } from "react-bootstrap";
+import { Card, ActionButton } from "../controls";
 
 export default class GroupView extends ReactListener {
 
@@ -43,76 +42,72 @@ export default class GroupView extends ReactListener {
     window.app.router.transitionTo("groups");
   }
 
-  onChangeTab(idx, tab){
-    this.setState({ tabSelected: idx });
+  onChangeTab(key){
+    this.setState({ selectedKey: key });
   }
 
   render() {
-    var model = this.state.group || {};
-    var myRole = this.state.me && this.state.me.role || "member";
-    var canEdit = this.editors.indexOf(myRole) > -1;
-    var canRemove = this.destroyers.indexOf(myRole) > -1;
+    let model = this.state.group || {};
+    let myRole = this.state.me && this.state.me.role || "member";
+    let canEdit = this.editors.indexOf(myRole) > -1;
+    let canRemove = this.destroyers.indexOf(myRole) > -1;
 
-    var media = {
-      maxHeight: "200px",
-      overflow: "hidden"
-    };
+    let actions = [];
+
+    if (canRemove){
+      actions = [
+        (<Button bsStyle="link" disable={this.state.destroying}
+          onClick={ () => { this.onDestroyClick(); } }>
+          {__.remove}
+        </Button>)
+      ];
+    }
 
     return (
       <div>
-
         <Header backto="groups"/>
+        <Grid fluid>
 
-        <Tabs onChange={ (idx, tab) => { this.onChangeTab(idx, tab); } }>
+          <Row>
+            <Col xs={12}>
 
-          <Tab label={__.group_tab_info}>
+              <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
+                animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
 
-            <Card zDepth={0} style={{background:"transparent"}}>
+                <TabPane eventKey={1} tab={__.group_tab_info}>
 
-              <CardMedia overlay={<CardTitle title={model.title}/>} style={media}>
-              { model.picture ? <img src={ "/images/groups/" + model.picture }/> : null }
-              </CardMedia>
+                  <Card
+                    title={model.title}
+                    description={model.description}
+                    media={ model.picture ? "/images/groups/" + model.picture : null }
+                    actions={actions}>
+                  </Card>
 
-              <CardText>
-                <p style={Theme.css.paragraph}>{model.description}</p>
-              </CardText>
+                  { canEdit ?
+                    <ActionButton bsStyle="primary" icon="pencil"
+                      to="groupedit" params={{groupId: this.state.id}}/>
+                  : null }
 
-              { canRemove ?
-              <CardActions>
-                <RaisedButton secondary={true} label={__.remove}
-                  disable={this.state.destroying}
-                  onClick={ () => { this.onDestroyClick(); } } />
-              </CardActions>
-              : null }
+                </TabPane>
 
-            </Card>
+                <TabPane eventKey={2} tab={__.group_tab_members}>
+                  <MemberList groupId={this.state.id} />
+                </TabPane>
 
+                <TabPane eventKey={3} tab={__.group_tab_meetings}>
+                  <MeetingList groupId={this.state.id} />
+                </TabPane>
 
-            { this.state.tabSelected === 0 && canEdit ?
-              <FloatingActionButton primary={true} linkButton={true}
-                containerElement={<Link to="groupedit" params={{groupId: this.state.id}} />}
-                tooltip={__.group_create}
-                style={Theme.css.actionButton}>
-                <FontIcon className="material-icons">mode_edit</FontIcon>
-              </FloatingActionButton>
-            : null }
+                <TabPane eventKey={4} tab={__.group_tab_settings} disabled>
+                  Settings
+                </TabPane>
 
-          </Tab>
+              </TabbedArea>
 
-          <Tab label={__.group_tab_members}>
-            <MemberList groupId={this.state.id} isVisible={this.state.tabSelected === 1}/>
-          </Tab>
+            </Col>
+          </Row>
 
-          <Tab label={__.group_tab_meetings}>
-            <MeetingList groupId={this.state.id} isVisible={this.state.tabSelected === 2} />
-          </Tab>
-
-          <Tab label={__.group_tab_settings}>
-            Nothing yet ...
-          </Tab>
-
-        </Tabs>
-
+        </Grid>
       </div>
     );
   }

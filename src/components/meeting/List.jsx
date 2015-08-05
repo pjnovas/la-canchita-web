@@ -6,8 +6,8 @@ import MeetingItem from "./Item.jsx";
 
 import ReactListener from "../ReactListener";
 
-import { Link } from "react-router";
-import { List, FontIcon, FloatingActionButton } from "material-ui";
+import { Row, Col, ListGroup } from "react-bootstrap";
+import { ActionButton } from "../controls";
 
 export default class MeetingList extends ReactListener {
 
@@ -40,31 +40,33 @@ export default class MeetingList extends ReactListener {
     var canCreate = true; //this.editors.indexOf(myRole) > -1;
 
     return (
-      <div>
+      <Row>
+        <Col xs={12}>
 
-        <List>
-        {active.map(meeting => {
-          return <MeetingItem key={meeting.id} model={meeting}/>;
-        })}
-        </List>
+          <ListGroup>
+            {active.map(meeting => {
+              return <MeetingItem key={meeting.id} model={meeting}/>;
+            })}
+          </ListGroup>
 
-        { past.length ?
-        <List subheader={__.meeting_past}>
-          {past.map(meeting => {
-            return <MeetingItem key={meeting.id} model={meeting} />;
-          })}
-        </List>
-        : null }
+          { past.length ?
+          <div>
+            <h4>{__.meeting_past}</h4>
+            <ListGroup>
+              {past.map(meeting => {
+                return <MeetingItem key={meeting.id} model={meeting} />;
+              })}
+            </ListGroup>
+          </div>
+          : null }
 
-        { this.props.isVisible && canCreate ?
-        <FloatingActionButton primary={true} tooltip={__.group_create}
-          containerElement={<Link to="meetingnew" params={{groupId: this.state.gid}} />}
-          linkButton={true} style={Theme.css.actionButton} >
-          <FontIcon className="material-icons">add</FontIcon>
-        </FloatingActionButton>
-        : null }
+          { canCreate ?
+            <ActionButton bsStyle="primary" icon="plus"
+              to="meetingnew" params={{groupId: this.state.gid}}/>
+          : null }
 
-      </div>
+        </Col>
+      </Row>
     );
   }
 
