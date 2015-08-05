@@ -75,7 +75,7 @@ export default class GroupList extends ReactListener {
           </Col>
         </Row>
 
-        <ActionButton bsStyle="primary" icon="facebook" to="groupnew" />
+        <ActionButton bsStyle="primary" icon="plus" to="groupnew" />
       </Grid>
     );
   }

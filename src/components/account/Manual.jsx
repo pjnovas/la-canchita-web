@@ -9,7 +9,7 @@ export default class Manual extends React.Component {
     let recoverBtn = (
       <OverlayTrigger placement='top' overlay={<Tooltip>{__.account_recover_info}</Tooltip>}>
         <Button onClick={ e => {this.props.onRecover(e); }}>
-          <Icon name="facebook" />
+          <Icon name="refresh" />
         </Button>
       </OverlayTrigger>
     );

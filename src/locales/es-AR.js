@@ -50,7 +50,7 @@ export default {
   "group_create": "Crear un grupo",
   "group_card_open": "Abrir",
   "group_card_accept": "Aceptar",
-  "group_card_decline": "Ignorar",
+  "group_card_decline": "Rechazar",
   "group_card_invitation": "Invitación",
   "group_card_invitation_by": "por {1}, {2}",
 

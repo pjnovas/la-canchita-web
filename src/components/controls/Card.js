@@ -23,7 +23,7 @@ export default class Card extends React.Component {
 
               <Col xs={2} sm={1}>
                 <div className="avatar">
-                  <Icon name="facebook" />
+                  <Icon name={this.props.hicon} />
                 </div>
               </Col>
 

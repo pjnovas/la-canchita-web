@@ -14,7 +14,7 @@ export default class Header extends React.Component {
       {(this.props.backto ?
         <ul className="nav navbar-nav navbar-left">
           <NavItemLink className="navbar-back" to={this.props.backto} params={this.props.backparams}>
-            <Icon name="twitter" />
+            <Icon name="arrow-left" />
           </NavItemLink>
         </ul>
       : null )}

@@ -5,7 +5,7 @@ import GroupActions from "../../actions/Group";
 import MemberActions from "../../actions/Member";
 
 import { Button } from "react-bootstrap";
-import { Card } from "../controls";
+import { Card, Icon } from "../controls";
 
 export default class GroupItem extends React.Component {
 
@@ -47,12 +47,14 @@ export default class GroupItem extends React.Component {
 
       actions = [
 
-        (<Button bsStyle="link"
-          onClick={ e => { this.onAcceptClick(e); } }>{__.group_card_accept}
+        (<Button bsStyle="link" className="text-success"
+          onClick={ e => { this.onAcceptClick(e); } }>
+          <Icon name="check" />{__.group_card_accept}
         </Button>),
 
-        (<Button bsStyle="link"
-          onClick={ e => { this.onDeclineClick(e); } }>{__.group_card_decline}
+        (<Button bsStyle="link" className="text-danger"
+          onClick={ e => { this.onDeclineClick(e); } }>
+          <Icon name="times" />{__.group_card_decline}
         </Button>)
 
       ];
@@ -61,6 +63,7 @@ export default class GroupItem extends React.Component {
     return (
       <Card
         htitle={htitle}
+        hicon="ticket"
         hsubtitle={subtitle}
         title={model.title}
         description={model.description}

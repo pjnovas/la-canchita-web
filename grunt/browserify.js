@@ -2,7 +2,10 @@ var _ = require('lodash');
 
 var options = {
   //banner: '<%= banner %>',
-  debug: false,
+  browserifyOptions: {
+    debug: true
+  },
+  debug: true,
   extension: [ '.js', '.jsx' ],
   transform: [
     [ 'babelify'/*, { 'stage': 2 }*/ ],
