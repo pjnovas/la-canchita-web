@@ -23,8 +23,9 @@ export default class GroupItem extends React.Component {
 
   render() {
     let model = this.props.model;
-    //TODO: remove this hardcode [true]
-    let isInvite = true; // = model.member.state === "pending";
+
+    let isInvite = model.member.state === "pending";
+    //let isInvite = true; > for test invite cards
 
     let htitle = "";
     let subtitle = "";
@@ -47,12 +48,12 @@ export default class GroupItem extends React.Component {
 
       actions = [
 
-        (<Button bsStyle="link" className="text-success"
+        (<Button bsStyle="link"
           onClick={ e => { this.onAcceptClick(e); } }>
           <Icon name="check" />{__.group_card_accept}
         </Button>),
 
-        (<Button bsStyle="link" className="text-danger"
+        (<Button bsStyle="link"
           onClick={ e => { this.onDeclineClick(e); } }>
           <Icon name="times" />{__.group_card_decline}
         </Button>)
@@ -76,41 +77,3 @@ export default class GroupItem extends React.Component {
 };
 
 GroupItem.displayName = "GroupItem";
-
-/*
-
-<Card style={ {margin: "20px 0"} }>
-
-        { isInvite ?
-        <CardHeader
-          title={__.group_card_invitation}
-          subtitle={subtitle}
-          avatar={
-            <Avatar icon={<FontIcon className="material-icons">arrow_forward</FontIcon>} />
-          }
-        />
-        : null }
-
-        <CardMedia overlay={<CardTitle title={model.title}/>} style={media}>
-          <img src={ "/images/groups/" + model.picture }/>
-        </CardMedia>
-
-        <CardText>{model.description}</CardText>
-
-        <CardActions>
-         { isInvite ?
-          <div>
-            <FlatButton label={__.group_card_decline}
-              onClick={ e => { this.onDeclineClick(e); } }/>
-
-            <FlatButton label={__.group_card_accept}
-              onClick={ e => { this.onAcceptClick(e); } }/>
-          </div>
-          :
-            <FlatButton linkButton={true} label={__.group_card_open}
-              containerElement={<Link to="group" params={{groupId: model.id}} />} />
-          }
-        </CardActions>
-      </Card>
-
-      */

@@ -1,12 +1,10 @@
 
 import DropPicture from "./DropPicture.jsx";
-import { Paper, FlatButton, FontIcon, RaisedButton, TextField } from "material-ui";
+
+import { Input, Button, Row, Col } from "react-bootstrap";
+import { Icon, Divider } from "../controls";
 
 export default class GroupForm extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   changeTitle(e) {
     this.props.onChange({ title: e.target.value });
@@ -25,44 +23,66 @@ export default class GroupForm extends React.Component {
   }
 
   render() {
-    var css = Theme.css;
-    var iconcss = Theme.merge("raisedButtonLink", "right");
 
     return (
-      <Paper zDepth={1} rounded={true} style={css.form}>
+      <form>
 
-        <h1>{this.props.formTitle}</h1>
-        <div className="divider"></div>
+        <Row>
+          <Col xs={12}>
+            <h1>{this.props.formTitle}</h1>
+          </Col>
+        </Row>
 
-        <DropPicture picture={this.props.picture}
-          onChangePicture={ pic => { this.changePicture(pic); }} />
+        <Divider />
 
-        <div className="divider"></div>
+        <Row>
+          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
 
-        <TextField floatingLabelText={__.group_title}
-          fullWidth={true}
-          hintText={__.group_title_hint}
-          onChange={e => { this.changeTitle(e); }}
-          value={this.props.title} />
+            <DropPicture picture={this.props.picture}
+              onChangePicture={ pic => { this.changePicture(pic); }} />
 
-        <TextField floatingLabelText={__.group_description} multiLine={true}
-          fullWidth={true} rows={3}
-          hintText={__.group_description_hint}
-          onChange={e => { this.changeDescription(e); }}
-          value={this.props.description} />
+          </Col>
+        </Row>
 
-        <div style={css.buttonsSection}>
-          <FlatButton label={__.cancel} default={true} linkButton={true}
-            onClick={ e => { this.props.onCancel(e); } } style={css.left}>
-          </FlatButton>
+        <Row>
+          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
 
-          <RaisedButton primary={true} label={__.save} style={css.right}
-            onClick={ e => { this.save(e); } }>
-            <FontIcon className="material-icons" style={iconcss}>check</FontIcon>
-          </RaisedButton>
-        </div>
+            <Input type="text" label={__.group_title}
+              placeholder={__.group_title_hint}
+              onChange={e => { this.changeTitle(e); }}
+              value={this.props.title} />
 
-      </Paper>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+
+            <Input type="textarea" label={__.group_description} rows="4"
+              placeholder={__.group_description_hint}
+              onChange={e => { this.changeDescription(e); }}
+              value={this.props.description} />
+
+          </Col>
+        </Row>
+
+        <Divider />
+
+        <Row>
+          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+
+            <Button bsStyle="link" onClick={ e => {this.props.onCancel(e); } }>
+              {__.cancel}
+            </Button>
+
+            <Button bsStyle="success" onClick={ e => { this.save(e); } } className="pull-right">
+              {__.save}
+            </Button>
+
+          </Col>
+        </Row>
+
+      </form>
     );
   }
 

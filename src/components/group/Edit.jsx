@@ -60,21 +60,27 @@ export default class GroupEdit extends ReactListener {
       <div>
         <Header backto="group" backparams={ { groupId: this.state.id }} />
 
+        <Grid>
+
         {this.state.loading ? __.loading :
 
-        <Form
-          formTitle={__.group_title_edit}
-          loading={ this.state.saving }
+          <Paper skipHeader>
+            <Form
+              formTitle={__.group_title_edit}
+              loading={ this.state.saving }
 
-          title={ this.state.title }
-          description={ this.state.description }
-          picture={ this.state.picture }
+              title={ this.state.title }
+              description={ this.state.description }
+              picture={ this.state.picture }
 
-          onChange={ model => { this.onChange(model); }}
-          onSave={ model => { this.onSaveClick(model); }}
-          onCancel={ () => { this.onCancel(); }} />
+              onChange={ model => { this.onChange(model); }}
+              onSave={ model => { this.onSaveClick(model); }}
+              onCancel={ () => { this.onCancel(); }} />
+
+          </Paper>
         }
 
+        </Grid>
       </div>
     );
   }

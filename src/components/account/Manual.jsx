@@ -1,6 +1,6 @@
 
 import { Input, Button, Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
-import { Icon, Divider } from "../controls";
+import { Icon } from "../controls";
 
 export default class Manual extends React.Component {
 

@@ -7,7 +7,7 @@ export default class Header extends React.Component {
 
   render() {
     var profilePic = window.user ? window.user.picture : null;
-    this.props.backto = "groups";
+
     return (
       <Navbar fluid={true} fixedTop={true} className="z2">
 

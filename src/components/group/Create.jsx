@@ -5,6 +5,9 @@ import GroupActions from "../../actions/Group";
 import Header from "../Header.jsx";
 import Form from "./Form.jsx";
 
+import { Grid } from "react-bootstrap";
+import { Paper } from "../controls";
+
 import ReactListener from "../ReactListener";
 
 export default class GroupCreate extends ReactListener {
@@ -53,17 +56,23 @@ export default class GroupCreate extends ReactListener {
       <div>
         <Header backto="groups" />
 
-        <Form
-          formTitle={__.group_title_create}
-          loading={ this.state.creating }
+        <Grid>
+          <Paper skipHeader>
 
-          title={ this.state.title }
-          description={ this.state.description }
-          picture={ this.state.picture }
+            <Form
+              formTitle={__.group_title_create}
+              loading={ this.state.creating }
 
-          onChange={ model => { this.onChange(model); }}
-          onSave={ model => { this.onSaveClick(model); }}
-          onCancel={ () => { this.onCancel(); }} />
+              title={ this.state.title }
+              description={ this.state.description }
+              picture={ this.state.picture }
+
+              onChange={ model => { this.onChange(model); }}
+              onSave={ model => { this.onSaveClick(model); }}
+              onCancel={ () => { this.onCancel(); }} />
+
+          </Paper>
+        </Grid>
 
       </div>
     );
