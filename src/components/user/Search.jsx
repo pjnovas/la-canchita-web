@@ -5,7 +5,9 @@ import UserActions from "../../actions/User";
 import UserList from "./List.jsx";
 
 import ReactListener from "../ReactListener";
-import { Dialog, FontIcon, FlatButton, RaisedButton, TextField, IconButton } from "material-ui";
+
+import { Button, Row, Col, Modal, Input, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Icon } from "../controls";
 
 export default class SearchUser extends ReactListener {
 
@@ -14,11 +16,14 @@ export default class SearchUser extends ReactListener {
 
     this.state.users = [];
     this.state.invites = [];
+    this.state.search = "";
+
     this.store = UserStore;
   }
 
   onKeyUp(e){
     var value = e.target.value;
+    this.setState({ search: value });
 
     if (value.trim().length === 0){
       this.clear();
@@ -89,7 +94,7 @@ export default class SearchUser extends ReactListener {
   }
 
   clear() {
-    this.refs.searchbox.setValue("");
+    this.setState({ search: "" });
     this.setState({ users: [] });
 
     this.setState({ showAddEmail: false });
@@ -110,47 +115,61 @@ export default class SearchUser extends ReactListener {
   }
 
   render() {
-    var iconcss = Theme.merge("raisedButtonLink", "right");
-    var counter = __.member_invitations_count
+    let counter = __.member_invitations_count
       .replace('{1}', this.state.invites.length)
       .replace('{2}', 10); //TODO: set a dynamic max
 
-    let actions = [
-      <FlatButton label={__.close} secondary={true}
-        onClick={ e => { this.props.onClose(e); } } />,
+    let addEmail;
 
-      <RaisedButton primary={true} label={__.invite}
-        onClick={ e => { this.onSend(e); } }>
-        <FontIcon className="material-icons" style={iconcss}>send</FontIcon>
-      </RaisedButton>
-    ];
+    if (this.state.showAddEmail) {
+      addEmail = (
+        <OverlayTrigger placement='top' overlay={<Tooltip>{__.user_add_by_email}</Tooltip>}>
+          <Button onClick={ e => {this.addEmail(e); }}>
+            <Icon name="envelope" />
+          </Button>
+        </OverlayTrigger>
+      );
+    }
 
     return (
 
-      <Dialog openImmediately={true} title={__.member_invite_group_title}
-        actions={actions} modal={true}>
+      <Modal show={this.props.show} onHide={this.props.onClose}>
 
-        <span style={Theme.css.right}>{counter}</span>
+        <Modal.Header closeButton>
+          <Modal.Title>{__.member_invite_group_title}</Modal.Title>
+        </Modal.Header>
 
-        <UserList message={__.member_invite_message}
-          users={this.state.invites}
-          onSelect={ invite => { this.onSelectInvite(invite); } } />
+        <Modal.Body>
 
-        <TextField floatingLabelText={__.user_search} ref="searchbox"
-          hintText={__.user_search_hint}
-          onKeyUp={e => { this.onKeyUp(e); }} />
+          <span>{counter}</span>
 
-        { this.state.showAddEmail ?
-          <IconButton tooltip={__.user_add_by_email}
-            onClick={ e => { this.addEmail(e) } }>
-              <FontIcon className="material-icons">mail</FontIcon>
-          </IconButton>
-        : null }
+          <UserList message={__.member_invite_message}
+            users={this.state.invites}
+            onSelect={ invite => { this.onSelectInvite(invite); } } />
 
-        <UserList users={this.state.users}
-          onSelect={ user => { this.onSelect(user); } } />
+          <Input type="text" label={__.user_search}
+            placeholder={__.user_search_hint}
+            value={this.state.search}
+            onChange={e => { this.onKeyUp(e); }} />
 
-      </Dialog>
+          {addEmail}
+
+          <UserList users={this.state.users}
+            onSelect={ user => { this.onSelect(user); } } />
+
+        </Modal.Body>
+
+        <Modal.Footer>
+
+          <Button onClick={this.props.onClose}>Close</Button>
+
+           <Button bsStyle="success" className="pull-right"
+              onClick={ e => { this.onSend(e); } } >
+            {__.invite}
+          </Button>
+        </Modal.Footer>
+
+      </Modal>
     );
   }
 

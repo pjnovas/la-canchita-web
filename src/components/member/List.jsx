@@ -57,8 +57,8 @@ export default class MemberList extends ReactListener {
       return;
     }
 
-    var users = [];
-    var emails = [];
+    let users = [];
+    let emails = [];
 
     invites.forEach( invite => {
       if (invite.isEmail){
@@ -81,29 +81,30 @@ export default class MemberList extends ReactListener {
   }
 
   render() {
-    var list = this.state.members;
+    let list = this.state.members;
 
-    var active = list.filter( member => {
+    let active = list.filter( member => {
       return member.state === "active";
     });
 
-    var pending = list.filter( member => {
+    let pending = list.filter( member => {
       return member.state === "pending";
     });
 
-    var skipIds = active.concat(pending).map( member => {
+    let skipIds = active.concat(pending).map( member => {
       return member.user.id;
     });
 
-    var me = active.find( member => {
+    let me = active.find( member => {
       return member.user.id === window.user.id;
     });
 
-    var myRole = me && me.role || "member";
-    var canInvite = this.inviters.indexOf(myRole) > -1;
+    let myRole = me && me.role || "member";
+    let canInvite = this.inviters.indexOf(myRole) > -1;
 
     return (
       <Row>
+
         <Col xs={12}>
 
           <ListGroup>
@@ -129,8 +130,16 @@ export default class MemberList extends ReactListener {
           : null }
 
           { canInvite ?
-            <ActionButton bsStyle="primary" icon="user-plus"
-              onClick={ e => { this.showInvite(e); }}/>
+            <div>
+              <ActionButton bsStyle="primary" icon="user-plus"
+                onClick={ e => { this.showInvite(e); }}/>
+
+              <UserInvite
+                skipIds={ skipIds }
+                show={this.state.showInvite}
+                onSelect={ users => { this.inviteUsers(users); } }
+                onClose={ () => { this.hideInvite(); } } />
+            </div>
           : null }
 
         </Col>
@@ -141,18 +150,3 @@ export default class MemberList extends ReactListener {
 };
 
 MemberList.displayName = "MemberList";
-
-/*
-
-<div>
-
-        { this.state.showInvite ?
-          <UserInvite
-            skipIds={ skipIds }
-            onSelect={ users => { this.inviteUsers(users); } }
-            onClose={ () => { this.hideInvite(); } } /> : null }
-
-
-      </div>
-
-      */

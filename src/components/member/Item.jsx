@@ -1,8 +1,8 @@
 
 import MemberStore from "../../stores/Member";
 
-import { Button, Row, Col, ListGroupItem } from "react-bootstrap";
-import { Avatar } from "../controls";
+import { Row, Col, ListGroupItem, DropdownButton, MenuItem } from "react-bootstrap";
+import { Avatar, Icon } from "../controls";
 
 export default class MemberItem extends React.Component {
 
@@ -50,40 +50,38 @@ export default class MemberItem extends React.Component {
 
     if (!isMe && myRole !== "member" && changeRoles.length) {
 
-      // check out for changing the icon to only a remove icon
-      // and the menu into a dropdown of roles
-      // http://material-ui.com/#/components/dropdown-menu
-/*
-      iconButtonElement = (
-        <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
-          <FontIcon color={Theme.colors.grey400}
-            className="material-icons">more_vert</FontIcon>
-        </IconButton>
-      );
-
       rightIconMenu = (
-        <IconMenu iconButtonElement={iconButtonElement} >
+        <DropdownButton title={<Icon name="ellipsis-v" />} noCaret pullRight className="btn-icon">
+
+          <MenuItem header>{__.member_change_role}</MenuItem>
 
           { changeRoles.map( role => {
-            return (<MenuItem
+            return (<MenuItem eventKey={role}
               onClick={ () => { this.props.changeRole(model.id, role); }} >
                 { this.roleName[role] }</MenuItem>)
           }) }
 
-          { canKick ? <MenuDivider /> : <MenuItem></MenuItem> }
-          { canKick ? <MenuItem
-            onClick={ e => { this.props.kickMember(model.id); } } >
+          { canKick ? <MenuItem divider /> : <MenuItem></MenuItem> }
+          { canKick ? <MenuItem onClick={ e => { this.props.kickMember(model.id); } } >
               {__.remove}</MenuItem> : <MenuItem></MenuItem> }
 
-        </IconMenu>
+        </DropdownButton>
       );
-*/
+
     }
 
     return (
-      <ListGroupItem>
-        <Avatar src={model.user.picture} />
-        <span>{model.user.name} - {roleName}</span>
+      <ListGroupItem className="row">
+        <Col xs={2} sm={1}>
+          <Avatar src={model.user.picture} />
+        </Col>
+        <Col xs={8} sm={10}>
+          <h3>{model.user.name}</h3>
+          <p>{roleName}</p>
+        </Col>
+        <Col xs={2} sm={1}>
+          {rightIconMenu}
+        </Col>
       </ListGroupItem>
     );
   }

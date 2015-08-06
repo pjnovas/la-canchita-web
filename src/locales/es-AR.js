@@ -77,6 +77,7 @@ export default {
   "member_role_moderator": "Moderador",
   "member_role_member": "Jugador",
 
+  "member_change_role": "Cambiar Rol",
   "member_invited": "Invitados",
   "member_invite_group_title": "Invitar al Grupo",
   "member_invitations_count": "Invitaciones ({1}/ {2})",

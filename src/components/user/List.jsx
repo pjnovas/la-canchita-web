@@ -1,6 +1,6 @@
 
 import UserItem from "./Item.jsx";
-import { List } from "material-ui";
+import { ListGroup } from "react-bootstrap";
 
 export default class UserList extends React.Component {
 
@@ -8,22 +8,23 @@ export default class UserList extends React.Component {
     var users = this.props.users;
 
     if (!users.length){
-      return (<List></List>);
+      return (<ListGroup></ListGroup>);
     }
 
     return (
-      <List>
-
+      <div>
         { !this.props.message ? null : <label>{this.props.message}</label> }
+        <ListGroup>
 
-        { users.length === 0 ? null :
-          users.map(user => {
-            return <UserItem key={user.id} model={user}
-              onSelect={ user => { this.props.onSelect(user); } } />;
-          })
-        }
+          { users.length === 0 ? null :
+            users.map(user => {
+              return <UserItem key={user.id} model={user}
+                onSelect={ user => { this.props.onSelect(user); } } />;
+            })
+          }
 
-      </List>
+        </ListGroup>
+      </div>
     );
   }
 

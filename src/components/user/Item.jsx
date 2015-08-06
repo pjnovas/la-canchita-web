@@ -1,5 +1,6 @@
 
-import { ListItem, Avatar } from "material-ui";
+import { ListGroupItem } from "react-bootstrap";
+import { Avatar } from "../controls";
 
 export default class UserItem extends React.Component {
 
@@ -7,10 +8,11 @@ export default class UserItem extends React.Component {
     var model = this.props.model;
 
     return (
-      <ListItem style={{ borderBottom: "1px solid #EAEAEA" }}
-        leftAvatar={<Avatar src={model.picture} />}
-        primaryText={model.name}
-        onClick={ e => { this.props.onSelect(this.props.model); } } />
+      <ListGroupItem className=""
+        onClick={ e => { this.props.onSelect(this.props.model); } } >
+        <Avatar src={model.picture} />
+        <span>{model.name}</span>
+      </ListGroupItem>
     );
   }
 
