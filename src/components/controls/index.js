@@ -5,6 +5,7 @@ import Avatar from "./Avatar";
 import Paper from "./Paper";
 import Divider from "./Divider";
 import ActionButton from "./ActionButton";
+import DatePicker from "./DatePicker";
 
 import Card from "./Card";
 
@@ -14,5 +15,6 @@ export {
   Paper,
   Divider,
   ActionButton,
-  Card
+  Card,
+  DatePicker
 };

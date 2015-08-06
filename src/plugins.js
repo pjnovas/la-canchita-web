@@ -3,7 +3,7 @@ import "babel-core/polyfill";
 import React from "react";
 
 import $ from "jquery";
-window.jQuery = $;
+window.$ = window.jQuery = $;
 
 import "bootstrap";
 

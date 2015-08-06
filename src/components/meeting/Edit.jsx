@@ -5,6 +5,9 @@ import MeetingActions from "../../actions/Meeting";
 import Header from "../Header.jsx";
 import Form from "./Form.jsx";
 
+import { Grid } from "react-bootstrap";
+import { Paper } from "../controls";
+
 import ReactListener from "../ReactListener";
 
 export default class MeetingEdit extends ReactListener {
@@ -62,23 +65,28 @@ export default class MeetingEdit extends ReactListener {
 
         {this.state.loading ? __.loading :
 
-        <Form
-          formTitle={__.meeting_title_edit}
-          loading={ this.state.saving }
+        <Grid>
+          <Paper skipHeader>
+            <Form
+              formTitle={__.meeting_title_edit}
+              loading={ this.state.saving }
 
-          title={ this.state.title }
-          info={ this.state.info }
-          place={ this.state.place }
+              title={ this.state.title }
+              info={ this.state.info }
+              place={ this.state.place }
 
-          confirmation={ this.state.confirmation }
-          replacements={ this.state.replacements }
+              confirmation={ this.state.confirmation }
+              replacements={ this.state.replacements }
 
-          min={ this.state.min }
-          max={ this.state.max }
+              min={ this.state.min }
+              max={ this.state.max }
 
-          onChange={ model => { this.onChange(model); }}
-          onSave={ model => { this.onSaveClick(model); }}
-          onCancel={ () => { this.onCancel(); }} />
+              onChange={ model => { this.onChange(model); }}
+              onSave={ model => { this.onSaveClick(model); }}
+              onCancel={ () => { this.onCancel(); }} />
+          </Paper>
+        </Grid>
+
         }
 
       </div>

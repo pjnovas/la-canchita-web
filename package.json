@@ -5,6 +5,7 @@
   "author": "Pablo Novas <pjnovas@gmail.com>",
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "eonasdan-bootstrap-datetimepicker": "^4.15.35",
     "events": "^1.0.2",
     "flux": "^2.0.3",
     "jquery": "^2.1.4",

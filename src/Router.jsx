@@ -24,23 +24,24 @@ if (window.user){
 
 var routes = (
   <Route name="root" handler={App} path="/">
-    <Route name="home" path="/" handler={HomeHandler} />
+    <Route path="/" name="home" handler={HomeHandler} />
 
-    <Route name="groups" path="/" handler={HomeHandler} />
-    <Route name="groupnew" path="/groups/new" handler={GroupCreate} />
-    <Route name="groupedit" path="/groups/:groupId/edit" handler={GroupEdit} />
-    <Route name="group" path="/groups/:groupId" handler={GroupView} />
+    <Route path="/groups" name="groups" handler={HomeHandler} />
+    <Route path="/groups/new" name="groupnew" handler={GroupCreate} />
+    <Route path="/groups/:groupId" name="group" handler={GroupView} />
+    <Route path="/groups/:groupId/edit" name="groupedit" handler={GroupEdit} />
+    <Route path="/groups/:groupId/:tab" name="groupmembers" handler={GroupView} />
 
-    <Route name="meetingnew" path="/meetings/:groupId/new" handler={MeetingCreate} />
-    <Route name="meeting" path="/meetings/:meetingId" handler={MeetingView} />
-    <Route name="meetingedit" path="/meetings/:meetingId/edit" handler={MeetingEdit} />
+    <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingCreate} />
+    <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />
+    <Route path="/meetings/:meetingId/edit" name="meetingedit" handler={MeetingEdit} />
 
-    <Route name="profile" path="/profile" handler={Profile} />
-    <Route name="login" path="/login" handler={Login} />
-    <Route name="register" path="/register" handler={Login} />
-    <Route name="recover" path="/recover" handler={Login} />
+    <Route path="/profile" name="profile" handler={Profile} />
+    <Route path="/login" name="login" handler={Login} />
+    <Route path="/register" name="register" handler={Login} />
+    <Route path="/recover" name="recover" handler={Login} />
 
-    <Route name="notfound" path="/notfound" handler={NotFound} />
+    <Route path="/notfound" name="notfound" handler={NotFound} />
     <NotFoundRoute handler={NotFound} />
 
     <DefaultRoute handler={HomeHandler}/>

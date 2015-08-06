@@ -141,7 +141,7 @@ export default class SearchUser extends ReactListener {
 
         <Modal.Body>
 
-          <span>{counter}</span>
+          <span className="pull-right">{counter}</span>
 
           <UserList message={__.member_invite_message}
             users={this.state.invites}

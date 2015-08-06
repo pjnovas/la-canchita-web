@@ -5,6 +5,9 @@ import MeetingActions from "../../actions/Meeting";
 import Header from "../Header.jsx";
 import Form from "./Form.jsx";
 
+import { Grid } from "react-bootstrap";
+import { Paper } from "../controls";
+
 import ReactListener from "../ReactListener";
 
 export default class MeetingCreate extends ReactListener {
@@ -53,25 +56,31 @@ export default class MeetingCreate extends ReactListener {
 
     return (
       <div>
-        <Header backto="group" backparams={{ groupId: this.state.gid }} />
+        <Header backto="group" backparams={{ groupId: this.state.gid, tab: "meetings" }} />
 
-        <Form
-          formTitle={__.meeting_title_create}
-          loading={ this.state.creating }
+        <Grid>
+          <Paper skipHeader>
 
-          title={ this.state.title }
-          info={ this.state.info }
-          place={ this.state.place }
+            <Form
+              formTitle={__.meeting_title_create}
+              loading={ this.state.creating }
 
-          confirmation={ this.state.confirmation }
-          replacements={ this.state.replacements }
+              title={ this.state.title }
+              info={ this.state.info }
+              place={ this.state.place }
 
-          min={ this.state.min }
-          max={ this.state.max }
+              confirmation={ this.state.confirmation }
+              replacements={ this.state.replacements }
 
-          onChange={ model => { this.onChange(model); }}
-          onSave={ model => { this.onSaveClick(model); }}
-          onCancel={ () => { this.onCancel(); }} />
+              min={ this.state.min }
+              max={ this.state.max }
+
+              onChange={ model => { this.onChange(model); }}
+              onSave={ model => { this.onSaveClick(model); }}
+              onCancel={ () => { this.onCancel(); }} />
+
+          </Paper>
+        </Grid>
 
       </div>
     );

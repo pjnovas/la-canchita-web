@@ -22,6 +22,15 @@ export default class GroupView extends ReactListener {
 
     this.editors = ["owner", "admin"];
     this.destroyers = ["owner"];
+
+    switch (this.props.params.tab){
+      case "members":
+        this.state.selectedKey = 2;
+      break;
+      case "meetings":
+        this.state.selectedKey = 3;
+      break;
+    }
   }
 
   componentDidMount() {

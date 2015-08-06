@@ -1,6 +1,6 @@
 
-import { Paper, FlatButton, FontIcon, RaisedButton, TextField,
-  DatePicker, TimePicker, Toggle, SelectField, ClearFix } from "material-ui";
+import { Input, Button, Row, Col } from "react-bootstrap";
+import { Icon, Divider, DatePicker } from "../controls";
 
 export default class MeetingForm extends React.Component {
 
@@ -31,28 +31,7 @@ export default class MeetingForm extends React.Component {
   }
 
   render() {
-    let css = Theme.css;
-    let iconcss = Theme.merge("raisedButtonLink", "right");
-    let iconic = { maxWidth: "90%" };
-
     let today = new Date();
-
-    let ctrlLabel = {
-      width: "40px",
-      display: "inline-block"
-    };
-
-    let minCtrl = {
-      maxWidth: "50px",
-      margin: "0 10px"
-    };
-
-    let midCtrl = {
-      maxWidth: "130px",
-      margin: "0 10px"
-    };
-
-    let iconMiddle = Theme.merge(minCtrl, { verticalAlign: "middle" });
 
     let periods = [
       {id:"weeks", name:"Semanas"},
@@ -65,8 +44,82 @@ export default class MeetingForm extends React.Component {
     // https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
 
     return (
+      <form>
 
-      <Paper zDepth={1} rounded={true} style={css.form}>
+        <Row>
+          <Col xs={12}>
+            <h1>{this.props.formTitle}</h1>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={6}>
+
+            <Input type="text" label={__.meeting_place}
+              placeholder={__.meeting_place_hint}
+              onChange={e => { this.changeField('place', e.target.value); }}
+              value={this.props.place} />
+
+            <Icon name="place" />
+
+          </Col>
+
+          <Col xs={3}>
+            <DatePicker label={__.meeting_when_date} value={this.props.when} />
+          </Col>
+
+          <Col xs={3}>
+            <Input type="text" label={__.meeting_when_time}
+              value={this.props.when} />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12}>
+
+            <Input type="text" label={__.meeting_title}
+              placeholder={__.meeting_title_hint}
+              onChange={e => { this.changeField('title', e.target.value); }}
+              value={this.props.title} />
+
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12}>
+
+            <Input type="textarea" label={__.meeting_info} rows="3"
+              placeholder={__.meeting_info_hint}
+              onChange={e => { this.changeField('info', e.target.value); }}
+              value={this.props.description} />
+
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+
+            <Button bsStyle="link" onClick={ e => {this.props.onCancel(e); } }>
+              {__.cancel}
+            </Button>
+
+            <Button bsStyle="success" onClick={ e => { this.save(e); } } className="pull-right">
+              {__.save}
+            </Button>
+
+          </Col>
+        </Row>
+
+      </form>
+    );
+  }
+
+};
+
+MeetingForm.displayName = "MeetingForm";
+
+/*
+<Paper zDepth={1} rounded={true} style={css.form}>
 
         <h1>{this.props.formTitle}</h1>
         <div className="divider"></div>
@@ -173,42 +226,5 @@ export default class MeetingForm extends React.Component {
             <FontIcon className="material-icons" style={iconcss}>check</FontIcon>
           </RaisedButton>
         </div>
-
-      </Paper>
-    );
-  }
-
-};
-
-MeetingForm.displayName = "MeetingForm";
-
-/*
- <div className="meeting-confirmation">
-
-          <FontIcon className="material-icons">event_available</FontIcon>
-          <TextField floatingLabelText="Inicio" fullWidth={true}
-            hintText="1" value={this.state.confirmFrom}
-            onChange={e => { this.changeConfirmation('confirmFrom', e.target.value); }} />
-
-          <label>antes</label>
-
-          <div className="half-width-control date-field">
-            <DatePicker hintText={__.meeting_when_confirm_start_hint} autoOk={true}
-              minDate={today} />
-          </div>
-
-          <div className="half-width-control time-field">
-            <TimePicker format="24hr"/>
-          </div>
-
-          <FontIcon className="material-icons">event_busy</FontIcon>
-          <div className="half-width-control date-field">
-            <DatePicker hintText={__.meeting_when_confirm_end_hint} autoOk={true}
-              minDate={today} />
-          </div>
-
-          <div className="half-width-control time-field">
-            <TimePicker format="24hr" />
-          </div>
-        </div>
+</Paper>
         */
