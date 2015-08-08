@@ -1,7 +1,9 @@
 import plugins from "./plugins";
 
 import "moment/locale/es"; //use spanish
-//moment.locale("es"); // not necesary for now
+import moment from "moment";
+moment.locale("es");
+window.moment = moment;
 
 import Locales from "./locales";
 var locales = new Locales("es-AR");

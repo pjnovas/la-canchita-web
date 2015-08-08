@@ -1,4 +1,9 @@
 export default {
+  "code": "es-AR",
+  "date_format": "DD/MM/YYYY",
+  "time_format": "HH:mm",
+  "full_datetime_format": "DD/MM/YYYY HH:mm",
+
   "app_title": "la canchita",
 
   "login": "Ingresar",
@@ -102,10 +107,36 @@ export default {
   "meeting_place_hint": "Juan B. Justo 1234, Ciudad Autónoma de Buenos Aires",
   "meeting_when_date": "Fecha",
   "meeting_when_time": "Hora",
-  "meeting_when_confirm_start_hint": "Desde",
-  "meeting_when_confirm_end_hint": "Hasta",
+  "meeting_when_confirm_start_label": "Inicio",
+  "meeting_when_confirm_end_label": "Fin",
+  "meeting_when_confirm_end_tail": "antes",
   "meeting_has_limit": "Límite de jugadores",
   "meeting_min": "mínimo",
   "meeting_max": "máximo",
+
+  "datepicker": {
+    "locale": "es",
+    "tooltips": {
+      "today": "Ir a HOY",
+      "clear": "Limpiar selección",
+      "close": "Cerrar",
+      "selectMonth": "Seleccionar mes",
+      "prevMonth": "Mes anterior",
+      "nextMonth": "Próximo mes",
+      "selectYear": "Seleccionar Año",
+      "prevYear": "Año anterior",
+      "nextYear": "Próximo Año",
+      "selectDecade": "Seleccionar década",
+      "prevDecade": "Década anterior",
+      "nextDecade": "Próxima década",
+      "prevCentury": "Siglo anterior",
+      "nextCentury": "Pŕoximo siglo"
+    }
+  },
+
+  "periods_weeks": "Semanas",
+  "periods_days": "Días",
+  "periods_hours": "Horas",
+  "periods_minutes": "Minutos"
 
 };

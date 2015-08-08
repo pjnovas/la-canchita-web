@@ -6,6 +6,7 @@ import Paper from "./Paper";
 import Divider from "./Divider";
 import ActionButton from "./ActionButton";
 import DatePicker from "./DatePicker";
+import Period from "./Period";
 
 import Card from "./Card";
 
@@ -16,5 +17,6 @@ export {
   Divider,
   ActionButton,
   Card,
-  DatePicker
+  DatePicker,
+  Period
 };
