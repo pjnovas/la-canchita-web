@@ -69,6 +69,7 @@ export default class MeetingCreate extends ReactListener {
               info={ this.state.info }
               place={ this.state.place }
               when={ this.state.when }
+              duration={ this.state.duration }
 
               confirmation={ this.state.confirmation }
               confirmStart={ this.state.confirmStart }

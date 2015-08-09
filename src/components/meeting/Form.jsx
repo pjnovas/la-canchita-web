@@ -11,21 +11,32 @@ export default class MeetingForm extends React.Component {
     this.state.showLimits = (this.props.min > 0 || this.props.max > 0 ? true : false);
   }
 
-  changeField(prop, value){
+  changeProp(prop, value){
+
+    if (prop.indexOf("when") > -1){
+      var type = prop.split("_")[1];
+      var when = this.props.when;
+
+      if(when && type === "date"){
+        value.hours(when.hours()).minutes(when.minutes());
+      }
+      else if(when && type === "time"){
+        value.date(when.date()).month(when.month()).year(when.year());
+      }
+
+      prop = "when";
+    }
+
     this.props.onChange({ [prop]: value });
   }
 
-  changeConfirmRate(confirm, prop, value){
-    this.props[confirm][prop] = value;
-    this.props.onChange({ [confirm]: this.props[confirm] });
+  changePeriod(prop, type, value){
+    this.props[prop][type] = value;
+    this.props.onChange({ [type]: this.props[prop] });
   }
 
   changeState(prop, value){
     this.setState({ [prop]: value });
-  }
-
-  toggleLimits(e, toggled){
-    this.setState({ showLimits: toggled });
   }
 
   save(){
@@ -49,8 +60,9 @@ export default class MeetingForm extends React.Component {
         .subtract(this.props.confirmEnd.times, this.props.confirmEnd.period);
     }
 
-    //TODO: place:
+    //TODO: place map
     // https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
+    // check lib https://github.com/tomchentw/react-google-maps
 
     return (
       <form>
@@ -64,28 +76,36 @@ export default class MeetingForm extends React.Component {
         <Divider/>
 
         <Row>
-          <Col xs={6}>
+          <Col xs={12}>
 
             <Input type="text" label={__.meeting_place}
               placeholder={__.meeting_place_hint}
-              onChange={e => { this.changeField("place", e.target.value); }}
+              onChange={e => { this.changeProp("place", e.target.value); }}
               value={this.props.place} />
 
-            <Icon name="place" />
-
           </Col>
+        </Row>
 
+        <Row>
           <Col xs={3}>
             <DatePicker label={__.meeting_when_date} value={this.props.when}
-              format={__.date_format}
-              onChange={ value => { this.changeField("when", value); }} />
+              format={__.date_format} className="date"
+              onChange={ value => { this.changeProp("when_date", value); }} />
           </Col>
 
           <Col xs={3}>
             <DatePicker label={__.meeting_when_time} value={this.props.when}
-              format={__.time_format}
-              onChange={ value => { this.changeField("when", value); }}/>
+              format={__.time_format} className="time"
+              onChange={ value => { this.changeProp("when_time", value); }}/>
           </Col>
+
+          <Col xs={6}>
+            <Period label={__.meeting_duration}
+              times={this.props.duration.times}
+              period={this.props.duration.period}
+              onChange={ (period, value) => { this.changePeriod("duration", period, value); }}/>
+          </Col>
+
         </Row>
 
         <Row>
@@ -93,7 +113,7 @@ export default class MeetingForm extends React.Component {
 
             <Input type="text" label={__.meeting_title}
               placeholder={__.meeting_title_hint}
-              onChange={e => { this.changeField("title", e.target.value); }}
+              onChange={e => { this.changeProp("title", e.target.value); }}
               value={this.props.title} />
 
           </Col>
@@ -104,7 +124,7 @@ export default class MeetingForm extends React.Component {
 
             <Input type="textarea" label={__.meeting_info} rows="3"
               placeholder={__.meeting_info_hint}
-              onChange={e => { this.changeField("info", e.target.value); }}
+              onChange={e => { this.changeProp("info", e.target.value); }}
               value={this.props.description} />
 
           </Col>
@@ -114,7 +134,7 @@ export default class MeetingForm extends React.Component {
           <Col xs={12}>
             <Input type="checkbox" label={__.meeting_has_confirmation}
               checked={this.props.confirmation ? true : false }
-              onChange={ (e) => { this.changeField("confirmation", e.target.checked); } }/>
+              onChange={ (e) => { this.changeProp("confirmation", e.target.checked); } }/>
           </Col>
         </Row>
 
@@ -124,15 +144,13 @@ export default class MeetingForm extends React.Component {
             tailLabel={__.meeting_when_confirm_end_tail}
             times={this.props.confirmStart.times}
             period={this.props.confirmStart.period}
-            beforeDate={this.props.when}
-            onChange={ (period, value) => { this.changeConfirmRate("confirmStart", period, value); }}/>
+            onChange={ (period, value) => { this.changePeriod("confirmStart", period, value); }}/>
 
           <Period label={__.meeting_when_confirm_end_label}
             tailLabel={__.meeting_when_confirm_end_tail}
             times={this.props.confirmEnd.times}
             period={this.props.confirmEnd.period}
-            beforeDate={this.props.when}
-            onChange={ (period, value) => { this.changeConfirmRate("confirmEnd", period, value); }}/>
+            onChange={ (period, value) => { this.changePeriod("confirmEnd", period, value); }}/>
 
           <Row>
             <Col xs={5} xsOffset={1} className="text-center">
@@ -144,6 +162,40 @@ export default class MeetingForm extends React.Component {
           </Row>
 
         </div>
+        : null }
+
+        <Divider/>
+
+        <Row>
+          <Col xs={12}>
+            <Input type="checkbox" label={__.meeting_has_limit}
+              checked={this.state.showLimits ? true : false }
+              onChange={ (e) => { this.changeState("showLimits", e.target.checked); } }/>
+          </Col>
+        </Row>
+
+        { this.state.showLimits ?
+        <Row>
+          <Col xs={3}>
+            <Input type="number" label={__.meeting_min}
+              placeholder={0} className="number-000" min={0} max={999} maxLength={3}
+              onChange={e => { this.changeProp("min", e.target.value); }}
+              value={this.props.min} />
+          </Col>
+          <Col xs={3}>
+            <Input type="number" label={__.meeting_max}
+              placeholder={0} className="number-000" min={0} max={999} maxLength={3}
+              onChange={e => { this.changeProp("max", e.target.value); }}
+              value={this.props.max} />
+          </Col>
+
+          <Col xs={6}>
+            <Input type="checkbox" label={__.meeting_replacements}
+              checked={this.props.replacements ? true : false }
+              onChange={ (e) => { this.changeProp("replacements", e.target.checked); } }/>
+          </Col>
+
+        </Row>
         : null }
 
         <Divider/>
@@ -171,140 +223,13 @@ export default class MeetingForm extends React.Component {
 MeetingForm.displayName = "MeetingForm";
 
 MeetingForm.defaultProps = {
+  duration: { times: 1, period: "hours" },
+  confirmation: false,
   confirmStart: { times: 2, period: "days" },
-  confirmEnd: { times: 2, period: "hours" }
+  confirmEnd: { times: 2, period: "hours" },
+  replacements: false,
 };
 
-
-
-/*
-
-  <div>
-          <Row>
-            <Col xs={2} xsOffset={1} className="text-vcenter">
-              Inicio
-            </Col>
-            <Col xs={2}>
-              <Input type="text" value={this.state.confirmFrom || 2}
-                onChange={e => { this.changeConfirmation('confirmFrom', e.target.value); }} />
-            </Col>
-            <Col xs={4}>
-              <Input type='select'
-                onChange={ e => { this.changeConfirmation('confirmFromPeriod', e.target.value); } }>
-              { periods.map( period => {
-                  return (<option key={period.id} value={period.id}>{period.name}</option>);
-                })
-              }
-              </Input>
-            </Col>
-            <Col xs={2} className="text-vcenter">
-              antes
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={2} xsOffset={1} className="text-vcenter">
-              Fin
-            </Col>
-            <Col xs={2}>
-              <Input type="text" value={this.state.confirmTo || 2}
-                onChange={e => { this.changeConfirmation('confirmTo', e.target.value); }} />
-            </Col>
-            <Col xs={4}>
-              <Input type='select'
-                onChange={ e => { this.changeConfirmation('confirmToPeriod', e.target.value); } }>
-              { periods.map( period => {
-                  return (<option key={period.id} value={period.id}>{period.name}</option>);
-                })
-              }
-              </Input>
-            </Col>
-            <Col xs={2} className="text-vcenter">
-              antes
-            </Col>
-          </Row>
-        </div>
-
-*/
-
-
-
-
-/*
-
-
-        <Toggle label={__.meeting_has_confirmation} className="meeting-switch"
-          value={this.props.confirmation}
-          onToggle={ (e, toggled) => { this.changeField('confirmation', toggled); } }/>
-
-        { this.props.confirmation ?
-        <div className="meeting-confirmation">
-
-          <FontIcon className="material-icons" style={iconMiddle}>event_available</FontIcon>
-          <span style={ctrlLabel}>Inicio</span>
-          <TextField fullWidth={true} style={minCtrl} className="input-center"
-            value={this.state.confirmFrom || 2}
-            onChange={e => { this.changeConfirmation('confirmFrom', e.target.value); }} />
-          <SelectField className="fix-bs-select" fullWidth={true}
-            floatingLabelText=" " style={midCtrl}
-            valueMember="id" displayMember="name"
-            value={this.state.confirmFromPeriod || "days"}
-            onChange={ e => { this.changeConfirmation('confirmFromPeriod'); } }
-            menuItems={periods} />
-          <label style={minCtrl}>antes</label>
-
-          <ClearFix/>
-
-          <FontIcon className="material-icons" style={iconMiddle}>event_busy</FontIcon>
-          <span style={ctrlLabel}>Fin</span>
-          <TextField fullWidth={true} style={minCtrl} className="input-center"
-            value={this.state.confirmTo || 2}
-            onChange={e => { this.changeConfirmation('confirmTo', e.target.value); }} />
-          <SelectField className="fix-bs-select" fullWidth={true}
-            floatingLabelText=" " style={midCtrl}
-            valueMember="id" displayMember="name"
-            value={this.state.confirmToPeriod || "hours"}
-            onChange={ e => { this.changeConfirmation('confirmToPeriod'); } }
-            menuItems={periods} />
-          <label style={minCtrl}>antes</label>
-
-        </div>
-        : null }
-
-        <Toggle label={__.meeting_has_limit}  className="meeting-switch"
-          value={this.state.showLimits}
-          onToggle={ (e, toggled) => { this.toggleLimits(e, toggled); } }/>
-
-        { this.state.showLimits ?
-        <div className="meeting-limits">
-
-          <div className="half-width-control number-field">
-            <TextField floatingLabelText={__.meeting_min} fullWidth={true}
-              hintText="0" value={this.props.min}
-              onChange={e => { this.changeField('min', e.target.value); }} />
-          </div>
-
-          <div className="half-width-control number-field">
-            <TextField floatingLabelText={__.meeting_max} fullWidth={true}
-              hintText="0" value={this.props.max}
-              onChange={e => { this.changeField('max', e.target.value); }} />
-          </div>
-
-          <Toggle label={__.meeting_replacements} className="meeting-switch"
-            value={this.props.replacements}
-            onToggle={ (e, toggled) => { this.changeField('replacements', toggled); } }/>
-
-        </div>
-        : null }
-
-        <div style={css.buttonsSection}>
-          <FlatButton label={__.cancel} default={true} linkButton={true}
-            onClick={ e => { this.props.onCancel(e); } } style={css.left}>
-          </FlatButton>
-
-          <RaisedButton primary={true} label={__.save} style={css.right}
-            onClick={ e => { this.save(e); } }>
-            <FontIcon className="material-icons" style={iconcss}>check</FontIcon>
-          </RaisedButton>
-        </div>
-</Paper>
-        */
+MeetingForm.defaultState = {
+  showLimits: false
+};

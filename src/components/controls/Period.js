@@ -5,7 +5,7 @@ import { Row, Col, Input } from "react-bootstrap";
 export default class Period extends React.Component {
 
   onChangeTimes(times){
-    this.props.onChange("times", times);
+    this.props.onChange("times", +times);
   }
 
   onChangePeriod(type){
@@ -14,22 +14,24 @@ export default class Period extends React.Component {
 
   render() {
     let periods = this.props.periods || [ "weeks", "days", "hours", "minutes"];
+    let labelSize = this.props.tailLabel ? 2 : 4;
 
     return (
       <Row>
 
-        <Col xs={2} xsOffset={1} className="text-vcenter">
+        <Col xs={labelSize} xsOffset={1} className="text-vcenter">
           {this.props.label}
         </Col>
 
         <Col xs={2}>
-          <Input type="text" value={this.props.times}
+          <Input type="number" value={this.props.times} className="number-00"
             onChange={e => { this.onChangeTimes(e.target.value); }} />
         </Col>
 
         <Col xs={4}>
-          <Input type="select" value={this.props.period}
+          <Input type="select" value={this.props.period} min={0} max={99} maxLength={2}
             onChange={ e => { this.onChangePeriod(e.target.value); } }>
+          }
           { periods.map( period => {
               return (<option key={period} value={period}>{__["periods_" + period]}</option>);
             })
@@ -37,9 +39,11 @@ export default class Period extends React.Component {
           </Input>
         </Col>
 
+        {this.props.tailLabel ?
         <Col xs={2} className="text-vcenter">
           {this.props.tailLabel}
         </Col>
+        : null}
 
       </Row>
     );

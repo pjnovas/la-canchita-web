@@ -107,6 +107,7 @@ export default {
   "meeting_place_hint": "Juan B. Justo 1234, Ciudad Autónoma de Buenos Aires",
   "meeting_when_date": "Fecha",
   "meeting_when_time": "Hora",
+  "meeting_duration": "Duración",
   "meeting_when_confirm_start_label": "Inicio",
   "meeting_when_confirm_end_label": "Fin",
   "meeting_when_confirm_end_tail": "antes",
