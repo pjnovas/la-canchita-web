@@ -102,6 +102,7 @@ export default {
   "meeting_replacements": "Se aceptan suplentes",
   "meeting_has_confirmation": "Con confirmación",
 
+  "meeting_more_info": "Más información",
   "meeting_title_hint": "Partido de los Lunes en LaCanchita",
   "meeting_info_hint": "Nos encontramos 15 minutos antes, tiene estacionamiento. Si llueve se suspende!",
   "meeting_place_hint": "Juan B. Justo 1234, Ciudad Autónoma de Buenos Aires",

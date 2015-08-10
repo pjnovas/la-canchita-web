@@ -76,7 +76,7 @@ export default class MeetingForm extends React.Component {
         <Divider/>
 
         <Row>
-          <Col xs={12}>
+          <Col xs={8}>
 
             <Input type="text" label={__.meeting_place}
               placeholder={__.meeting_place_hint}
@@ -87,19 +87,19 @@ export default class MeetingForm extends React.Component {
         </Row>
 
         <Row>
-          <Col xs={3}>
+          <Col xs={3} sm={2} md={2}>
             <DatePicker label={__.meeting_when_date} value={this.props.when}
               format={__.date_format} className="date"
               onChange={ value => { this.changeProp("when_date", value); }} />
           </Col>
 
-          <Col xs={3}>
+          <Col xs={3} sm={2} md={2}>
             <DatePicker label={__.meeting_when_time} value={this.props.when}
               format={__.time_format} className="time"
               onChange={ value => { this.changeProp("when_time", value); }}/>
           </Col>
 
-          <Col xs={6}>
+          <Col xs={6} sm={4} md={3} className="max-w160">
             <Period label={__.meeting_duration}
               times={this.props.duration.times}
               period={this.props.duration.period}
@@ -108,27 +108,43 @@ export default class MeetingForm extends React.Component {
 
         </Row>
 
-        <Row>
-          <Col xs={12}>
-
-            <Input type="text" label={__.meeting_title}
-              placeholder={__.meeting_title_hint}
-              onChange={e => { this.changeProp("title", e.target.value); }}
-              value={this.props.title} />
-
-          </Col>
-        </Row>
+        <Divider/>
 
         <Row>
           <Col xs={12}>
-
-            <Input type="textarea" label={__.meeting_info} rows="3"
-              placeholder={__.meeting_info_hint}
-              onChange={e => { this.changeProp("info", e.target.value); }}
-              value={this.props.description} />
-
+            <Input type="checkbox" label={__.meeting_more_info}
+              checked={this.state.showMoreInfo ? true : false }
+              onChange={ (e) => { this.changeState("showMoreInfo", e.target.checked); } }/>
           </Col>
         </Row>
+
+        { this.state.showMoreInfo ?
+        <div>
+          <Row>
+            <Col xs={12} sm={10} smOffset={1}>
+
+              <Input type="text" label={__.meeting_title}
+                placeholder={__.meeting_title_hint}
+                onChange={e => { this.changeProp("title", e.target.value); }}
+                value={this.props.title} />
+
+            </Col>
+          </Row>
+
+          <Row>
+            <Col xs={12} sm={10} smOffset={1}>
+
+              <Input type="textarea" label={__.meeting_info} rows="3"
+                placeholder={__.meeting_info_hint}
+                onChange={e => { this.changeProp("info", e.target.value); }}
+                value={this.props.description} />
+
+            </Col>
+          </Row>
+        </div>
+        : null }
+
+        <Divider/>
 
         <Row>
           <Col xs={12}>
@@ -140,24 +156,28 @@ export default class MeetingForm extends React.Component {
 
         { this.props.confirmation ?
         <div>
-          <Period label={__.meeting_when_confirm_start_label}
-            tailLabel={__.meeting_when_confirm_end_tail}
-            times={this.props.confirmStart.times}
-            period={this.props.confirmStart.period}
-            onChange={ (period, value) => { this.changePeriod("confirmStart", period, value); }}/>
+          <Row>
 
-          <Period label={__.meeting_when_confirm_end_label}
-            tailLabel={__.meeting_when_confirm_end_tail}
-            times={this.props.confirmEnd.times}
-            period={this.props.confirmEnd.period}
-            onChange={ (period, value) => { this.changePeriod("confirmEnd", period, value); }}/>
+            <Col xs={5} xsOffset={1} className="max-w160">
+              <Period label={__.meeting_when_confirm_start_label}
+                times={this.props.confirmStart.times}
+                period={this.props.confirmStart.period}
+                onChange={ (period, value) => { this.changePeriod("confirmStart", period, value); }}/>
+            </Col>
+            <Col xs={5} className="max-w160">
+              <Period label={__.meeting_when_confirm_end_label}
+                times={this.props.confirmEnd.times}
+                period={this.props.confirmEnd.period}
+                onChange={ (period, value) => { this.changePeriod("confirmEnd", period, value); }}/>
+            </Col>
+          </Row>
 
           <Row>
-            <Col xs={5} xsOffset={1} className="text-center">
-            {__.meeting_when_confirm_start_label + ": " + moment(confirmStart).format(__.full_datetime_format)}
+            <Col xs={5} xsOffset={1} className="max-w160 text-center">
+            {moment(confirmStart).format(__.full_datetime_format)}
             </Col>
-            <Col xs={5} className="text-center">
-            {__.meeting_when_confirm_end_label + ": " + moment(confirmEnd).format(__.full_datetime_format)}
+            <Col xs={5} className="max-w160 text-center">
+            {moment(confirmEnd).format(__.full_datetime_format)}
             </Col>
           </Row>
 
@@ -231,5 +251,6 @@ MeetingForm.defaultProps = {
 };
 
 MeetingForm.defaultState = {
-  showLimits: false
+  showLimits: false,
+  showMoreInfo: false
 };
