@@ -24,7 +24,10 @@ class MeetingStore extends ListStore {
   }
 
   getURI(gid){
-    return "/api/groups/${gid}/meetings/".replace("${gid}", gid);
+    if (gid){
+      return "/api/groups/${gid}/meetings/".replace("${gid}", gid);
+    }
+    return "/api/meetings/";
   }
 
   dispatchCallback(payload) {
@@ -32,16 +35,16 @@ class MeetingStore extends ListStore {
       return;
     }
 
-    if (!payload.gid){
-      throw new Error("Expected GroupId on Meeting payload");
-    }
+    //if (!payload.gid){
+    //  throw new Error("Expected GroupId on Meeting payload");
+    //}
 
     switch (payload.type) {
       case MeetingConstants.FIND:
         this.find(payload.gid);
         break;
       case MeetingConstants.FINDONE:
-        this.findOne(payload.gid, payload.id);
+        this.findOne(payload.id);
         break;
       case MeetingConstants.CREATE:
         this.create(payload.gid, payload.data);
@@ -111,6 +114,27 @@ class MeetingStore extends ListStore {
 
         this.add(gid, res.body);
         this.emit("find", this.get(gid));
+      });
+  }
+
+  findOne(mid) {
+/*
+    if (this.list.has(gid)){
+      this.emit("find", this.get(gid));
+      return;
+    }
+*/
+    this.emit("before:find");
+
+    request
+      .get(this.getURI() + mid)
+      .end( (err, res) => {
+        if (this.errorHandler(err, "find")){
+          return;
+        }
+
+        //this.add(gid, res.body);
+        this.emit("find", res.body);
       });
   }
 

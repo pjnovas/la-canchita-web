@@ -24,9 +24,9 @@ export default class MeetingView extends ReactListener {
     MeetingActions.findOne(this.state.id);
   }
 
-  onFind(group) {
+  onFind(meeting) {
     super.onFind();
-    this.setState({ group, me: group.member });
+    this.setState({ meeting, me: meeting.group.member, gid: meeting.group.id });
   }
 
   render() {
