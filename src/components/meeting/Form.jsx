@@ -70,10 +70,6 @@ export default class MeetingForm extends React.Component {
         .subtract(this.props.confirmEnd.times, this.props.confirmEnd.period);
     }
 
-    //TODO: place map
-    // https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
-    // check lib https://github.com/tomchentw/react-google-maps
-
     return (
       <form>
 
@@ -91,7 +87,7 @@ export default class MeetingForm extends React.Component {
             <Input type="text" label={__.meeting_place}
               placeholder={__.meeting_place_hint}
               onClick={ e => { this.onClickPlace(e); }}
-              value={this.props.place && this.props.place.address || ""} />
+              value={this.props.place} />
 
           </Col>
         </Row>
@@ -248,7 +244,11 @@ export default class MeetingForm extends React.Component {
         <SelectPlace
           show={this.state.showSelectPlace}
           place={this.props.place}
-          onSelect={ place => { this.changeProp("place", place); } }
+          location={this.props.location}
+          onSelect={ (place, location) => {
+            this.changeProp("place", place);
+            this.changeProp("location", location);
+          } }
           onClose={ () => { this.hideSelectPlace(); } } />
         : null }
 

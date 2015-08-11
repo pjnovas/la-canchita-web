@@ -55,28 +55,32 @@ export default class MapModal extends React.Component {
       this.state.marker.setMap(null);
     }
 
+    var loc = {
+      lat: this.props.location[0],
+      lng: this.props.location[1]
+    };
+
     let marker = new google.maps.Marker({
       map: this.map,
-      position: this.props.place.location
+      position: loc
     });
 
     this.setState({ marker });
 
-    this.map.setCenter(this.props.place.location);
+    this.map.setCenter(loc);
     this.map.setZoom(17);
   }
 
   onSuggestSelect(suggest){
 
-    this.props.place = this.props.place || {};
-    this.props.place.address = suggest.label;
-    this.props.place.location = suggest.location;
+    this.props.place = suggest.label;
+    this.props.location = [suggest.location.lat, suggest.location.lng];
 
     this.markPlace();
   }
 
   onSave(){
-    this.props.onSelect(this.props.place);
+    this.props.onSelect(this.props.place, this.props.location);
     this.props.onClose();
   }
 
@@ -89,7 +93,7 @@ export default class MapModal extends React.Component {
       searchbox = (
         <Geosuggest
           placeholder={__.meeting_mapmodal_searchbox}
-          initialValue={this.props.place && this.props.place.address || ""}
+          initialValue={this.props.place}
           onSuggestSelect={ suggest => { this.onSuggestSelect(suggest);} }
           googleMaps={window.google.maps}/>
         );

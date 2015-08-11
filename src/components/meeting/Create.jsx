@@ -68,6 +68,7 @@ export default class MeetingCreate extends ReactListener {
               title={ this.state.title }
               info={ this.state.info }
               place={ this.state.place }
+              location={ this.state.location }
               when={ this.state.when }
               duration={ this.state.duration }
 
