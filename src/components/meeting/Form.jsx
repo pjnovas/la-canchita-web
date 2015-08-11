@@ -1,4 +1,6 @@
 
+import SelectPlace from "./MapModal.jsx";
+
 import { Input, Button, Row, Col } from "react-bootstrap";
 import { Icon, Divider, DatePicker, Period } from "../controls";
 
@@ -7,8 +9,16 @@ export default class MeetingForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = MeetingForm.defaultState;
     this.state.showLimits = (this.props.min > 0 || this.props.max > 0 ? true : false);
+  }
+
+  onClickPlace(){
+    this.setState({ showSelectPlace: true });
+  }
+
+  hideSelectPlace(){
+    this.setState({ showSelectPlace: false });
   }
 
   changeProp(prop, value){
@@ -80,8 +90,8 @@ export default class MeetingForm extends React.Component {
 
             <Input type="text" label={__.meeting_place}
               placeholder={__.meeting_place_hint}
-              onChange={e => { this.changeProp("place", e.target.value); }}
-              value={this.props.place} />
+              onClick={ e => { this.onClickPlace(e); }}
+              value={this.props.place && this.props.place.address || ""} />
 
           </Col>
         </Row>
@@ -234,6 +244,14 @@ export default class MeetingForm extends React.Component {
           </Col>
         </Row>
 
+        {this.state.showSelectPlace ?
+        <SelectPlace
+          show={this.state.showSelectPlace}
+          place={this.props.place}
+          onSelect={ place => { this.changeProp("place", place); } }
+          onClose={ () => { this.hideSelectPlace(); } } />
+        : null }
+
       </form>
     );
   }
@@ -252,5 +270,6 @@ MeetingForm.defaultProps = {
 
 MeetingForm.defaultState = {
   showLimits: false,
-  showMoreInfo: false
+  showMoreInfo: false,
+  showSelectPlace: false
 };

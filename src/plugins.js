@@ -9,4 +9,4 @@ import "bootstrap";
 
 //Needed for React Developer Tools
 window.React = React;
-
+window.google = window.google || {};

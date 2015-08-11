@@ -115,6 +115,8 @@ export default {
   "meeting_has_limit": "Límite de jugadores",
   "meeting_min": "mínimo",
   "meeting_max": "máximo",
+  "meeting_mapmodal_title": "Seleccionar Lugar",
+  "meeting_mapmodal_searchbox": "Buscar lugar o dirección",
 
   "datepicker": {
     "locale": "es",
