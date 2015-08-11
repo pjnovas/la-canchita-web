@@ -45,7 +45,7 @@ export default class MeetingEdit extends ReactListener {
       return;
     }
 
-    MeetingActions.update(this.state);
+    MeetingActions.update(this.state.group, this.state);
   }
 
   onChange(model){

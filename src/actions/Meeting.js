@@ -13,6 +13,16 @@ actions.find = (gid) => {
 
 };
 
+actions.findOne = (gid, mid) => {
+
+  AppDispatcher.dispatch({
+    type: MeetingConstants.FINDONE,
+    gid,
+    mid
+  });
+
+};
+
 actions.create = (gid, data) => {
 
   AppDispatcher.dispatch({

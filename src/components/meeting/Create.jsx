@@ -27,7 +27,7 @@ export default class MeetingCreate extends ReactListener {
       return;
     }
 
-    window.app.router.transitionTo("group", { groupId: this.state.gid });
+    window.app.router.transitionTo("group", { groupId: this.state.gid, tab: "meetings" });
   }
 
   onCreate(meeting) {
@@ -40,7 +40,7 @@ export default class MeetingCreate extends ReactListener {
       return;
     }
 
-    MeetingActions.create(this.state);
+    MeetingActions.create(this.state.gid, this.state);
   }
 
   onChange(model){

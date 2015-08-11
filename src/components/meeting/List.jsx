@@ -34,8 +34,20 @@ export default class MeetingList extends ReactListener {
   render() {
     var list = this.state.meetings;
 
-    var active = list;
-    var past = list;
+    list.sort(function(a, b) {
+      a = moment(a.when);
+      b = moment(b.when);
+      return b>a ? -1 : b<a ? 1 : 0;
+    });
+
+    var active = list.filter( meeting => {
+      return moment(meeting.when) >= moment();
+    });
+
+    var past = list.filter( meeting => {
+      return moment(meeting.when) < moment();
+    });
+
 
     var canCreate = true; //this.editors.indexOf(myRole) > -1;
 
@@ -45,7 +57,7 @@ export default class MeetingList extends ReactListener {
 
           <ListGroup>
             {active.map(meeting => {
-              return <MeetingItem key={meeting.id} model={meeting}/>;
+              return (<MeetingItem key={meeting.id} model={meeting}/>);
             })}
           </ListGroup>
 
@@ -54,7 +66,7 @@ export default class MeetingList extends ReactListener {
             <h4>{__.meeting_past}</h4>
             <ListGroup>
               {past.map(meeting => {
-                return <MeetingItem key={meeting.id} model={meeting} />;
+                return (<MeetingItem key={meeting.id} model={meeting} />);
               })}
             </ListGroup>
           </div>

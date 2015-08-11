@@ -40,6 +40,9 @@ class MeetingStore extends ListStore {
       case MeetingConstants.FIND:
         this.find(payload.gid);
         break;
+      case MeetingConstants.FINDONE:
+        this.findOne(payload.gid, payload.id);
+        break;
       case MeetingConstants.CREATE:
         this.create(payload.gid, payload.data);
         break;

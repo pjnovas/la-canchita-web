@@ -117,6 +117,8 @@ export default {
   "meeting_max": "máximo",
   "meeting_mapmodal_title": "Seleccionar Lugar",
   "meeting_mapmodal_searchbox": "Buscar lugar o dirección",
+  "meeting_default_title": "Partido",
+  "meeting_at": "en",
 
   "datepicker": {
     "locale": "es",

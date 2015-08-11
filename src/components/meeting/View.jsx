@@ -11,7 +11,8 @@ export default class MeetingView extends ReactListener {
   constructor(props) {
     super(props);
 
-    this.state.gid = this.props.params.groupId;
+    this.state.gid = "";
+    this.state.id = this.props.params.meetingId;
     this.store = MeetingStore;
 
     this.editors = ["owner", "admin"];
