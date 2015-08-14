@@ -100,11 +100,11 @@ export default class GroupView extends ReactListener {
                 </TabPane>
 
                 <TabPane eventKey={2} tab={__.group_tab_members}>
-                  <MemberList groupId={this.state.id} />
+                  <MemberList groupId={this.state.id} myRole={myRole} />
                 </TabPane>
 
                 <TabPane eventKey={3} tab={__.group_tab_meetings}>
-                  <MeetingList groupId={this.state.id} />
+                  <MeetingList groupId={this.state.id} myRole={myRole}/>
                 </TabPane>
 
                 <TabPane eventKey={4} tab={__.group_tab_settings} disabled>

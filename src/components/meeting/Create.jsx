@@ -27,7 +27,7 @@ export default class MeetingCreate extends ReactListener {
       return;
     }
 
-    window.app.router.transitionTo("group", { groupId: this.state.gid, tab: "meetings" });
+    window.app.router.transitionTo("grouptab", { groupId: this.state.gid, tab: "meetings" });
   }
 
   onCreate(meeting) {
@@ -56,7 +56,7 @@ export default class MeetingCreate extends ReactListener {
 
     return (
       <div>
-        <Header backto="group" backparams={{ groupId: this.state.gid, tab: "meetings" }} />
+        <Header backto="grouptab" backparams={{ groupId: this.state.gid, tab: "meetings" }} />
 
         <Grid>
           <Paper skipHeader>

@@ -52,31 +52,28 @@ actions.destroy = (gid, id) => {
 
 };
 
-actions.join = (gid, id) => {
+actions.join = (id) => {
 
   AppDispatcher.dispatch({
     type: MeetingConstants.JOIN,
-    gid,
     id
   });
 
 };
 
-actions.leave = (gid, id) => {
+actions.leave = (id) => {
 
   AppDispatcher.dispatch({
     type: MeetingConstants.LEAVE,
-    gid,
     id
   });
 
 };
 
-actions.confirm = (gid, id) => {
+actions.confirm = (id) => {
 
   AppDispatcher.dispatch({
     type: MeetingConstants.CONFIRM,
-    gid,
     id
   });
 

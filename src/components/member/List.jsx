@@ -95,12 +95,7 @@ export default class MemberList extends ReactListener {
       return member.user.id;
     });
 
-    let me = active.find( member => {
-      return member.user.id === window.user.id;
-    });
-
-    let myRole = me && me.role || "member";
-    let canInvite = this.inviters.indexOf(myRole) > -1;
+    let canInvite = this.inviters.indexOf(this.props.myRole) > -1;
 
     return (
       <Row>
@@ -111,7 +106,7 @@ export default class MemberList extends ReactListener {
             {active.map(member => {
               return (
                 <MemberItem
-                  key={member.id} model={member} myRole={myRole}
+                  key={member.id} model={member} myRole={this.props.myRole}
                   kickMember={ mid => { this.kickMember(mid); } }
                   changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>
               );

@@ -56,13 +56,13 @@ class MeetingStore extends ListStore {
         this.destroy(payload.gid, payload.id);
         break;
       case MeetingConstants.JOIN:
-        this.join(payload.gid, payload.id);
+        this.join(payload.id);
         break;
       case MeetingConstants.LEAVE:
-        this.leave(payload.gid, payload.id);
+        this.leave(payload.id);
         break;
       case MeetingConstants.CONFIRM:
-        this.confirm(payload.gid, payload.id);
+        this.confirm(payload.id);
         break;
     };
 
@@ -74,6 +74,19 @@ class MeetingStore extends ListStore {
     }
 
     return this.list.get(gid);
+  }
+
+  getMeeting(id){
+    var _meeting;
+    this.list.forEach( meetings => {
+      meetings.forEach( meeting => {
+        if (meeting.id === id){
+          _meeting = meeting;
+        }
+      });
+    });
+
+    return _meeting;
   }
 
   get(gid, id){
@@ -166,7 +179,7 @@ class MeetingStore extends ListStore {
         }
 
         var meetings = this.getGroup(gid);
-        meetings.set(data.id, res.body);
+        meetings.set(meeting.id, res.body);
         this.emit("save", this.get(gid));
       });
   }
@@ -187,55 +200,60 @@ class MeetingStore extends ListStore {
       });
   }
 
-  join(gid, id){
+  join(id){
     this.emit("before:join");
 
     request
-      .post(this.getURI(gid) + id + "/assistants/me")
+      .post(this.getURI() + id + "/attendees/me")
       .end( (err, res) => {
         if (this.errorHandler(err, "join")){
           return;
         }
 
-        var meeting = this.get(gid, id);
-        meeting.assistants.push(id);
-        this.emit("join", this.get(gid));
+        var attendee = res.body;
+        attendee.user = window.user;
+        //var meeting = this.getMeeting(id);
+        //meeting.attendees.push(id);
+        //this.emit("join", meeting);
+        this.emit("join", attendee);
       });
   }
 
-  leave(gid, id){
+  leave(id){
     this.emit("before:leave");
 
     request
-      .del(this.getURI(gid) + id + "/assistants/me")
+      .del(this.getURI() + id + "/attendees/me")
       .end( (err, res) => {
         if (this.errorHandler(err, "leave")){
           return;
         }
 
-        var meeting = this.get(gid, id);
-        var idx = meeting.assistants.indexOf(id);
-        meeting.assistants.splice(idx, 1);
-        this.emit("leave", this.get(gid));
+        //var meeting = this.get(gid, id);
+        //var idx = meeting.attendees.indexOf(id);
+        //meeting.attendees.splice(idx, 1);
+        this.emit("leave");
       });
   }
 
-  confirm(gid, id){
+  confirm(id){
     this.emit("before:confirm");
 
     request
-      .post(this.getURI(gid) + id + "/confirmed/me")
+      .post(this.getURI() + id + "/confirmed/me")
       .end( (err, res) => {
         if (this.errorHandler(err, "confirm")){
           return;
         }
 
-        var meeting = this.get(gid, id);
+        var attendee = res.body;
+        attendee.user = window.user;
 
-        var idx = meeting.assistants.indexOf(id);
-        meeting.assistants.splice(idx, 1);
-        meeting.confirmed.push(id);
-        this.emit("confirm", this.get(gid));
+        //var meeting = this.get(gid, id);
+        //var idx = meeting.assistants.indexOf(id);
+        //meeting.assistants.splice(idx, 1);
+        //meeting.confirmed.push(id);
+        this.emit("confirm", attendee);
       });
   }
 

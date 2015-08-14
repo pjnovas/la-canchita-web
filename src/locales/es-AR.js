@@ -13,6 +13,7 @@ export default {
   "cancel": "Cancelar",
   "save": "Guardar",
   "remove": "Eliminar",
+  "edit": "Editar",
   "loading": "cargando ...",
   "invite": "Invitar",
 
@@ -119,6 +120,10 @@ export default {
   "meeting_mapmodal_searchbox": "Buscar lugar o dirección",
   "meeting_default_title": "Partido",
   "meeting_at": "en",
+
+  "meeting_join": "Voy!",
+  "meeting_leave": "Me bajo",
+  "meeting_confirm": "Confirmo!",
 
   "datepicker": {
     "locale": "es",

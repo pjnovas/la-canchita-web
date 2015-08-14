@@ -30,7 +30,7 @@ var routes = (
     <Route path="/groups/new" name="groupnew" handler={GroupCreate} />
     <Route path="/groups/:groupId" name="group" handler={GroupView} />
     <Route path="/groups/:groupId/edit" name="groupedit" handler={GroupEdit} />
-    <Route path="/groups/:groupId/:tab" name="groupmembers" handler={GroupView} />
+    <Route path="/groups/:groupId/:tab" name="grouptab" handler={GroupView} />
 
     <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingCreate} />
     <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />

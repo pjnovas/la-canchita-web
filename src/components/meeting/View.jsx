@@ -3,6 +3,7 @@ import MeetingStore from "../../stores/Meeting";
 import MeetingActions from "../../actions/Meeting";
 
 import Header from "../Header.jsx";
+import Attendees from "./Attendees.jsx";
 import ReactListener from "../ReactListener";
 
 import { Grid, Row, Col, ListGroup } from "react-bootstrap";
@@ -16,9 +17,6 @@ export default class MeetingView extends ReactListener {
     this.state.gid = "";
     this.state.id = this.props.params.meetingId;
     this.store = MeetingStore;
-
-    this.editors = ["owner", "admin"];
-    this.destroyers = ["owner"];
   }
 
   componentDidMount() {
@@ -28,14 +26,59 @@ export default class MeetingView extends ReactListener {
 
   onFind(meeting) {
     super.onFind();
-    this.setState({ meeting, me: meeting.group.member, gid: meeting.group.id });
+    this.setState({ meeting, gid: meeting.group.id });
+  }
+
+  onJoin(attendee){
+    let meeting = this.state.meeting;
+    meeting.attendees.push(attendee);
+    this.setState({ meeting });
+  }
+
+  onLeave(attendee){
+    let meeting = this.state.meeting;
+
+    let idx = -1;
+    meeting.attendees.forEach( (attendee, i) => {
+      if (window.user.id === attendee.user.id){
+        idx = i;
+      }
+    });
+
+    if (idx > -1){
+      meeting.attendees.splice(idx, 1);
+      this.setState({ meeting });
+    }
+  }
+
+  getStage(){
+    let now = moment();
+    let meeting = this.state.meeting;
+    let when = moment(meeting.when);
+    let duration = meeting.duration || { times: 1, period: 'hours' };
+    let end = when.clone().add(duration.times, duration.period);
+    let historic = end.clone().add(1, 'week');
+
+    let stage = 'joining';
+
+    if (meeting.confirmation && now > meeting.confirmStart && now < meeting.confirmEnd){
+      stage = 'confirming';
+    }
+    else if (now > when && now < end) {
+      stage = 'running';
+    }
+    else if (now > end) {
+      stage = 'historic';
+
+      if (now < historic){
+        stage = 'played';
+      }
+    }
+
+    return stage;
   }
 
   render() {
-    let myRole = this.state.me && this.state.me.role || "member";
-    let canEdit = this.editors.indexOf(myRole) > -1;
-    let canDestroy = this.destroyers.indexOf(myRole) > -1;
-
     let meeting = this.state.meeting;
 
     if (!meeting){
@@ -46,9 +89,11 @@ export default class MeetingView extends ReactListener {
     let time = when.from();
     let when_str = when.format(__.full_datetime_format);
 
+    let stage = this.getStage();
+
     return (
       <div>
-        <Header backto="group" backparams={ { groupId: this.state.gid } } />
+        <Header backto="grouptab" backparams={ { groupId: this.state.gid, tab: "meetings" } } />
         <Grid>
 
           <Row>
@@ -70,10 +115,11 @@ export default class MeetingView extends ReactListener {
             </Col>
           </Row>
 
-          { canEdit ?
-            <ActionButton bsStyle="primary" icon="pencil"
-              to="meetingedit" params={{meetingId: this.state.id}}/>
-          : null }
+          <Row>
+            <Col xs={12}>
+              <Attendees meeting={meeting} stage={stage} />
+            </Col>
+          </Row>
 
         </Grid>
       </div>

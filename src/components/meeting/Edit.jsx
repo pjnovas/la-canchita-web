@@ -45,7 +45,7 @@ export default class MeetingEdit extends ReactListener {
       return;
     }
 
-    MeetingActions.update(this.state.group, this.state);
+    MeetingActions.update(this.state.group.id, this.state);
   }
 
   onChange(model){
@@ -75,7 +75,7 @@ export default class MeetingEdit extends ReactListener {
               info={ this.state.info }
               place={ this.state.place }
               location={ this.state.location }
-              when={ this.state.when }
+              when={ moment(this.state.when) }
               duration={ this.state.duration }
 
               confirmation={ this.state.confirmation }
