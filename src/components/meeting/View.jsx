@@ -96,6 +96,10 @@ export default class MeetingView extends ReactListener {
 
   onChangeTab(key){
     this.setState({ selectedKey: key });
+    if (key == 2){
+      // hack to make gmap render
+      window.setTimeout(() => this.refs.gmap.markPlace(), 100);
+    }
   }
 
   render() {
@@ -159,7 +163,7 @@ export default class MeetingView extends ReactListener {
             <Grid>
               <Row>
                 <Col xs={12} sm={12} md={10} mdOffset={1} className="map-section">
-                  <GMap readOnly={true}
+                  <GMap ref="gmap" readOnly={true}
                     place={meeting.place}
                     location={meeting.location} />
                 </Col>

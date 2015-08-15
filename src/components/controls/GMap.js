@@ -12,7 +12,7 @@ export default class GMap extends React.Component {
 
   componentWillMount(){
 
-    //if (!window.google || !window.google.maps){
+    if (!window.google || !window.google.maps){
       this.initializing = true;
 
       window.initializeGMaps = this.initialize.bind(this);
@@ -21,13 +21,17 @@ export default class GMap extends React.Component {
       script.type = "text/javascript";
       script.src = googleURL + "&callback=initializeGMaps";
       window.document.body.appendChild(script);
-    //}
 
+      return;
+    }
+
+    this.initializing = false;
   }
 
   componentDidMount() {
     if (!this.initializing){
-      this.initialize();
+      // hack to make gmap render
+      window.setTimeout(() => { this.initialize(); }, 100);
     }
   }
 
@@ -68,6 +72,8 @@ export default class GMap extends React.Component {
     });
 
     this.setState({ marker });
+
+    google.maps.event.trigger(this.map, "resize");
 
     this.map.setCenter(loc);
     this.map.setZoom(17);
