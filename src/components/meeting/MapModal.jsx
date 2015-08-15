@@ -1,8 +1,6 @@
 
 import { Button, Row, Col, Modal, Input } from "react-bootstrap";
-import Geosuggest from 'react-geosuggest';
-
-const googleURL = "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places";
+import { GMap } from "../controls";
 
 export default class MapModal extends React.Component {
 
@@ -11,72 +9,9 @@ export default class MapModal extends React.Component {
     this.state = MapModal.defaultState;
   }
 
-  initialize() {
-    let canvas = React.findDOMNode(this.refs.mapcanvas);
-
-    this.map = new google.maps.Map(canvas, {
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-
-    // Buenos aires
-    this.map.setCenter(new google.maps.LatLng(-34.597881,-58.453048));
-    this.map.setZoom(12);
-
-    this.setState({ loading: false });
-
-    if (this.props.place){
-      this.markPlace();
-    }
-  }
-
-  componentWillMount(){
-
-    //if (!window.google || !window.google.maps){
-      this.initializing = true;
-
-      window.initializeGMaps = this.initialize.bind(this);
-
-      var script = window.document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = googleURL + "&callback=initializeGMaps";
-      window.document.body.appendChild(script);
-    //}
-
-  }
-
-  componentDidMount() {
-    if (!this.initializing){
-      this.initialize();
-    }
-  }
-
-  markPlace(){
-    if (this.state.marker){
-      this.state.marker.setMap(null);
-    }
-
-    var loc = {
-      lat: this.props.location[0],
-      lng: this.props.location[1]
-    };
-
-    let marker = new google.maps.Marker({
-      map: this.map,
-      position: loc
-    });
-
-    this.setState({ marker });
-
-    this.map.setCenter(loc);
-    this.map.setZoom(17);
-  }
-
-  onSuggestSelect(suggest){
-
-    this.props.place = suggest.label;
-    this.props.location = [suggest.location.lat, suggest.location.lng];
-
-    this.markPlace();
+  onSelectPlace(place, location) {
+    this.props.place = place;
+    this.props.location = location;
   }
 
   onSave(){
@@ -87,17 +22,6 @@ export default class MapModal extends React.Component {
   render() {
     let cssAll = this.state.loading ? "hidden" : "";
     let cssLoading = this.state.loading ? "" : "hidden";
-
-    let searchbox;
-    if (!this.state.loading) {
-      searchbox = (
-        <Geosuggest
-          placeholder={__.meeting_mapmodal_searchbox}
-          initialValue={this.props.place}
-          onSuggestSelect={ suggest => { this.onSuggestSelect(suggest);} }
-          googleMaps={window.google.maps}/>
-        );
-    }
 
     return (
 
@@ -110,8 +34,12 @@ export default class MapModal extends React.Component {
         <Modal.Body>
           <span className={cssLoading}>{__.loading}</span>
           <div className={cssAll}>
-            {searchbox}
-            <div ref="mapcanvas" className="map-canvas"></div>
+            <GMap
+              placeholder={__.meeting_mapmodal_searchbox}
+              place={this.props.place}
+              location={this.props.location}
+              onReady={ () => { this.setState({ loading: false }) }}
+              onChange={ (place, loc) => { this.onSelectPlace(place, loc); }} />
           </div>
         </Modal.Body>
 
@@ -135,6 +63,4 @@ MapModal.displayName = "MapModal";
 
 MapModal.defaultState = {
   loading: true,
-  search: "",
-  marker: null
 };

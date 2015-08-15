@@ -125,6 +125,9 @@ export default {
   "meeting_leave": "Me bajo",
   "meeting_confirm": "Confirmo!",
 
+  "meeting_confirm_starting_at": "La confirmación inicia ",
+  "meeting_confirm_ending_at": "La confirmación termina ",
+
   "datepicker": {
     "locale": "es",
     "tooltips": {

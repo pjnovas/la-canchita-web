@@ -7,6 +7,7 @@ import Divider from "./Divider";
 import ActionButton from "./ActionButton";
 import DatePicker from "./DatePicker";
 import Period from "./Period";
+import GMap from "./GMap";
 
 import Card from "./Card";
 
@@ -18,5 +19,6 @@ export {
   ActionButton,
   Card,
   DatePicker,
-  Period
+  Period,
+  GMap
 };

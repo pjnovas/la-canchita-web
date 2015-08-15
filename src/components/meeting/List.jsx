@@ -6,7 +6,7 @@ import MeetingItem from "./Item.jsx";
 
 import ReactListener from "../ReactListener";
 
-import { Row, Col, ListGroup } from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
 export default class MeetingList extends ReactListener {
@@ -70,36 +70,38 @@ export default class MeetingList extends ReactListener {
     let canCreate = this.editors.indexOf(this.props.myRole) > -1;
 
     return (
-      <Row>
-        <Col xs={12}>
+      <Grid>
+        <Row className="meeting-tab">
+          <Col xs={12}>
 
-          <ListGroup>
-            {active.map(meeting => {
-              return (<MeetingItem key={meeting.id} model={meeting}
-                removeMeeting={ mid => { this.removeMeeting(mid) }}
-                myRole={this.props.myRole} />);
-            })}
-          </ListGroup>
-
-          { past.length ?
-          <div>
-            <h4>{__.meeting_past}</h4>
-            <ListGroup>
-              {past.map(meeting => {
+            <div className="list-group">
+              {active.map(meeting => {
                 return (<MeetingItem key={meeting.id} model={meeting}
-                  myRole={this.props.myRole} hideActions={true} />);
+                  removeMeeting={ mid => { this.removeMeeting(mid) }}
+                  myRole={this.props.myRole} />);
               })}
-            </ListGroup>
-          </div>
-          : null }
+            </div>
 
-          { canCreate ?
-            <ActionButton bsStyle="primary" icon="plus"
-              to="meetingnew" params={{groupId: this.state.gid}}/>
-          : null }
+            { past.length ?
+            <div>
+              <h4>{__.meeting_past}</h4>
+              <div className="list-group">
+                {past.map(meeting => {
+                  return (<MeetingItem key={meeting.id} model={meeting}
+                    myRole={this.props.myRole} hideActions={true} />);
+                })}
+              </div>
+            </div>
+            : null }
 
-        </Col>
-      </Row>
+            { canCreate ?
+              <ActionButton bsStyle="primary" icon="plus"
+                to="meetingnew" params={{groupId: this.state.gid}}/>
+            : null }
+
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 

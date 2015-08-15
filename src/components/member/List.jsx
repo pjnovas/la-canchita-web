@@ -7,7 +7,7 @@ import UserInvite from "../user/Search.jsx";
 
 import ReactListener from "../ReactListener";
 
-import { Row, Col, ListGroup } from "react-bootstrap";
+import { Grid, Row, Col, ListGroup } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
 export default class MemberList extends ReactListener {
@@ -98,47 +98,49 @@ export default class MemberList extends ReactListener {
     let canInvite = this.inviters.indexOf(this.props.myRole) > -1;
 
     return (
-      <Row>
+      <Grid>
+        <Row>
 
-        <Col xs={12}>
+          <Col xs={12}>
 
-          <ListGroup>
-            {active.map(member => {
-              return (
-                <MemberItem
-                  key={member.id} model={member} myRole={this.props.myRole}
-                  kickMember={ mid => { this.kickMember(mid); } }
-                  changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>
-              );
-            })}
-          </ListGroup>
-
-          { pending.length ?
-          <div>
-            <h4>{__.member_invited}</h4>
             <ListGroup>
-              {pending.map(member => {
-                return (<MemberItem key={member.id} model={member} />);
+              {active.map(member => {
+                return (
+                  <MemberItem
+                    key={member.id} model={member} myRole={this.props.myRole}
+                    kickMember={ mid => { this.kickMember(mid); } }
+                    changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>
+                );
               })}
             </ListGroup>
-          </div>
-          : null }
 
-          { canInvite ?
+            { pending.length ?
             <div>
-              <ActionButton bsStyle="primary" icon="user-plus"
-                onClick={ e => { this.showInvite(e); }}/>
-
-              <UserInvite
-                skipIds={ skipIds }
-                show={this.state.showInvite}
-                onSelect={ users => { this.inviteUsers(users); } }
-                onClose={ () => { this.hideInvite(); } } />
+              <h4>{__.member_invited}</h4>
+              <ListGroup>
+                {pending.map(member => {
+                  return (<MemberItem key={member.id} model={member} />);
+                })}
+              </ListGroup>
             </div>
-          : null }
+            : null }
 
-        </Col>
-      </Row>
+            { canInvite ?
+              <div>
+                <ActionButton bsStyle="primary" icon="user-plus"
+                  onClick={ e => { this.showInvite(e); }}/>
+
+                <UserInvite
+                  skipIds={ skipIds }
+                  show={this.state.showInvite}
+                  onSelect={ users => { this.inviteUsers(users); } }
+                  onClose={ () => { this.hideInvite(); } } />
+              </div>
+            : null }
+
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 

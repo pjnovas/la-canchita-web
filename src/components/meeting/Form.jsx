@@ -10,7 +10,6 @@ export default class MeetingForm extends React.Component {
     super(props);
 
     this.state = MeetingForm.defaultState;
-    this.state.showLimits = (this.props.min > 0 || this.props.max > 0 ? true : false);
   }
 
   onClickPlace(){
@@ -42,7 +41,7 @@ export default class MeetingForm extends React.Component {
 
   changePeriod(prop, type, value){
     this.props[prop][type] = value;
-    this.props.onChange({ [type]: this.props[prop] });
+    this.props.onChange({ [prop]: this.props[prop] });
   }
 
   changeState(prop, value){
@@ -56,6 +55,9 @@ export default class MeetingForm extends React.Component {
   render() {
     let confirmStart, confirmEnd;
 
+    this.state.showLimits = (this.props.min > 0 || this.props.max > 0 ? true : false);
+    this.state.showMoreInfo = (this.props.title || this.props.info ? true : false);
+    
     if (this.props.confirmation){
       if (!this.props.when){
         this.props.when = moment().add(7, 'days');
@@ -143,7 +145,7 @@ export default class MeetingForm extends React.Component {
               <Input type="textarea" label={__.meeting_info} rows="3"
                 placeholder={__.meeting_info_hint}
                 onChange={e => { this.changeProp("info", e.target.value); }}
-                value={this.props.description} />
+                value={this.props.info} />
 
             </Col>
           </Row>

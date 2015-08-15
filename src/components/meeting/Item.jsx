@@ -1,5 +1,5 @@
 
-import { ListGroupItem, Label, DropdownButton, MenuItem } from "react-bootstrap";
+import { Row, Col, Label } from "react-bootstrap";
 import { Icon } from "../controls";
 
 export default class MeetingItem extends React.Component {
@@ -32,38 +32,43 @@ export default class MeetingItem extends React.Component {
     let place = model.place; //model.place.split(',')[0];
     let rightIconMenu;
 
-    if (!this.props.hideActions){
-      let myRole = this.props.myRole;
-      let canEdit = this.editors.indexOf(myRole) > -1;
-      let canDestroy = this.destroyers.indexOf(myRole) > -1;
-
-      if (canEdit || canDestroy) {
-
-        rightIconMenu = (
-          <DropdownButton title={<Icon name="ellipsis-v" />} noCaret pullRight
-            className="btn-icon" onClick={ e => { e.stopPropagation(); }}>
-          { canEdit ?
-            <MenuItem key="remove" onClick={ e => { this.navigateEdit(e); }}>
-              {__.edit}
-            </MenuItem>
-          : null }
-          { canDestroy ?
-            <MenuItem key="edit" onClick={ e => { this.onRemoveClick(e);  }}>
-              {__.remove}
-            </MenuItem>
-          : null }
-          </DropdownButton>
-        );
-
-      }
-    }
+    let myRole = this.props.myRole;
+    let canEdit = this.editors.indexOf(myRole) > -1;
+    let canDestroy = this.destroyers.indexOf(myRole) > -1;
 
     return (
-      <ListGroupItem header={title} href="#" onClick={ e => { this.openMeeting(e); }} >
-        {__.meeting_at} {place}
-        {rightIconMenu}
-        <Label className="pull-right" bsSize="medium" bsStyle="info">{time}</Label>
-      </ListGroupItem>
+      <div className="list-group-item" onClick={ e => { this.openMeeting(e); }} >
+
+        <Row>
+
+          <Col xs={11}>
+            <h4 className="list-group-item-heading">{title}</h4>
+            <p className="ellipsis">{place}</p>
+          </Col>
+
+          <Label className="timestamp" bsSize="medium" bsStyle="info">{time}</Label>
+
+          {!this.props.hideActions ?
+          <div className="btn-group">
+
+            <button type="button" className="btn btn-default dropdown-toggle"
+              data-toggle="dropdown" onClick={ e => { e.stopPropagation(); }}>
+              <Icon name="ellipsis-v" />
+            </button>
+
+            <ul className="dropdown-menu dropdown-menu-right">
+              { canEdit ?
+              <li><a onClick={ e => { this.navigateEdit(e); }}>{__.edit}</a></li>
+              : null }
+              { canDestroy ?
+              <li><a onClick={ e => { this.onRemoveClick(e);  }}>{__.remove}</a></li>
+              : null }
+            </ul>
+          </div>
+          : null }
+        </Row>
+
+      </div>
     );
   }
 

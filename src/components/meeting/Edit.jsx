@@ -16,6 +16,7 @@ export default class MeetingEdit extends ReactListener {
     super(props);
 
     this.state.id = this.props.params.meetingId;
+    this.state.group = { id: "" };
     this.isDirty = false;
     this.store = MeetingStore;
   }
@@ -61,7 +62,7 @@ export default class MeetingEdit extends ReactListener {
 
     return (
       <div>
-        <Header backto="meeting" backparams={ { meetingId: this.state.id }} />
+        <Header backto="grouptab" backparams={{ groupId: this.state.group.id, tab: "meetings" }} />
 
         {this.state.loading ? __.loading :
 

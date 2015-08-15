@@ -1,0 +1,126 @@
+.meeting-tab {
+
+  .list-group {
+
+    .list-group-item {
+      position: relative;
+      cursor: pointer;
+
+      &:hover {
+        background-color: @group-list-item-hover-color;
+
+        .btn-group {
+          .btn {
+            background-color: @group-list-item-hover-color;
+
+            &:hover {
+              background-color: #e6e6e6;
+              border-color: #adadad;
+            }
+          }
+        }
+      }
+
+      h4 {
+        margin-top: 10px;
+      }
+
+      p {
+        margin: 0 0 10px 0;
+      }
+
+      .timestamp {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 2px;
+        color: @gray-color;
+        background: none;
+        font-size: 12px;
+        font-weight: 400;
+      }
+
+      .btn-group {
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        .btn {
+          border: none;
+          border-radius: 50%;
+          padding: 6px;
+          margin: 5px;
+          color: @gray-color;
+          font-size: 20px;
+        }
+      }
+
+    }
+  }
+
+}
+
+.meeting {
+  position: relative;
+
+  .meeting-when {
+    background: @btn-info-bg;
+    position: absolute;
+    right: 0;
+    top: -8px;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 0 0 4px 4px;
+    z-index: 2;
+
+    .z1;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  .description {
+    margin: 0 0 10px;
+    white-space: pre-line;
+    word-break: break-word;
+    background: rgb(242, 242, 242);
+    padding: 5px 20px;
+  }
+
+  .map-section {
+    >div {
+      background: rgb(242, 242, 242);
+      overflow: hidden;
+    }
+
+    .map-location {
+      width: auto;
+    }
+  }
+
+  .badge {
+    margin-left: 10px;
+  }
+
+  .confirm-timer {
+    display: inline-block;
+    margin-top: 17px;
+
+    .time {
+      font-weight: 500;
+      text-decoration: underline;
+    }
+  }
+
+  .collapse-title {
+    color: #4E4E4E;
+    background: rgb(242, 242, 242);
+    text-decoration: none;
+    border-bottom: none;
+    padding: 5px 10px;
+    margin: 5px 0 0 0;
+    text-transform: none;
+  }
+
+}

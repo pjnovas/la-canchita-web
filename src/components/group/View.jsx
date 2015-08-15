@@ -75,48 +75,42 @@ export default class GroupView extends ReactListener {
     return (
       <div>
         <Header backto="groups"/>
-        <Grid fluid>
 
-          <Row>
-            <Col xs={12}>
+        <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
+          animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
 
-              <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
-                animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
+          <TabPane eventKey={1} tab={__.group_tab_info}>
 
-                <TabPane eventKey={1} tab={__.group_tab_info}>
+            <Grid>
+              <Card
+                title={model.title}
+                description={model.description}
+                media={ model.picture ? "/images/groups/" + model.picture : null }
+                actions={actions}>
+              </Card>
+            </Grid>
 
-                  <Card
-                    title={model.title}
-                    description={model.description}
-                    media={ model.picture ? "/images/groups/" + model.picture : null }
-                    actions={actions}>
-                  </Card>
+            { canEdit ?
+              <ActionButton bsStyle="primary" icon="pencil"
+                to="groupedit" params={{groupId: this.state.id}}/>
+            : null }
 
-                  { canEdit ?
-                    <ActionButton bsStyle="primary" icon="pencil"
-                      to="groupedit" params={{groupId: this.state.id}}/>
-                  : null }
+          </TabPane>
 
-                </TabPane>
+          <TabPane eventKey={2} tab={__.group_tab_members}>
+            <MemberList groupId={this.state.id} myRole={myRole} />
+          </TabPane>
 
-                <TabPane eventKey={2} tab={__.group_tab_members}>
-                  <MemberList groupId={this.state.id} myRole={myRole} />
-                </TabPane>
+          <TabPane eventKey={3} tab={__.group_tab_meetings}>
+            <MeetingList groupId={this.state.id} myRole={myRole}/>
+          </TabPane>
 
-                <TabPane eventKey={3} tab={__.group_tab_meetings}>
-                  <MeetingList groupId={this.state.id} myRole={myRole}/>
-                </TabPane>
+          <TabPane eventKey={4} tab={__.group_tab_settings} disabled>
+            Settings
+          </TabPane>
 
-                <TabPane eventKey={4} tab={__.group_tab_settings} disabled>
-                  Settings
-                </TabPane>
+        </TabbedArea>
 
-              </TabbedArea>
-
-            </Col>
-          </Row>
-
-        </Grid>
       </div>
     );
   }

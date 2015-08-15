@@ -9,7 +9,8 @@ export default class ActionButton extends React.Component {
 
     let icon = (<Icon name={this.props.icon} />);
 
-    var css = "btn-action " + this.props.className;
+    var mini = this.props.secondary ? " secondary " : "";
+    var css = "btn-action " + mini + this.props.className;
 
     let button = (<Button {...this.props} className={css}>{icon}</Button>);
 

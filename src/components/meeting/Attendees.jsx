@@ -4,7 +4,7 @@ import MeetingActions from "../../actions/Meeting";
 import Attendee from "./Attendee.jsx";
 import ReactListener from "../ReactListener";
 
-import { Row, Col, ListGroup, Button } from "react-bootstrap";
+import { Row, Col, ListGroup, Button, Badge } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
 export default class Attendees extends ReactListener {
@@ -17,10 +17,23 @@ export default class Attendees extends ReactListener {
     MeetingActions.leave(this.props.meeting.id);
   }
 
+  onClickConfirm(e){
+    MeetingActions.confirm(this.props.meeting.id);
+  }
+
+  getPeriod (dt, obj, type) {
+    if (!obj || !obj.times){
+      return moment(dt).clone();
+    }
+
+    return moment(dt).clone()[type](obj.times, obj.period);
+  }
+
   render() {
     let meeting = this.props.meeting;
     let stage = this.props.stage;
     let list = meeting.attendees;
+    let when = moment(meeting.when);
 
     list.sort((a, b) => {
       a = moment(a.createdAt);
@@ -35,23 +48,63 @@ export default class Attendees extends ReactListener {
     let canJoin = (["joining", "confirming"].indexOf(stage) > -1 ? true : false);
     canJoin = canJoin && !me ? true : false;
 
-    let canLeave = (stage === "joining" && !canJoin ? true : false);
+    let canConfirm = (stage === "confirming" && !canJoin && !me.isConfirmed ? true : false);
+    let canLeave = (["joining", "confirming"].indexOf(stage) > -1 && !canJoin && !me.isConfirmed ? true : false);
 
+    let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, 'subtract');
+    let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, 'subtract');
+
+    let sStart = moment(cStart).format(__.full_datetime_format);
+    let sEnd = moment(cEnd).format(__.full_datetime_format);
 
     return (
-      <Row>
-        <Col xs={12}>
+      <div>
 
-          <h5>Jugadores</h5>
+        <Row>
 
-          <ListGroup>
-            {list.map(attendee => {
-              return (<Attendee key={attendee.id} model={attendee}/>);
-            })}
-          </ListGroup>
+          <Col xs={6}>
+            <h4>Jugadores
+            { meeting.max ?
+              <Badge>{list.length} / {meeting.max}</Badge>
+            :
+              <Badge>{list.length}</Badge>
+            }
+            </h4>
+          </Col>
 
-          { replacements.length ?
-          <div>
+          { meeting.confirmation ?
+          <Col xs={6} className="text-right">
+          { stage === "confirming" ?
+            <h6 className="confirm-timer">
+              {__.meeting_confirm_ending_at}
+              <span className="time" title={sStart}>{ moment(cEnd).from() }</span>
+            </h6>
+          :
+            <h6 className="confirm-timer">
+              {__.meeting_confirm_starting_at}
+              <span className="time" title={sEnd}>{ moment(cStart).from() }</span>
+            </h6>
+          }
+          </Col>
+          : null }
+
+        </Row>
+
+        <Row>
+          <Col xs={12}>
+
+            <ListGroup>
+              {list.map(attendee => {
+                return (<Attendee key={attendee.id} model={attendee}/>);
+              })}
+            </ListGroup>
+
+          </Col>
+        </Row>
+
+        { replacements.length ?
+        <Row>
+          <Col xs={12}>
             <h5>Suplentes</h5>
 
             <ListGroup>
@@ -59,21 +112,26 @@ export default class Attendees extends ReactListener {
                 return (<Attendee key={attendee.id} model={attendee}/>);
               })}
             </ListGroup>
-          </div>
-          : null }
+          </Col>
+        </Row>
+        : null }
 
-          { canJoin ?
-            <ActionButton bsStyle="primary" icon="pencil-square-o"
-              onClick={ e => { this.onClickJoin(e); } }/>
-          : null }
+        { canJoin ?
+          <ActionButton bsStyle="primary" icon="pencil-square-o"
+            onClick={ e => { this.onClickJoin(e); } }/>
+        : null }
 
-          { canLeave ?
-            <ActionButton bsStyle="primary" icon="close"
-              onClick={ e => { this.onClickLeave(e); } }/>
-          : null }
+        { canLeave ?
+          <ActionButton secondary={canConfirm} bsStyle="danger" icon="close"
+            onClick={ e => { this.onClickLeave(e); } }/>
+        : null }
 
-        </Col>
-      </Row>
+        { canConfirm ?
+          <ActionButton bsStyle="success" icon="check"
+            onClick={ e => { this.onClickConfirm(e); } }/>
+        : null }
+
+      </div>
     );
   }
 

@@ -6,13 +6,15 @@ import Header from "../Header.jsx";
 import Attendees from "./Attendees.jsx";
 import ReactListener from "../ReactListener";
 
-import { Grid, Row, Col, ListGroup } from "react-bootstrap";
-import { ActionButton } from "../controls";
+import { Grid, Row, Col, Button, Collapse } from "react-bootstrap";
+import { ActionButton, GMap, Icon } from "../controls";
 
 export default class MeetingView extends ReactListener {
 
   constructor(props) {
     super(props);
+
+    this.state = MeetingView.defaultState;
 
     this.state.gid = "";
     this.state.id = this.props.params.meetingId;
@@ -51,17 +53,29 @@ export default class MeetingView extends ReactListener {
     }
   }
 
+  getPeriod (dt, obj, type) {
+    if (!obj || !obj.times){
+      return moment(dt).clone();
+    }
+
+    return moment(dt).clone()[type](obj.times, obj.period);
+  }
+
   getStage(){
     let now = moment();
     let meeting = this.state.meeting;
     let when = moment(meeting.when);
     let duration = meeting.duration || { times: 1, period: 'hours' };
-    let end = when.clone().add(duration.times, duration.period);
-    let historic = end.clone().add(1, 'week');
+
+    let end = this.getPeriod(when, duration, 'add');
+    let historic = this.getPeriod(end, { times: 1, period: 'weeks' }, 'add');
+
+    let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, 'subtract');
+    let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, 'subtract');
 
     let stage = 'joining';
 
-    if (meeting.confirmation && now > meeting.confirmStart && now < meeting.confirmEnd){
+    if (meeting.confirmation && now > cStart && now < cEnd){
       stage = 'confirming';
     }
     else if (now > when && now < end) {
@@ -94,29 +108,68 @@ export default class MeetingView extends ReactListener {
     return (
       <div>
         <Header backto="grouptab" backparams={ { groupId: this.state.gid, tab: "meetings" } } />
-        <Grid>
+        <Grid className="meeting">
+
+          <div className="meeting-when" title={when_str}>{time}</div>
 
           <Row>
             <Col xs={10}>
-              <h1>{meeting.title}</h1>
-            </Col>
-            <Col xs={2}>
-              <p>{when_str}</p>
-              <p>{time}</p>
+              <h2>{meeting.title ? meeting.title : __.meeting_default_title}</h2>
             </Col>
           </Row>
 
-          <Row className="collapser">
-            <Col xs={6}>
-              <p>{meeting.info}</p>
-            </Col>
-            <Col xs={6}>
-              map
+          <Row className="visible-xs visible-sm">
+            <Col sm={12}>
+              <Button bsStyle='link' className="collapse-title pull-left"
+                onClick={ ()=> this.setState({ info_open: !this.state.info_open, map_open: false })}>
+                <Icon name={this.state.info_open ? "chevron-down" : "chevron-up"}/>
+                {__.meeting_info}
+              </Button>
+              <Button bsStyle='link' className="collapse-title pull-right"
+                onClick={ ()=> this.setState({ map_open: !this.state.map_open, info_open: false })}>
+                <Icon name={this.state.map_open ? "chevron-down" : "chevron-up"}/>
+                {__.meeting_place}
+              </Button>
             </Col>
           </Row>
 
           <Row>
-            <Col xs={12}>
+
+            {meeting.info ?
+            <Col xs={12} sm={12} md={6}>
+
+              <Button bsStyle='link' className="collapse-title hidden-xs hidden-sm"
+                onClick={ ()=> this.setState({ info_open: !this.state.info_open })}>
+                <Icon name={this.state.info_open ? "chevron-down" : "chevron-up"}/>
+                {__.meeting_info}
+              </Button>
+
+              <Collapse in={this.state.info_open}>
+                <p className="description">{meeting.info}</p>
+              </Collapse>
+            </Col>
+            : null }
+
+            <Col xs={12} sm={12} md={6} className="map-section">
+
+              <Button bsStyle='link' className="collapse-title hidden-xs hidden-sm"
+                onClick={ ()=> this.setState({ map_open: !this.state.map_open })}>
+                <Icon name={this.state.map_open ? "chevron-down" : "chevron-up"}/>
+                {__.meeting_place}
+              </Button>
+
+              <Collapse in={this.state.map_open}>
+
+                <GMap readOnly={true}
+                  place={meeting.place}
+                  location={meeting.location} />
+              </Collapse>
+            </Col>
+
+          </Row>
+
+          <Row>
+            <Col xs={12} sm={10} smOffset={1}>
               <Attendees meeting={meeting} stage={stage} />
             </Col>
           </Row>
@@ -129,3 +182,8 @@ export default class MeetingView extends ReactListener {
 };
 
 MeetingView.displayName = "MeetingView";
+
+MeetingView.defaultState = {
+  info_open: false,
+  map_open: true
+};
