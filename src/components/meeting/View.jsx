@@ -6,7 +6,7 @@ import Header from "../Header.jsx";
 import Attendees from "./Attendees.jsx";
 import ReactListener from "../ReactListener";
 
-import { Grid, Row, Col, Button, Collapse } from "react-bootstrap";
+import { Grid, Row, Col, Button, Collapse, TabbedArea, TabPane } from "react-bootstrap";
 import { ActionButton, GMap, Icon } from "../controls";
 
 export default class MeetingView extends ReactListener {
@@ -19,6 +19,8 @@ export default class MeetingView extends ReactListener {
     this.state.gid = "";
     this.state.id = this.props.params.meetingId;
     this.store = MeetingStore;
+
+    this.editors = ["owner", "admin"];
   }
 
   componentDidMount() {
@@ -28,7 +30,7 @@ export default class MeetingView extends ReactListener {
 
   onFind(meeting) {
     super.onFind();
-    this.setState({ meeting, gid: meeting.group.id });
+    this.setState({ meeting, me: meeting.group.member, gid: meeting.group.id });
   }
 
   onJoin(attendee){
@@ -92,6 +94,10 @@ export default class MeetingView extends ReactListener {
     return stage;
   }
 
+  onChangeTab(key){
+    this.setState({ selectedKey: key });
+  }
+
   render() {
     let meeting = this.state.meeting;
 
@@ -105,85 +111,82 @@ export default class MeetingView extends ReactListener {
 
     let stage = this.getStage();
 
+    let myRole = this.state.me && this.state.me.role || "member";
+    let canEdit = this.editors.indexOf(myRole) > -1;
+
+    let label = meeting.place.replace(" ", ",");
+    let loc = meeting.location;
+    let link = "http://maps.google.com/maps/dir//" + label + "/@" + loc[0] + "," + loc[1] + ",17z";
+
     return (
-      <div>
-        <Header backto="grouptab" backparams={ { groupId: this.state.gid, tab: "meetings" } } />
-        <Grid className="meeting">
+      <div className="meeting">
 
-          <div className="meeting-when" title={when_str}>{time}</div>
+        <Header backto="grouptab" flat={true}
+          backparams={ { groupId: this.state.gid, tab: "meetings" } } />
 
-          <Row>
-            <Col xs={10}>
-              <h2>{meeting.title ? meeting.title : __.meeting_default_title}</h2>
-            </Col>
-          </Row>
+        <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
+          animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
 
-          <Row className="visible-xs visible-sm">
-            <Col sm={12}>
-              <Button bsStyle='link' className="collapse-title pull-left"
-                onClick={ ()=> this.setState({ info_open: !this.state.info_open, map_open: false })}>
-                <Icon name={this.state.info_open ? "chevron-down" : "chevron-up"}/>
-                {__.meeting_info}
-              </Button>
-              <Button bsStyle='link' className="collapse-title pull-right"
-                onClick={ ()=> this.setState({ map_open: !this.state.map_open, info_open: false })}>
-                <Icon name={this.state.map_open ? "chevron-down" : "chevron-up"}/>
-                {__.meeting_place}
-              </Button>
-            </Col>
-          </Row>
+          <TabPane eventKey={1} tab={__.meeting_tab_info}>
+            <Grid>
+              <Row>
+                <Col xs={12} sm={7} md={6}>
+                  <h2>{meeting.title ? meeting.title : __.meeting_default_title}</h2>
+                </Col>
 
-          <Row>
+                <Col xs={12} sm={5} md={6} className="text-right">
+                  <div className="meeting-when" title={when_str}>{when_str} - {time}</div>
+                </Col>
+              </Row>
 
-            {meeting.info ?
-            <Col xs={12} sm={12} md={6}>
+              <Row>
+                {meeting.info ?
+                <Col xs={12} sm={12} md={10} mdOffset={1}>
+                  <p className="description">{meeting.info}</p>
+                </Col>
+                : null }
+              </Row>
 
-              <Button bsStyle='link' className="collapse-title hidden-xs hidden-sm"
-                onClick={ ()=> this.setState({ info_open: !this.state.info_open })}>
-                <Icon name={this.state.info_open ? "chevron-down" : "chevron-up"}/>
-                {__.meeting_info}
-              </Button>
+              { canEdit ?
+                <ActionButton bsStyle="primary" icon="pencil"
+                  to="meetingedit" params={{meetingId: meeting.id}}/>
+              : null }
 
-              <Collapse in={this.state.info_open}>
-                <p className="description">{meeting.info}</p>
-              </Collapse>
-            </Col>
-            : null }
+            </Grid>
+          </TabPane>
 
-            <Col xs={12} sm={12} md={6} className="map-section">
+          <TabPane eventKey={2} tab={__.meeting_tab_place}>
+            <Grid>
+              <Row>
+                <Col xs={12} sm={12} md={10} mdOffset={1} className="map-section">
+                  <GMap readOnly={true}
+                    place={meeting.place}
+                    location={meeting.location} />
+                </Col>
+              </Row>
+              <ActionButton bsStyle="primary" icon="location-arrow"
+                href={link} target="_blank"/>
+            </Grid>
+          </TabPane>
 
-              <Button bsStyle='link' className="collapse-title hidden-xs hidden-sm"
-                onClick={ ()=> this.setState({ map_open: !this.state.map_open })}>
-                <Icon name={this.state.map_open ? "chevron-down" : "chevron-up"}/>
-                {__.meeting_place}
-              </Button>
+          <TabPane eventKey={3} tab={__.meeting_tab_attendees}>
+            <Grid>
+              <Row>
+                <Col xs={12} sm={10} smOffset={1}>
+                  <Attendees meeting={meeting} stage={stage} />
+                </Col>
+              </Row>
+            </Grid>
+          </TabPane>
 
-              <Collapse in={this.state.map_open}>
-
-                <GMap readOnly={true}
-                  place={meeting.place}
-                  location={meeting.location} />
-              </Collapse>
-            </Col>
-
-          </Row>
-
-          <Row>
-            <Col xs={12} sm={10} smOffset={1}>
-              <Attendees meeting={meeting} stage={stage} />
-            </Col>
-          </Row>
-
-        </Grid>
+        </TabbedArea>
       </div>
     );
   }
-
 };
 
 MeetingView.displayName = "MeetingView";
 
 MeetingView.defaultState = {
-  info_open: false,
-  map_open: true
+  selectedKey: 1
 };

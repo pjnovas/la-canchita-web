@@ -6,10 +6,11 @@ import { Icon, Avatar } from './controls';
 export default class Header extends React.Component {
 
   render() {
-    var profilePic = window.user ? window.user.picture : null;
+    let profilePic = window.user ? window.user.picture : null;
+    let css = this.props.flat ? "no-shadow" : "z2";
 
     return (
-      <Navbar fluid={true} fixedTop={true} className="z2">
+      <Navbar fluid={true} fixedTop={true} className={css}>
 
       {(this.props.backto ?
         <ul className="nav navbar-nav navbar-left">

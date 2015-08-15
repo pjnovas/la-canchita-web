@@ -17,7 +17,7 @@ export default class GroupView extends ReactListener {
     super(props);
 
     this.state.id = this.props.params.groupId;
-    this.state.tabSelected = 0;
+    this.state.selectedKey = 1;
     this.store = GroupStore;
 
     this.editors = ["owner", "admin"];
@@ -74,7 +74,7 @@ export default class GroupView extends ReactListener {
 
     return (
       <div>
-        <Header backto="groups"/>
+        <Header backto="groups" flat={true}/>
 
         <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
           animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>

@@ -93,6 +93,10 @@ export default {
   "user_search_hint": "Nombre o email",
   "user_add_by_email": "Agregar email",
 
+  "meeting_tab_info": "Detalle",
+  "meeting_tab_place": "Lugar",
+  "meeting_tab_attendees": "Jugadores",
+
   "meeting_past": "Finalizados",
   "meeting_title_create": "Crear partido",
   "meeting_title_edit": "Editar partido",

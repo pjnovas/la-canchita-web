@@ -3,7 +3,7 @@
 }
 
 body {
-  background: #EAEAEA;
+  background: @background-color;
   padding-top: 60px;
 }
 
@@ -43,31 +43,6 @@ label {
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
-  }
-}
-
-.navbar-nav {
-  margin: 0!important;
-
-  &.navbar-left {
-    float: left!important;
-  }
-
-  &.navbar-right {
-    float: right!important;
-  }
-}
-
-.navbar-back {
-  >a {
-
-    @media @xs-and-down {
-      padding: 15px 0 !important;
-    }
-
-    @media @sm-and-up {
-      padding: 15px 15px 15px 0 !important;
-    }
   }
 }
 

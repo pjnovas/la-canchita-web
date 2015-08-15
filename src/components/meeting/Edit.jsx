@@ -62,7 +62,7 @@ export default class MeetingEdit extends ReactListener {
 
     return (
       <div>
-        <Header backto="grouptab" backparams={{ groupId: this.state.group.id, tab: "meetings" }} />
+        <Header backto="meeting" backparams={{ meetingId: this.state.id }} />
 
         {this.state.loading ? __.loading :
 
@@ -103,3 +103,4 @@ export default class MeetingEdit extends ReactListener {
 };
 
 MeetingEdit.displayName = "MeetingEdit";
+//<Header backto="grouptab" backparams={{ groupId: this.state.group.id, tab: "meetings" }} />
