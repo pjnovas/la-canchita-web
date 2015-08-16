@@ -17,8 +17,38 @@ export default class MeetingCreate extends ReactListener {
 
     this.state.gid = this.props.params.groupId;
 
+    this.state.loading = false;
+
+    if (this.props.params.meetingId){
+      this.state.id = this.props.params.meetingId;
+      this.state.loading = true;
+    }
+
     this.isDirty = false;
     this.store = MeetingStore;
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+
+    if (this.state.id) {
+      MeetingActions.findOne(this.state.id);
+    }
+  }
+
+  onFind(meeting) {
+    super.onFind();
+
+    // meeting to clone
+    this.state.id = undefined;
+    delete meeting.id;
+    delete meeting.attendees;
+    delete meeting.group;
+
+    meeting.when = moment();
+
+    meeting.loading = false;
+    this.setState(meeting);
   }
 
   redirect(mid){
@@ -58,6 +88,8 @@ export default class MeetingCreate extends ReactListener {
       <div>
         <Header backto="grouptab" backparams={{ groupId: this.state.gid, tab: "meetings" }} />
 
+        {this.state.loading ? __.loading :
+
         <Grid>
           <Paper skipHeader>
 
@@ -69,7 +101,7 @@ export default class MeetingCreate extends ReactListener {
               info={ this.state.info }
               place={ this.state.place }
               location={ this.state.location }
-              when={ this.state.when }
+              when={ moment(this.state.when) }
               duration={ this.state.duration }
 
               confirmation={ this.state.confirmation }
@@ -87,7 +119,7 @@ export default class MeetingCreate extends ReactListener {
 
           </Paper>
         </Grid>
-
+        }
       </div>
     );
   }

@@ -15,6 +15,13 @@ export default class MeetingItem extends React.Component {
     window.app.router.transitionTo("meeting", { meetingId: this.props.model.id });
   }
 
+  navigateClone(e){
+    e.stopPropagation();
+    window.app.router.transitionTo("meetingclone", {
+      groupId: this.props.model.group,
+      meetingId: this.props.model.id });
+  }
+
   navigateEdit(e){
     e.stopPropagation();
     window.app.router.transitionTo("meetingedit", { meetingId: this.props.model.id });
@@ -36,6 +43,33 @@ export default class MeetingItem extends React.Component {
     let canEdit = this.editors.indexOf(myRole) > -1;
     let canDestroy = this.destroyers.indexOf(myRole) > -1;
 
+    let options;
+    if (canEdit || canDestroy){
+
+      options = (
+        <div className="btn-group">
+
+          <button type="button" className="btn btn-default dropdown-toggle"
+            data-toggle="dropdown" onClick={ e => { e.stopPropagation(); }}>
+            <Icon name="ellipsis-v" />
+          </button>
+
+          <ul className="dropdown-menu dropdown-menu-right">
+            { canEdit && !this.props.isPast ?
+            <li key="edit"><a onClick={ e => { this.navigateEdit(e); }}>{__.edit}</a></li>
+            : null }
+            { canEdit ?
+            <li key="clone"><a onClick={ e => { this.navigateClone(e); }}>{__.meeting_clone}</a></li>
+            : null }
+            { canDestroy && !this.props.isPast ?
+            <li key="remove"><a onClick={ e => { this.onRemoveClick(e);  }}>{__.remove}</a></li>
+            : null }
+          </ul>
+        </div>
+      );
+
+    }
+
     return (
       <div className="list-group-item" onClick={ e => { this.openMeeting(e); }} >
 
@@ -47,25 +81,8 @@ export default class MeetingItem extends React.Component {
           </Col>
 
           <Label className="timestamp" bsSize="medium" bsStyle="info">{time}</Label>
+          {options}
 
-          {!this.props.hideActions ?
-          <div className="btn-group">
-
-            <button type="button" className="btn btn-default dropdown-toggle"
-              data-toggle="dropdown" onClick={ e => { e.stopPropagation(); }}>
-              <Icon name="ellipsis-v" />
-            </button>
-
-            <ul className="dropdown-menu dropdown-menu-right">
-              { canEdit ?
-              <li><a onClick={ e => { this.navigateEdit(e); }}>{__.edit}</a></li>
-              : null }
-              { canDestroy ?
-              <li><a onClick={ e => { this.onRemoveClick(e);  }}>{__.remove}</a></li>
-              : null }
-            </ul>
-          </div>
-          : null }
         </Row>
 
       </div>

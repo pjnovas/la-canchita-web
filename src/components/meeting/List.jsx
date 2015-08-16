@@ -72,34 +72,32 @@ export default class MeetingList extends ReactListener {
     return (
       <Grid>
         <Row className="meeting-tab">
-          <Col xs={12}>
 
+          <div className="list-group">
+            {active.map(meeting => {
+              return (<MeetingItem key={meeting.id} model={meeting}
+                removeMeeting={ mid => { this.removeMeeting(mid) }}
+                myRole={this.props.myRole} />);
+            })}
+          </div>
+
+          { past.length ?
+          <div>
+            <h4>{__.meeting_past}</h4>
             <div className="list-group">
-              {active.map(meeting => {
+              {past.map(meeting => {
                 return (<MeetingItem key={meeting.id} model={meeting}
-                  removeMeeting={ mid => { this.removeMeeting(mid) }}
-                  myRole={this.props.myRole} />);
+                  myRole={this.props.myRole} isPast={true} />);
               })}
             </div>
+          </div>
+          : null }
 
-            { past.length ?
-            <div>
-              <h4>{__.meeting_past}</h4>
-              <div className="list-group">
-                {past.map(meeting => {
-                  return (<MeetingItem key={meeting.id} model={meeting}
-                    myRole={this.props.myRole} hideActions={true} />);
-                })}
-              </div>
-            </div>
-            : null }
+          { canCreate ?
+            <ActionButton bsStyle="primary" icon="plus"
+              to="meetingnew" params={{groupId: this.state.gid}}/>
+          : null }
 
-            { canCreate ?
-              <ActionButton bsStyle="primary" icon="plus"
-                to="meetingnew" params={{groupId: this.state.gid}}/>
-            : null }
-
-          </Col>
         </Row>
       </Grid>
     );

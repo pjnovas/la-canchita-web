@@ -128,9 +128,16 @@ export default {
   "meeting_join": "Voy!",
   "meeting_leave": "Me bajo",
   "meeting_confirm": "Confirmo!",
+  "meeting_clone": "Duplicar",
 
   "meeting_confirm_starting_at": "La confirmación inicia ",
   "meeting_confirm_ending_at": "La confirmación termina ",
+
+  "meeting_stage_joining": "Inscripción",
+  "meeting_stage_confirming": "Confirmaciones",
+  "meeting_stage_running": "En curso",
+  "meeting_stage_played": "Terminado",
+  "meeting_stage_historic": "Histórico",
 
   "datepicker": {
     "locale": "es",
@@ -155,6 +162,11 @@ export default {
   "periods_weeks": "Semanas",
   "periods_days": "Días",
   "periods_hours": "Horas",
-  "periods_minutes": "Minutos"
+  "periods_minutes": "Minutos",
+
+  "periods_weeks_singular": "Semana",
+  "periods_days_singular": "Día",
+  "periods_hours_singular": "Hora",
+  "periods_minutes_singular": "Minuto"
 
 };

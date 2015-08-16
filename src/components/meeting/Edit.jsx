@@ -17,6 +17,8 @@ export default class MeetingEdit extends ReactListener {
 
     this.state.id = this.props.params.meetingId;
     this.state.group = { id: "" };
+    this.state.loading = true;
+
     this.isDirty = false;
     this.store = MeetingStore;
   }
@@ -28,6 +30,8 @@ export default class MeetingEdit extends ReactListener {
 
   onFind(meeting) {
     super.onFind();
+
+    meeting.loading = false;
     this.setState(meeting);
   }
 

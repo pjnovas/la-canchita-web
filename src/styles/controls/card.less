@@ -15,11 +15,21 @@
     .avatar {
       width: 40px;
       height: 40px;
-      background: #F4EC49;
       text-align: center;
       padding: 8px;
       font-size: 18px;
       color: #fff;
+
+      &.icon {
+        background: @card-invite-avatar-bg;
+        color: @card-invite-avatar-text;
+
+        i {
+          font-size: 36px;
+          text-indent: -25px;
+          line-height: 24px;
+        }
+      }
     }
 
     .content {

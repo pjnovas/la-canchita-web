@@ -1,6 +1,6 @@
 
-import { ListGroupItem, Col, Label } from "react-bootstrap";
-import { Avatar } from "../controls";
+import { Row, Col, Label } from "react-bootstrap";
+import { Avatar, Icon } from "../controls";
 
 export default class Attendee extends React.Component {
 
@@ -13,15 +13,26 @@ export default class Attendee extends React.Component {
     let time = moment(model.createdAt).from();
 
     return (
-      <ListGroupItem className="row">
-        <Col xs={2} sm={1}>
-          <Avatar src={model.user.picture} />
-        </Col>
-        <Col xs={8} sm={11}>
-          <h3>{model.user.name}</h3>
-        </Col>
-        <Label className="pull-right" bsSize="medium" bsStyle="info">{time}</Label>
-      </ListGroupItem>
+      <div className="list-group-item">
+        <Row>
+
+          <Col xs={2} sm={1} className="avatar-col">
+            <Avatar src={model.user.picture} />
+          </Col>
+
+          <Col xs={10} sm={11}>
+            <h4 className="list-group-item-heading">{model.user.name}</h4>
+            <p className="ellipsis">Arquero > Defensor > Medio Campo</p>
+          </Col>
+
+          {model.isConfirmed ?
+          <div className="right-icon"><Icon name="check" /></div>
+          : null }
+
+          <Label className="timestamp" bsSize="medium" bsStyle="info">{time}</Label>
+
+        </Row>
+      </div>
     );
   }
 

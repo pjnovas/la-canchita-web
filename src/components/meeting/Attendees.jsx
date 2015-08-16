@@ -1,10 +1,12 @@
 
+import _ from 'lodash';
+
 import MeetingActions from "../../actions/Meeting";
 
 import Attendee from "./Attendee.jsx";
 import ReactListener from "../ReactListener";
 
-import { Row, Col, ListGroup, Button, Badge } from "react-bootstrap";
+import { Row, Col, Button, Badge } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
 export default class Attendees extends ReactListener {
@@ -44,12 +46,36 @@ export default class Attendees extends ReactListener {
     let me = list.filter( attendee => { return window.user.id === attendee.user.id; });
     me = (me.length ? me[0] : null);
 
+    let attendees = list;
     let replacements = [];
-    let canJoin = (["joining", "confirming"].indexOf(stage) > -1 ? true : false);
-    canJoin = canJoin && !me ? true : false;
 
-    let canConfirm = (stage === "confirming" && !canJoin && !me.isConfirmed ? true : false);
-    let canLeave = (["joining", "confirming"].indexOf(stage) > -1 && !canJoin && !me.isConfirmed ? true : false);
+    if (meeting.max > 0){
+      attendees = _.take(list, meeting.max);
+    }
+
+    if (meeting.replacements && meeting.max > 0){
+      replacements = _.takeRight(list, list.length - meeting.max);
+
+      if (meeting.confirmation && ["joining", "confirming"].indexOf(stage) === -1){
+        // meeting playing, played or historic with confirmation
+        let confirmedList = list.filter( attendee => { return attendee.isConfirmed; });
+
+        attendees = _.take(confirmedList, meeting.max); // the first max of confirmed
+        let attIds = _.map(attendees, (attendee) => { return attendee.id; });
+
+        replacements = list.filter( attendee => { // all but attendees
+          return attIds.indexOf(attendee.id) === -1;
+        });
+      }
+    }
+
+    let isFull = !meeting.replacements && attendees.length === meeting.max;
+
+    let canJoin = (["joining", "confirming"].indexOf(stage) > -1 ? true : false);
+    canJoin = canJoin && !me && !isFull ? true : false;
+
+    let canConfirm = (stage === "confirming" && me && !me.isConfirmed ? true : false);
+    let canLeave = (["joining", "confirming"].indexOf(stage) > -1 && me && !me.isConfirmed ? true : false);
 
     let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, 'subtract');
     let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, 'subtract');
@@ -65,14 +91,14 @@ export default class Attendees extends ReactListener {
           <Col xs={6}>
             <h4>Jugadores
             { meeting.max ?
-              <Badge>{list.length} / {meeting.max}</Badge>
+              <Badge>{attendees.length} / {meeting.max}</Badge>
             :
-              <Badge>{list.length}</Badge>
+              <Badge>{attendees.length}</Badge>
             }
             </h4>
           </Col>
 
-          { meeting.confirmation ?
+          { meeting.confirmation && ["joining", "confirming"].indexOf(stage) > -1 ?
           <Col xs={6} className="text-right">
           { stage === "confirming" ?
             <h6 className="confirm-timer">
@@ -93,11 +119,11 @@ export default class Attendees extends ReactListener {
         <Row>
           <Col xs={12}>
 
-            <ListGroup>
-              {list.map(attendee => {
+            <div className="list-group">
+              {attendees.map(attendee => {
                 return (<Attendee key={attendee.id} model={attendee}/>);
               })}
-            </ListGroup>
+            </div>
 
           </Col>
         </Row>
@@ -105,13 +131,13 @@ export default class Attendees extends ReactListener {
         { replacements.length ?
         <Row>
           <Col xs={12}>
-            <h5>Suplentes</h5>
+            <h5>Suplentes <Badge>{replacements.length}</Badge></h5>
 
-            <ListGroup>
+            <div className="list-group">
               {replacements.map(attendee => {
                 return (<Attendee key={attendee.id} model={attendee}/>);
               })}
-            </ListGroup>
+            </div>
           </Col>
         </Row>
         : null }

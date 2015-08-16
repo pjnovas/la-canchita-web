@@ -22,7 +22,7 @@ export default class Card extends React.Component {
             <Row className="header">
 
               <Col xs={2} sm={1}>
-                <div className="avatar">
+                <div className="avatar icon">
                   <Icon name={this.props.hicon} />
                 </div>
               </Col>

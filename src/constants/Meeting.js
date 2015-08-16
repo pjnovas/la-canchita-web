@@ -1,2 +1,2 @@
 import builder from "./builder";
-export default builder("MEETING", [ "JOIN", "LEAVE" ], true);
+export default builder("MEETING", [ "JOIN", "LEAVE", "CONFIRM" ], true);

@@ -33,6 +33,7 @@ var routes = (
     <Route path="/groups/:groupId/:tab" name="grouptab" handler={GroupView} />
 
     <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingCreate} />
+    <Route path="/meetings/:groupId/new/:meetingId" name="meetingclone" handler={MeetingCreate} />
     <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />
     <Route path="/meetings/:meetingId/edit" name="meetingedit" handler={MeetingEdit} />
 

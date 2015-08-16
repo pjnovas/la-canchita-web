@@ -55,6 +55,18 @@ export default class MeetingView extends ReactListener {
     }
   }
 
+  onConfirm(attendee){
+    let meeting = this.state.meeting;
+
+    meeting.attendees.forEach( (_attendee) => {
+      if (attendee.id === _attendee.id){
+        _attendee.isConfirmed = attendee.isConfirmed;
+      }
+    });
+
+    this.setState({ meeting });
+  }
+
   getPeriod (dt, obj, type) {
     if (!obj || !obj.times){
       return moment(dt).clone();
@@ -67,27 +79,27 @@ export default class MeetingView extends ReactListener {
     let now = moment();
     let meeting = this.state.meeting;
     let when = moment(meeting.when);
-    let duration = meeting.duration || { times: 1, period: 'hours' };
+    let duration = meeting.duration || { times: 1, period: "hours" };
 
-    let end = this.getPeriod(when, duration, 'add');
-    let historic = this.getPeriod(end, { times: 1, period: 'weeks' }, 'add');
+    let end = this.getPeriod(when, duration, "add");
+    let historic = this.getPeriod(end, { times: 1, period: "weeks" }, "add");
 
-    let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, 'subtract');
-    let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, 'subtract');
+    let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, "subtract");
+    let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, "subtract");
 
-    let stage = 'joining';
+    let stage = "joining";
 
     if (meeting.confirmation && now > cStart && now < cEnd){
-      stage = 'confirming';
+      stage = "confirming";
     }
     else if (now > when && now < end) {
-      stage = 'running';
+      stage = "running";
     }
     else if (now > end) {
-      stage = 'historic';
+      stage = "historic";
 
       if (now < historic){
-        stage = 'played';
+        stage = "played";
       }
     }
 
@@ -122,6 +134,11 @@ export default class MeetingView extends ReactListener {
     let loc = meeting.location;
     let link = "http://maps.google.com/maps/dir//" + label + "/@" + loc[0] + "," + loc[1] + ",17z";
 
+    let duration = meeting.duration || { times: 1, period: "hours" };
+
+    duration = " " + duration.times + " " +
+      __["periods_" + duration.period + (duration.times === 1 ? "_singular" : "")];
+
     return (
       <div className="meeting">
 
@@ -131,15 +148,24 @@ export default class MeetingView extends ReactListener {
         <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
           animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
 
-          <TabPane eventKey={1} tab={__.meeting_tab_info}>
+          <TabPane key={1} eventKey={1} tab={__.meeting_tab_info}>
             <Grid>
+
+              <Row>
+                <Col xs={12} sm={8} md={6}>
+                  <div className={"meeting-when " + stage}
+                    title={__["meeting_stage_" + stage]}>
+                    {when_str}, {time}<span className="visible-xs">({duration})</span>
+                  </div>
+                </Col>
+                <Col xs={12} sm={4} md={6} className="hidden-xs text-right">
+                  <div className="meeting-duration">{__.meeting_duration}{duration}</div>
+                </Col>
+              </Row>
+
               <Row>
                 <Col xs={12} sm={7} md={6}>
                   <h2>{meeting.title ? meeting.title : __.meeting_default_title}</h2>
-                </Col>
-
-                <Col xs={12} sm={5} md={6} className="text-right">
-                  <div className="meeting-when" title={when_str}>{when_str} - {time}</div>
                 </Col>
               </Row>
 
@@ -159,7 +185,7 @@ export default class MeetingView extends ReactListener {
             </Grid>
           </TabPane>
 
-          <TabPane eventKey={2} tab={__.meeting_tab_place}>
+          <TabPane key={2} eventKey={2} tab={__.meeting_tab_place}>
             <Grid>
               <Row>
                 <Col xs={12} sm={12} md={10} mdOffset={1} className="map-section">
@@ -173,7 +199,7 @@ export default class MeetingView extends ReactListener {
             </Grid>
           </TabPane>
 
-          <TabPane eventKey={3} tab={__.meeting_tab_attendees}>
+          <TabPane key={3} eventKey={3} tab={__.meeting_tab_attendees}>
             <Grid>
               <Row>
                 <Col xs={12} sm={10} smOffset={1}>

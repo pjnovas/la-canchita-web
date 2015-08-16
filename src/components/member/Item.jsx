@@ -1,7 +1,7 @@
 
 import MemberStore from "../../stores/Member";
 
-import { Row, Col, ListGroupItem, DropdownButton, MenuItem } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Avatar, Icon } from "../controls";
 
 export default class MemberItem extends React.Component {
@@ -45,44 +45,52 @@ export default class MemberItem extends React.Component {
     let roleDDL = "roles-ddl-" + model.id;
     let roleName = this.roleName[model.role];
 
-    let iconButtonElement = null;
-    let rightIconMenu = null;
-
+    let options;
     if (!isMe && myRole !== "member" && changeRoles.length) {
 
-      rightIconMenu = (
-        <DropdownButton title={<Icon name="ellipsis-v" />} noCaret pullRight className="btn-icon">
+      options = (
+        <div className="btn-group">
 
-          <MenuItem header>{__.member_change_role}</MenuItem>
+          <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <Icon name="ellipsis-v" />
+          </button>
 
-          { changeRoles.map( role => {
-            return (<MenuItem eventKey={role}
-              onClick={ () => { this.props.changeRole(model.id, role); }} >
-                { this.roleName[role] }</MenuItem>)
-          }) }
+          <ul className="dropdown-menu dropdown-menu-right">
+            <li className="dropdown-header">{__.member_change_role}</li>
 
-          { canKick ? <MenuItem divider /> : <MenuItem></MenuItem> }
-          { canKick ? <MenuItem onClick={ e => { this.props.kickMember(model.id); } } >
-              {__.remove}</MenuItem> : <MenuItem></MenuItem> }
+            { changeRoles.map( role => {
+              return (
+                <li key={role}>
+                  <a onClick={ () => { this.props.changeRole(model.id, role); }}>{ this.roleName[role] }</a>
+                </li>
+              )
+            }) }
 
-        </DropdownButton>
+            { canKick ? <li className="divider"></li> : null }
+            { canKick ? <li key="edit"><a onClick={ e => { this.props.kickMember(model.id); } }>{__.remove}</a></li> : null }
+
+          </ul>
+        </div>
       );
-
     }
 
     return (
-      <ListGroupItem className="row">
-        <Col xs={2} sm={1}>
-          <Avatar src={model.user.picture} />
-        </Col>
-        <Col xs={8} sm={10}>
-          <h3>{model.user.name}</h3>
-          <p>{roleName}</p>
-        </Col>
-        <Col xs={2} sm={1}>
-          {rightIconMenu}
-        </Col>
-      </ListGroupItem>
+      <div className="list-group-item">
+        <Row>
+
+          <Col xs={2} sm={1} className="avatar-col">
+            <Avatar src={model.user.picture} />
+          </Col>
+
+          <Col xs={10} sm={11}>
+            <h4 className="list-group-item-heading">{model.user.name}</h4>
+            <p>{roleName}</p>
+          </Col>
+
+          {options}
+
+        </Row>
+      </div>
     );
   }
 

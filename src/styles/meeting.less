@@ -1,75 +1,37 @@
 .meeting-tab {
 
-  .list-group {
-
-    .list-group-item {
-      position: relative;
-      cursor: pointer;
-
-      &:hover {
-        background-color: @group-list-item-hover-color;
-
-        .btn-group {
-          .btn {
-            background-color: @group-list-item-hover-color;
-
-            &:hover {
-              background-color: #e6e6e6;
-              border-color: #adadad;
-            }
-          }
-        }
-      }
-
-      h4 {
-        margin-top: 10px;
-      }
-
-      p {
-        margin: 0 0 10px 0;
-      }
-
-      .timestamp {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        margin: 2px;
-        color: @gray-color;
-        background: none;
-        font-size: 12px;
-        font-weight: 400;
-      }
-
-      .btn-group {
-        position: absolute;
-        right: 0;
-        top: 0;
-
-        .btn {
-          border: none;
-          border-radius: 50%;
-          padding: 6px;
-          margin: 5px;
-          color: @gray-color;
-          font-size: 20px;
-        }
-      }
-
-    }
-  }
-
 }
 
 .meeting {
 
-  .meeting-when {
-    background: @primary-light-color;
+  .meeting-when,
+  .meeting-duration {
     font-weight: 500;
     padding: 10px 20px;
-    z-index: 2;
-    text-align: right;
     display: inline-block;
     margin-top: 10px;
+
+  }
+
+  .meeting-duration {
+    background: @primary-light-color;
+  }
+
+  .meeting-when {
+    &.joining { background: @meeting-stage-color-joining; }
+    &.confirming { background: @meeting-stage-color-confirming; }
+    &.running { background: @meeting-stage-color-running; }
+    &.played { background: @meeting-stage-color-played; }
+    &.historic { background: @meeting-stage-color-historic; }
+
+    @media @xs-and-down {
+      float: left;
+
+      .visible-xs {
+        float: right;
+        margin-left: 6px;
+      }
+    }
   }
 
   .description {

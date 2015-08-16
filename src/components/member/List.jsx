@@ -7,7 +7,7 @@ import UserInvite from "../user/Search.jsx";
 
 import ReactListener from "../ReactListener";
 
-import { Grid, Row, Col, ListGroup } from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
 export default class MemberList extends ReactListener {
@@ -101,44 +101,41 @@ export default class MemberList extends ReactListener {
       <Grid>
         <Row>
 
-          <Col xs={12}>
+          <div className="list-group">
+            {active.map(member => {
+              return (
+                <MemberItem
+                  key={member.id} model={member} myRole={this.props.myRole}
+                  kickMember={ mid => { this.kickMember(mid); } }
+                  changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>
+              );
+            })}
+          </div>
 
-            <ListGroup>
-              {active.map(member => {
-                return (
-                  <MemberItem
-                    key={member.id} model={member} myRole={this.props.myRole}
-                    kickMember={ mid => { this.kickMember(mid); } }
-                    changeRole={ (mid, role) => { this.changeRole(mid, role); } }/>
-                );
+          { pending.length ?
+          <div>
+            <h4>{__.member_invited}</h4>
+            <div className="list-group">
+              {pending.map(member => {
+                return (<MemberItem key={member.id} model={member} />);
               })}
-            </ListGroup>
-
-            { pending.length ?
-            <div>
-              <h4>{__.member_invited}</h4>
-              <ListGroup>
-                {pending.map(member => {
-                  return (<MemberItem key={member.id} model={member} />);
-                })}
-              </ListGroup>
             </div>
-            : null }
+          </div>
+          : null }
 
-            { canInvite ?
-              <div>
-                <ActionButton bsStyle="primary" icon="user-plus"
-                  onClick={ e => { this.showInvite(e); }}/>
+          { canInvite ?
+            <div>
+              <ActionButton bsStyle="primary" icon="user-plus"
+                onClick={ e => { this.showInvite(e); }}/>
 
-                <UserInvite
-                  skipIds={ skipIds }
-                  show={this.state.showInvite}
-                  onSelect={ users => { this.inviteUsers(users); } }
-                  onClose={ () => { this.hideInvite(); } } />
-              </div>
-            : null }
+              <UserInvite
+                skipIds={ skipIds }
+                show={this.state.showInvite}
+                onSelect={ users => { this.inviteUsers(users); } }
+                onClose={ () => { this.hideInvite(); } } />
+            </div>
+          : null }
 
-          </Col>
         </Row>
       </Grid>
     );
