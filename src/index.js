@@ -14,3 +14,8 @@ import "eonasdan-bootstrap-datetimepicker";
 window.app = {};
 import "./Router.jsx";
 import App from "./App.jsx";
+
+import notifier from "./Notifier";
+window.notifier = notifier;
+
+notifier.connect();

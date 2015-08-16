@@ -211,7 +211,7 @@ class MeetingStore extends ListStore {
         }
 
         var attendee = res.body;
-        attendee.user = window.user;
+        //attendee.user = window.user;
         //var meeting = this.getMeeting(id);
         //meeting.attendees.push(id);
         //this.emit("join", meeting);
@@ -247,7 +247,7 @@ class MeetingStore extends ListStore {
         }
 
         var attendee = res.body;
-        attendee.user = window.user;
+        //attendee.user = window.user;
 
         //var meeting = this.get(gid, id);
         //var idx = meeting.assistants.indexOf(id);

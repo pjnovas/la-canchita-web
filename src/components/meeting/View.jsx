@@ -31,6 +31,8 @@ export default class MeetingView extends ReactListener {
   onFind(meeting) {
     super.onFind();
     this.setState({ meeting, me: meeting.group.member, gid: meeting.group.id });
+
+    window.notifier.join("/ws/meetings/" + meeting.id);
   }
 
   onJoin(attendee){
