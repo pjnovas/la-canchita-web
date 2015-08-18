@@ -5,6 +5,7 @@ export default function(store, constants, setDefaults){
     constants = constants.concat([
       "FIND",
       "FINDONE",
+      "RECEIVE",
       "CREATE",
       "UPDATE",
       "DESTROY",

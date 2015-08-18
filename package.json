@@ -7,7 +7,7 @@
     "bootstrap": "^3.3.5",
     "eonasdan-bootstrap-datetimepicker": "git+https://github.com/pjnovas/bootstrap-datetimepicker.git",
     "events": "^1.0.2",
-    "flux": "^2.0.3",
+    "flux": "^2.1.1",
     "jquery": "^2.1.4",
     "moment": "^2.10.3",
     "react": "^0.13.3",
