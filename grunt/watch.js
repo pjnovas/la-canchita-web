@@ -1,25 +1,18 @@
 module.exports = {
-  less: {
-    files: [ 'src/**/*.less' ],
-    tasks: [ 'less' ],
-    options: {
-      atBegin: true
-    }
-  },
 
   app: {
-    files: [ 'src/**/*.js' ],
-    tasks: [ 'eslint' ],
+    files: [ 'src/**/*.less', 'dist/<%= pkg.name %>.js' ],
+    tasks: [ 'eslint', 'less', 'copy:assets' ],
     options: {
       atBegin: true
     }
   },
 
-  copy: {
-    files: [ 'dist/<%= pkg.name %>.css', 'dist/<%= pkg.name %>.js' ],
-    tasks: [ 'copy:assets' ],
+  tests: {
+    files: [ 'test/browserified_tests.js' ],
+    tasks: [ 'eslint', 'mocha_phantomjs' ],
     options: {
       atBegin: true
     }
-  }
+  },
 };

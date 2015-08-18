@@ -4,9 +4,14 @@ default:
   - 'browserify:app'
   - 'copy:assets'
 
+test:
+  - 'browserify:tests'
+  - 'connect'
+  - 'watch:tests'
+
 w:
   - 'browserify:watch'
-  - 'watch'
+  - 'watch:app'
 
 min:
   - 'eshint'

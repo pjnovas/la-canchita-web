@@ -1,6 +1,7 @@
 
 # Build
 dist/**/*
+test/browserified_tests.js
 
 # Windows
 
