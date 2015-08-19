@@ -1,7 +1,6 @@
 
 import request from "superagent";
-import GroupConstants from "../constants/GroupConstants";
-import GroupActions from "../actions/GroupActions";
+import { GroupActions } from "../actions";
 
 class GroupAPI {
 
@@ -20,6 +19,47 @@ class GroupAPI {
         }
 
         GroupActions.receive(res.body);
+      });
+  }
+
+  findOne(id) {
+
+    request
+      .get(this.uri + id)
+      .end( (err, res) => {
+        if (this.errorHandler(err, "findOne")){
+          return;
+        }
+
+        GroupActions.receive(res.body);
+        this.findMembers(id);
+        this.findMeetings(id);
+      });
+  }
+
+  findMembers(id){
+
+    request
+      .get(this.uri + id + "/members")
+      .end( (err, res) => {
+        if (this.errorHandler(err, "findMembers")){
+          return;
+        }
+
+        GroupActions.receiveMembers(id, res.body);
+      });
+  }
+
+  findMeetings(id){
+
+    request
+      .get(this.uri + id + "/meetings")
+      .end( (err, res) => {
+        if (this.errorHandler(err, "findMeetings")){
+          return;
+        }
+
+        GroupActions.receiveMeetings(id, res.body);
       });
   }
 
