@@ -1,53 +1,25 @@
 
-import GroupStore from "../../stores/Group";
+import {GroupActions} from "../../actions";
+
 import GroupItem from "./Item.jsx";
-import GroupActions from "../../actions/Group";
 
-import ReactListener from "../ReactListener";
-
-import { Button, Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
-export default class GroupList extends ReactListener {
+export default class GroupList extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state.groups = [];
-    this.store = GroupStore;
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    GroupActions.find();
-  }
-
-  onFind(groups) {
-    super.onFind();
-    this.setState({ groups });
-  }
-
-  onChange(groups, group){
-    this.setState({ groups });
-  }
-
-  onRemove(groups, id){
-    this.setState({ groups });
+    this.state = GroupList.defaultState;
   }
 
   render() {
 
-    var groups = this.state.groups.filter( g => {
+    var groups = this.props.groups.filter( g => {
       return (["active", "pending"].indexOf(g.member.state) > -1);
     });
 
     var list = () => {
-
-      if (this.state.loading){
-        return (
-          <div>{__.loading}</div>
-        );
-      }
 
       if (groups.length){
         return (
@@ -83,3 +55,6 @@ export default class GroupList extends ReactListener {
 };
 
 GroupList.displayName = "GroupList";
+GroupList.defaultState = {
+
+};

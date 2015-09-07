@@ -7,15 +7,15 @@ import { Icon, Divider } from "../controls";
 export default class GroupForm extends React.Component {
 
   changeTitle(e) {
-    this.props.onChange({ title: e.target.value });
+    this.props.onChange("title", e.target.value);
   }
 
   changeDescription(e) {
-    this.props.onChange({ description: e.target.value });
+    this.props.onChange("description", e.target.value);
   }
 
   changePicture(picture){
-    this.props.onChange({ newpicture: picture });
+    this.props.onChange("newpicture", picture);
   }
 
   save(){

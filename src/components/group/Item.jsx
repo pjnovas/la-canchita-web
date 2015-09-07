@@ -1,8 +1,7 @@
 
 import moment from "moment";
 
-import GroupActions from "../../actions/Group";
-import MemberActions from "../../actions/Member";
+import {GroupActions} from "../../actions";
 
 import { ButtonLink } from "react-router-bootstrap";
 import { Button } from "react-bootstrap";
@@ -11,15 +10,11 @@ import { Card, Icon } from "../controls";
 export default class GroupItem extends React.Component {
 
   onAcceptClick() {
-    let gid = this.props.model.id;
-    MemberActions.accept(this.props.model.id);
-    GroupActions.accepted(gid);
+    GroupActions.accept(this.props.model.id);
   }
 
   onDeclineClick() {
-    let gid = this.props.model.id;
-    MemberActions.decline(gid);
-    GroupActions.declined(gid);
+    GroupActions.reject(this.props.model.id);
   }
 
   render() {
@@ -39,12 +34,14 @@ export default class GroupItem extends React.Component {
         .replace("{2}", moment(m.updatedAt || m.createdAt).fromNow());
     }
 
+    let actions = [];
+    /*
     let actions = [
       (<ButtonLink bsStyle="link" to="group" params={{groupId: model.id}}>
         {__.group_card_open}
       </ButtonLink>)
     ];
-
+*/
     if (isInvite){
 
       actions = [

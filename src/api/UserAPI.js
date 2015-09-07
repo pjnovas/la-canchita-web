@@ -11,7 +11,7 @@ class UserAPI extends IO {
   }
 
   search(query) {
-    this.get('search?q=' + query).then( users => {
+    this.get("search?q=" + query).then( users => {
       this.actions.receive(users);
     });
   }

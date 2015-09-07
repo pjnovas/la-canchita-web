@@ -1,6 +1,6 @@
 
-import GroupStore from "../../stores/Group";
-import GroupActions from "../../actions/Group";
+import {GroupStore} from "../../stores";
+import {GroupActions} from "../../actions";
 
 import Header from "../Header.jsx";
 import Form from "./Form.jsx";
@@ -8,49 +8,68 @@ import Form from "./Form.jsx";
 import { Grid } from "react-bootstrap";
 import { Paper } from "../controls";
 
-import ReactListener from "../ReactListener";
-
-export default class GroupEdit extends ReactListener {
+export default class GroupCreate extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state.id = this.props.params.groupId;
-    this.isDirty = false;
-    this.store = GroupStore;
+    this.state = GroupCreate.defaultState;
+    this.props.id = (this.props.params && this.props.params.groupId) || null;
   }
 
-  componentDidMount() {
-    super.componentDidMount();
-    GroupActions.findOne(this.state.id);
+  componentDidMount(){
+    let model = {
+      title: "",
+      description: ""
+    };
+
+    if (this.props.id){
+      model = GroupStore.getStateById(this.props.id);
+      this.evChangeGroup = GroupStore.addListener(this.onChangeGroup.bind(this));
+    }
+
+    this.setState({ model });
   }
 
-  onFind(group) {
-    super.onFind();
-    this.setState(group);
+  componentWillUnmount() {
+    if (this.evChangeGroup){
+      this.evChangeGroup.remove();
+    }
   }
 
-  onSave() {
-    this.redirect();
+  onChangeGroup(){
+    if (this.props.id){
+      this.setState({ model: GroupStore.getStateById(this.props.id) });
+    }
   }
 
-  redirect(){
-    window.app.router.transitionTo("group", { groupId: this.state.id });
-  }
-
-  onSaveClick() {
-
-    if (!this.isDirty){
-      this.redirect();
+  redirect(gid){
+    if (gid){
+      window.app.router.transitionTo("group", { groupId: gid });
       return;
     }
 
-    GroupActions.update(this.state);
+    window.app.router.transitionTo("groups");
   }
 
-  onChange(model){
-    this.isDirty = true;
-    this.setState(model);
+  onSave(){
+    if (this.state.dirty){
+      if (this.props.id){
+        GroupActions.update(this.props.id, this.state.model);
+      }
+      else {
+        GroupActions.create(this.state.model);
+      }
+    }
+
+    this.setState({ model: {} });
+    this.redirect();
+  }
+
+  onChange(prop, value){
+    let model = this.state.model;
+    model[prop] = value;
+    this.setState({ model, dirty: true });
   }
 
   onCancel() {
@@ -61,33 +80,33 @@ export default class GroupEdit extends ReactListener {
 
     return (
       <div>
-        <Header backto="group" backparams={ { groupId: this.state.id }} />
+        { this.props.id ?
+        <Header backto="group" backparams={ { groupId: this.props.id }} />
+        : <Header backto="groups" /> }
 
         <Grid>
-
-        {this.state.loading ? __.loading :
-
           <Paper skipHeader>
-            <Form
-              formTitle={__.group_title_edit}
-              loading={ this.state.saving }
 
-              title={ this.state.title }
-              description={ this.state.description }
-              picture={ this.state.picture }
-
-              onChange={ model => { this.onChange(model); }}
-              onSave={ model => { this.onSaveClick(model); }}
+            <Form {...this.state.model}
+              formTitle={this.props.id ? __.group_title_edit : __.group_title_create}
+              onChange={ (prop, value) => this.onChange(prop, value) }
+              onSave={ () => { this.onSave(); }}
               onCancel={ () => { this.onCancel(); }} />
 
           </Paper>
-        }
-
         </Grid>
+
       </div>
     );
   }
 
 };
 
-GroupEdit.displayName = "GroupEdit";
+GroupCreate.displayName = "GroupCreate";
+GroupCreate.defaultState = {
+  model: {},
+  dirty: false
+};
+GroupCreate.defaultProps = {
+  id: null
+};

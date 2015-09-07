@@ -1,6 +1,6 @@
 
-import UserStore from "../../stores/User";
-import UserActions from "../../actions/User";
+import {UserStore} from "../../stores";
+import {UserActions} from "../../actions";
 
 import ReactListener from "../ReactListener";
 

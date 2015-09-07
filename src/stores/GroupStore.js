@@ -22,10 +22,10 @@ class GroupStore extends Store {
         this.__changed = this.addItems(action.groups);
         break;
       case GroupConstants.RECEIVE_MEMBERS:
-        this.mergeChild(action.id, action.members, 'members');
+        this.mergeChild(action.id, action.members, "members");
         break;
       case GroupConstants.RECEIVE_MEETINGS:
-        this.mergeChild(action.id, action.meetings, 'meetings');
+        this.mergeChild(action.id, action.meetings, "meetings");
         break;
       case GroupConstants.CREATE:
         GroupAPI.create(action.group);
