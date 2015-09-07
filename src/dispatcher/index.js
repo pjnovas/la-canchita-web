@@ -1,6 +1,8 @@
 
 import GroupDispatcher from "./GroupDispatcher";
+import UserDispatcher from "./UserDispatcher";
 
 export {
-  GroupDispatcher
+  GroupDispatcher,
+  UserDispatcher
 };

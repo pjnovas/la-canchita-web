@@ -3,7 +3,7 @@ import { GroupDispatcher } from "../dispatcher";
 
 import { GroupConstants } from "../constants";
 import { GroupAPI } from "../api";
-import { GroupNotifier } from "../api";
+//import { GroupNotifier } from "../api";
 
 import Store from "./Store";
 
