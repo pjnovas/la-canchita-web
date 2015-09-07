@@ -1,91 +1,13 @@
 
-import _ from "lodash";
+import { GroupDispatcher } from "../dispatcher";
 
 import { GroupConstants } from "../constants";
-import { GroupDispatcher } from "../dispatcher";
 import { GroupAPI } from "../api";
+import { GroupNotifier } from "../api";
 
-import { Store } from "flux/utils";
+import Store from "./Store";
 
 class GroupStore extends Store {
-
-  constructor(dispatcher) {
-    super(dispatcher);
-    this._state = this.getInitialState();
-  }
-
-  getInitialState() {
-    return new Map();
-  }
-
-  getState() {
-    // returns an array representation of the state
-    return [...this._state].map(([k, v]) => _.cloneDeep(v));
-  }
-
-  clear(){
-    this._state = this.getInitialState();
-  }
-
-  addItems(items){
-    items = Array.isArray(items) && items || [ items ];
-
-    let changed = false;
-    let current = this._state;
-
-    items.forEach( item => {
-
-      if (current.has(item.id)){
-
-        var currItem = current.get(item.id);
-        if (!this.areEqual(item, currItem)){
-          this.mergeItem(item, currItem);
-          changed = true;
-        }
-      }
-      else {
-        this._state.set(item.id, _.cloneDeep(item));
-        changed = true;
-      }
-
-    });
-
-    return changed;
-  }
-
-  mergeItem(now, current){
-    this._state.set(now.id, _.assign(current, _.cloneDeep(now)));
-  }
-
-  areEqual(a, b){
-    return _.isEqual(a, b);
-  }
-
-  mergeChild(gid, list, type){
-    let current = this._state;
-    list = Array.isArray(list) && list || [ list ];
-
-    if (current.has(gid)){
-      var group = current.get(gid);
-
-      if (!group[type] || group[type].length === 0){
-        group[type] = _.cloneDeep(list);
-      }
-      else {
-        list.forEach( child => {
-          let found = _.findWhere(group[type], { id: child.id });
-          if (found){
-            _.assign(found, _.cloneDeep(child));
-          }
-          else {
-            group[type].push(_.cloneDeep(child));
-          }
-        });
-      }
-
-      this.__changed = true;
-    }
-  }
 
   __onDispatch(action) {
 
@@ -105,7 +27,44 @@ class GroupStore extends Store {
       case GroupConstants.RECEIVE_MEETINGS:
         this.mergeChild(action.id, action.meetings, 'meetings');
         break;
-
+      case GroupConstants.CREATE:
+        GroupAPI.create(action.group);
+        break;
+      case GroupConstants.UPDATE:
+        GroupAPI.update(action.id, action.group);
+        break;
+      case GroupConstants.DESTROY:
+        GroupAPI.destroy(action.id);
+        break;
+      case GroupConstants.REMOVE:
+        this.__changed = this.removeItem(action.id);
+        break;
+      case GroupConstants.ERROR:
+        this.throwError(action.data);
+        break;
+      case GroupConstants.ACCEPT:
+        GroupAPI.accept(action.id);
+        break;
+      case GroupConstants.REJECT:
+        GroupAPI.reject(action.id);
+        break;
+      case GroupConstants.INVITE:
+        GroupAPI.invite(action.gid, action.data);
+        break;
+      case GroupConstants.SETROLE:
+        GroupAPI.setRole(action.gid, action.mid, action.role);
+        break;
+      case GroupConstants.KICK:
+        GroupAPI.kick(action.gid, action.mid);
+        break;
+        /*
+      case GroupConstants.JOIN_ROOM:
+        GroupNotifier.join(this.findId(action.id));
+        break;
+      case GroupConstants.LEAVE_ROOM:
+        GroupNotifier.leave(this.findId(action.id));
+        break;
+        */
     }
   }
 
@@ -113,5 +72,3 @@ class GroupStore extends Store {
 
 const instance = new GroupStore(GroupDispatcher);
 export default instance;
-
-//export const Store = GroupStore;

@@ -2,6 +2,9 @@ import builder from "./builder";
 export default builder("GROUP", [
   "RECEIVE_MEMBERS",
   "RECEIVE_MEETINGS",
-  "ACCEPTED",
-  "DECLINED"
+  "ACCEPT",
+  "REJECT",
+  "INVITE",
+  "SETROLE",
+  "KICK"
 ], true);

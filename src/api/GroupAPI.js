@@ -1,85 +1,65 @@
 
-import request from "superagent";
 import { GroupActions } from "../actions";
+import IO from "./IO";
 
-class GroupAPI {
+class GroupAPI extends IO {
 
   constructor(){
     this.uri = "/api/groups/";
     this.type = "GROUP";
-  }
-
-  find() {
-
-    request
-      .get(this.uri)
-      .end( (err, res) => {
-        if (this.errorHandler(err, "find")){
-          return;
-        }
-
-        GroupActions.receive(res.body);
-      });
+    this.actions = GroupActions;
   }
 
   findOne(id) {
+    this.get(id).then( group => {
+      this.actions.receive(group);
 
-    request
-      .get(this.uri + id)
-      .end( (err, res) => {
-        if (this.errorHandler(err, "findOne")){
-          return;
-        }
-
-        GroupActions.receive(res.body);
-        this.findMembers(id);
-        this.findMeetings(id);
-      });
+      this.findMembers(id);
+      this.findMeetings(id);
+    });
   }
 
   findMembers(id){
-
-    request
-      .get(this.uri + id + "/members")
-      .end( (err, res) => {
-        if (this.errorHandler(err, "findMembers")){
-          return;
-        }
-
-        GroupActions.receiveMembers(id, res.body);
-      });
+    this.get(id + "/members").then( members => {
+      GroupActions.receiveMembers(id, members);
+    });
   }
 
   findMeetings(id){
-
-    request
-      .get(this.uri + id + "/meetings")
-      .end( (err, res) => {
-        if (this.errorHandler(err, "findMeetings")){
-          return;
-        }
-
-        GroupActions.receiveMeetings(id, res.body);
-      });
+    this.get(id + "/meetings").then( meetings => {
+      GroupActions.receiveMeetings(id, meetings);
+    });
   }
 
-  errorHandler(err, type){
+  accept(id){
+    this.post(id + "/members/me").then( member => {
+      GroupActions.receiveMembers(id, member);
+    });
+  }
 
-    if (err) {
+  reject(id){
+    this.del(id + "/members/me").then( member => {
+      GroupActions.receiveMembers(id, member);
+    });
+  }
 
-      /* trigger error action
-      this.emit("error", {
-        store: this.type,
-        type,
-        status: err.status,
-        response: err.response,
-        body: err.response.body,
-        text: err.response.text,
-      });
-      */
+  invite(id, data){
+    this.post(id + "/members", data).then( members => {
+      GroupActions.receiveMembers(id, members);
+    });
+  }
 
-      return true;
-    }
+  setRole(id, member, role){
+    this.put(id + "/members/" + member, { role: role }).then( member => {
+      GroupActions.receiveMembers(id, member);
+    });
+  }
+
+  kick(id, member){
+    this.del(id + "/members/" + member).then( member => {
+      // TODO: check removal of member
+      GroupActions.receiveMembers(id, member);
+    });
   }
 
 }
