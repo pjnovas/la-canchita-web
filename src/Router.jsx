@@ -8,7 +8,7 @@ import Profile from "./components/account/Profile.jsx";
 
 import Groups from "./components/group/Index.jsx";
 import GroupEdit from "./components/group/Edit.jsx";
-//import GroupView from "./components/group/View.jsx";
+import GroupView from "./components/group/View.jsx";
 
 //import MeetingCreate from "./components/meeting/Create.jsx";
 //import MeetingEdit from "./components/meeting/Edit.jsx";
@@ -28,7 +28,9 @@ var routes = (
     <Route path="/groups" name="groups" handler={HomeHandler} />
     <Route path="/groups/new" name="groupnew" handler={GroupEdit} />
 
+    <Route path="/groups/:groupId" name="group" handler={GroupView} />
     <Route path="/groups/:groupId/edit" name="groupedit" handler={GroupEdit} />
+    <Route path="/groups/:groupId/:tab" name="grouptab" handler={GroupView} />
 
     <Route path="/profile" name="profile" handler={Profile} />
     <Route path="/login" name="login" handler={Login} />
@@ -75,9 +77,6 @@ var routes = (
   <Route name="root" handler={App} path="/">
     <Route path="/" name="home" handler={HomeHandler} />
 
-    <Route path="/groups/:groupId" name="group" handler={GroupView} />
-
-    <Route path="/groups/:groupId/:tab" name="grouptab" handler={GroupView} />
 
     <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingCreate} />
     <Route path="/meetings/:groupId/new/:meetingId" name="meetingclone" handler={MeetingCreate} />

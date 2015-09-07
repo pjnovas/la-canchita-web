@@ -1,24 +1,21 @@
 
-import GroupStore from "../../stores/Group";
-import GroupActions from "../../actions/Group";
+import {GroupStore} from "../../stores";
+import {GroupActions} from "../../actions";
 
 import MemberList from "../member/List.jsx";
-import MeetingList from "../meeting/List.jsx";
+//import MeetingList from "../meeting/List.jsx";
 import Header from "../Header.jsx";
-
-import ReactListener from "../ReactListener";
 
 import { Button, Grid, Row, Col, TabbedArea, TabPane } from "react-bootstrap";
 import { Card, ActionButton } from "../controls";
 
-export default class GroupView extends ReactListener {
+export default class GroupView extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this.state = GroupView.defaultState;
     this.state.id = this.props.params.groupId;
-    this.state.selectedKey = 1;
-    this.store = GroupStore;
 
     this.editors = ["owner", "admin"];
     this.destroyers = ["owner"];
@@ -34,21 +31,38 @@ export default class GroupView extends ReactListener {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    this.evChangeGroup = GroupStore.addListener(this.onChangeGroup.bind(this));
+    this.evErrorGroup = GroupStore.onError(this.onError.bind(this));
+
     GroupActions.findOne(this.state.id);
   }
 
-  onFind(group) {
-    super.onFind();
-    this.setState({ group, me: group.member });
+  componentWillUnmount() {
+    this.evChangeGroup.remove();
+    this.evErrorGroup.remove();
+    //GroupActions.leaveRoom(this.state.id);
+  }
+
+  onError(error){
+    if (error.status === 404){
+      window.location = "/notfound";
+    }
+  }
+
+  onChangeGroup(){
+    let group = GroupStore.getStateById(this.state.id);
+
+    if (!group){
+      // was destroyed
+      window.app.router.transitionTo("groups");
+    }
+
+    this.setState({ group, me: group.member, loading: false });
+    //setTimeout(() => GroupActions.joinRoom(group.id), 100);
   }
 
   onDestroyClick(){
     GroupActions.destroy(this.state.id);
-  }
-
-  onDestroy() {
-    window.app.router.transitionTo("groups");
   }
 
   onChangeTab(key){
@@ -61,12 +75,13 @@ export default class GroupView extends ReactListener {
     let canEdit = this.editors.indexOf(myRole) > -1;
     let canRemove = this.destroyers.indexOf(myRole) > -1;
 
+    let members = model && model.members || [];
+
     let actions = [];
 
     if (canRemove){
       actions = [
-        (<Button bsStyle="link" disable={this.state.destroying}
-          onClick={ () => { this.onDestroyClick(); } }>
+        (<Button bsStyle="link" onClick={ () => { this.onDestroyClick(); } }>
           {__.remove}
         </Button>)
       ];
@@ -98,11 +113,11 @@ export default class GroupView extends ReactListener {
           </TabPane>
 
           <TabPane eventKey={2} tab={__.group_tab_members}>
-            <MemberList groupId={this.state.id} myRole={myRole} />
+            <MemberList groupId={this.state.id} myRole={myRole} members={members} />
           </TabPane>
 
           <TabPane eventKey={3} tab={__.group_tab_meetings}>
-            <MeetingList groupId={this.state.id} myRole={myRole}/>
+
           </TabPane>
 
         </TabbedArea>
@@ -114,8 +129,16 @@ export default class GroupView extends ReactListener {
 };
 
 GroupView.displayName = "GroupView";
+GroupView.defaultState = {
+  selectedKey: 1,
+  me: null,
+  group: null
+};
+
 /*
 <TabPane eventKey={4} tab={__.group_tab_settings} disabled>
   Settings
 </TabPane>
+
+<MeetingList groupId={this.state.id} myRole={myRole}/>
 */

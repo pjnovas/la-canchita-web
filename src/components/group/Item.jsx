@@ -34,14 +34,12 @@ export default class GroupItem extends React.Component {
         .replace("{2}", moment(m.updatedAt || m.createdAt).fromNow());
     }
 
-    let actions = [];
-    /*
     let actions = [
       (<ButtonLink bsStyle="link" to="group" params={{groupId: model.id}}>
         {__.group_card_open}
       </ButtonLink>)
     ];
-*/
+
     if (isInvite){
 
       actions = [

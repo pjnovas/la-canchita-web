@@ -1,6 +1,4 @@
 
-import MemberStore from "../../stores/Member";
-
 import { Row, Col } from "react-bootstrap";
 import { Avatar, Icon } from "../controls";
 

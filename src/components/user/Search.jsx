@@ -1,29 +1,39 @@
 
-import UserStore from "../../stores/User";
-import UserActions from "../../actions/User";
+import {UserStore} from "../../stores";
+import {UserActions} from "../../actions";
 
 import UserList from "./List.jsx";
-
-import ReactListener from "../ReactListener";
 
 import { Button, Row, Col, Modal, Input, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "../controls";
 
-export default class SearchUser extends ReactListener {
+export default class SearchUser extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = SearchUser.defaultState;
+  }
 
-    this.state.users = [];
-    this.state.invites = [];
-    this.state.search = "";
+  componentDidMount() {
+    this.evChangeUser = UserStore.addListener(this.onChangeUser.bind(this));
+    UserStore.clear();
+  }
 
-    this.store = UserStore;
+  componentWillUnmount() {
+    this.evChangeUser.remove();
+    UserStore.clear();
+  }
+
+  onChangeUser(){
+    let users = UserStore.getState();
+    this.onSearch(users);
   }
 
   onKeyUp(e){
     var value = e.target.value;
     this.setState({ search: value });
+
+    UserStore.clear();
 
     if (value.trim().length === 0){
       this.clear();
@@ -176,3 +186,8 @@ export default class SearchUser extends ReactListener {
 };
 
 SearchUser.displayName = "SearchUser";
+SearchUser.defaultState = {
+  users: [],
+  invites: [],
+  search: ""
+};

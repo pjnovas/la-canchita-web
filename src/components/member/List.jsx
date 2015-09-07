@@ -1,47 +1,18 @@
 
-import MemberStore from "../../stores/Member";
-import MemberActions from "../../actions/Member";
+import {GroupActions} from "../../actions";
 
 import MemberItem from "./Item.jsx";
 import UserInvite from "../user/Search.jsx";
 
-import ReactListener from "../ReactListener";
-
 import { Grid, Row, Col } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
-export default class MemberList extends ReactListener {
+export default class MemberList extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state.gid = this.props.groupId;
-    this.state.members = [];
-
-    this.store = MemberStore;
+    this.state = MemberList.defaultState;
     this.inviters = ["owner", "admin", "moderator"];
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    MemberActions.find(this.state.gid);
-  }
-
-  onFind(members) {
-    super.onFind();
-    this.setState({ members });
-  }
-
-  onInvite(members){
-    this.setState({ members });
-  }
-
-  onSetrole(members){
-    this.setState({ members });
-  }
-
-  onKick(members){
-    this.setState({ members });
   }
 
   showInvite(){
@@ -69,19 +40,19 @@ export default class MemberList extends ReactListener {
       }
     });
 
-    MemberActions.invite(this.state.gid, { users, emails });
+    GroupActions.invite(this.props.groupId, { users, emails });
   }
 
   kickMember(id) {
-    MemberActions.kick(this.state.gid, id);
+    GroupActions.kick(this.props.groupId, id);
   }
 
   changeRole(id, role) {
-    MemberActions.setRole(this.state.gid, { id, role });
+    GroupActions.setRole(this.props.groupId, id, role);
   }
 
   render() {
-    let list = this.state.members;
+    let list = this.props.members;
 
     let active = list.filter( member => {
       return member.state === "active";
@@ -144,3 +115,6 @@ export default class MemberList extends ReactListener {
 };
 
 MemberList.displayName = "MemberList";
+MemberList.defaultState = {
+  showInvite: false
+};
