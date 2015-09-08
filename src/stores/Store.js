@@ -90,26 +90,43 @@ class Store extends FluxStore {
     list = Array.isArray(list) && list || [ list ];
 
     if (current.has(id)){
-      var group = current.get(id);
+      var entity = current.get(id);
 
-      if (!group[type] || group[type].length === 0){
-        group[type] = _.cloneDeep(list);
+      if (!entity[type] || entity[type].length === 0){
+        entity[type] = _.cloneDeep(list);
       }
       else {
         list.forEach( child => {
           if (!child[idAttr]) { throw new Error("Store: Expected [child.id] property"); }
 
-          let found = _.findWhere(group[type], { [idAttr]: child[idAttr] });
+          let found = _.findWhere(entity[type], { [idAttr]: child[idAttr] });
           if (found){
             _.assign(found, _.cloneDeep(child));
           }
           else {
-            group[type].push(_.cloneDeep(child));
+            entity[type].push(_.cloneDeep(child));
           }
         });
       }
 
       this.__changed = true;
+    }
+  }
+
+  removeChild(id, childId, type, overrideIdAttr){
+    const idAttr = overrideIdAttr || this.childIdAttr;
+    let current = this._state;
+
+    if (current.has(id)){
+      var entity = current.get(id);
+
+      entity[type].forEach( (child, i) => {
+        if (child[idAttr] === childId){
+          entity[type].splice(i, 1);
+          this.__changed = true;
+          return false; // break loop
+        }
+      });
     }
   }
 

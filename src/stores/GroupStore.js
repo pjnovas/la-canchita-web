@@ -57,6 +57,9 @@ class GroupStore extends Store {
       case GroupConstants.KICK:
         GroupAPI.kick(action.gid, action.mid);
         break;
+      case GroupConstants.CREATE_MEETING:
+        GroupAPI.createMeeting(action.id, action.meeting);
+        break;
         /*
       case GroupConstants.JOIN_ROOM:
         GroupNotifier.join(this.findId(action.id));

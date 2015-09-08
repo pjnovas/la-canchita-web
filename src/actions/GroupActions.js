@@ -67,6 +67,14 @@ class GroupActions extends Actions {
     });
   }
 
+  createMeeting(id, meeting) {
+    this.dispatcher.dispatch({
+      type: this.constants.CREATE_MEETING,
+      id,
+      meeting
+    });
+  }
+
 }
 
 const instance = new GroupActions();

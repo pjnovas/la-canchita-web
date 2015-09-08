@@ -6,5 +6,6 @@ export default builder("GROUP", [
   "REJECT",
   "INVITE",
   "SETROLE",
-  "KICK"
+  "KICK",
+  "CREATE_MEETING"
 ], true);

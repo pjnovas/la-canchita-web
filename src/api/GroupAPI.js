@@ -62,6 +62,12 @@ class GroupAPI extends IO {
     });
   }
 
+  createMeeting(id, data){
+    this.post(id + "/meetings", data).then( meeting => {
+      GroupActions.receiveMeetings(id, meeting);
+    });
+  }
+
 }
 
 const instance = new GroupAPI();
