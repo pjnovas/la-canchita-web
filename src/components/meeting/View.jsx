@@ -1,15 +1,14 @@
 
-import MeetingStore from "../../stores/Meeting";
-import MeetingActions from "../../actions/Meeting";
+import { MeetingStore } from "../../stores";
+import { MeetingActions } from "../../actions";
 
 import Header from "../Header.jsx";
 import Attendees from "./Attendees.jsx";
-import ReactListener from "../ReactListener";
 
 import { Grid, Row, Col, Button, Collapse, TabbedArea, TabPane } from "react-bootstrap";
 import { ActionButton, GMap, Icon } from "../controls";
 
-export default class MeetingView extends ReactListener {
+export default class MeetingView extends React.Component {
 
   constructor(props) {
     super(props);
@@ -24,49 +23,28 @@ export default class MeetingView extends ReactListener {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    this.evChangeMeeting = MeetingStore.addListener(this.onChangeMeeting.bind(this));
+    this.evErrorMeeting = MeetingStore.onError(this.onError.bind(this));
+
     MeetingActions.findOne(this.state.id);
   }
 
-  onFind(meeting) {
-    super.onFind();
-    this.setState({ meeting, me: meeting.group.member, gid: meeting.group.id });
-
-    window.notifier.join("/ws/meetings/" + meeting.id);
+  componentWillUnmount() {
+    this.evChangeMeeting.remove();
+    this.evErrorMeeting.remove();
+    //MeetingActions.leaveRoom(this.state.id);
   }
 
-  onJoin(attendee){
-    let meeting = this.state.meeting;
-    meeting.attendees.push(attendee);
-    this.setState({ meeting });
-  }
-
-  onLeave(attendee){
-    let meeting = this.state.meeting;
-
-    let idx = -1;
-    meeting.attendees.forEach( (attendee, i) => {
-      if (window.user.id === attendee.user.id){
-        idx = i;
-      }
-    });
-
-    if (idx > -1){
-      meeting.attendees.splice(idx, 1);
-      this.setState({ meeting });
+  onError(error){
+    if (error.status === 404){
+      window.location = "/notfound";
     }
   }
 
-  onConfirm(attendee){
-    let meeting = this.state.meeting;
-
-    meeting.attendees.forEach( (_attendee) => {
-      if (attendee.id === _attendee.id){
-        _attendee.isConfirmed = attendee.isConfirmed;
-      }
-    });
-
-    this.setState({ meeting });
+  onChangeMeeting(){
+    let meeting = MeetingStore.getStateById(this.state.id);
+    this.setState({ meeting, me: meeting.group.member, gid: meeting.group.id });
+    //setTimeout(() => MeetingActions.joinRoom(meeting.id), 100);
   }
 
   getPeriod (dt, obj, type) {

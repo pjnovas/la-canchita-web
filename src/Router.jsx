@@ -11,7 +11,7 @@ import GroupEdit from "./components/group/Edit.jsx";
 import GroupView from "./components/group/View.jsx";
 
 import MeetingEdit from "./components/meeting/Edit.jsx";
-//import MeetingView from "./components/meeting/View.jsx";
+import MeetingView from "./components/meeting/View.jsx";
 
 import NotFound from "./components/NotFound.jsx";
 
@@ -34,6 +34,7 @@ var routes = (
     <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingEdit} />
     <Route path="/meetings/:groupId/new/:cloneId" name="meetingclone" handler={MeetingEdit} />
     <Route path="/meetings/:meetingId/edit" name="meetingedit" handler={MeetingEdit} />
+    <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />
 
     <Route path="/profile" name="profile" handler={Profile} />
     <Route path="/login" name="login" handler={Login} />
@@ -48,12 +49,6 @@ var routes = (
 );
 
 window.app.router = Router
-/*
-  .create({
-    routes: routes,
-    scrollBehavior: Router.ScrollToTopBehavior
-  })
-*/
   .run(routes, Router.HistoryLocation, function (Handler) {
     React.render(<Handler/>, document.getElementById("app"));
   });
@@ -74,7 +69,3 @@ window.app.handleError = function(code, err){
       break;
   }
 };
-
-/*
-  <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />
-*/

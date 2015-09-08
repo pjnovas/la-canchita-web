@@ -1,8 +1,6 @@
 
-import {UserStore} from "../../stores";
-import {UserActions} from "../../actions";
-
-import ReactListener from "../ReactListener";
+import { UserStore } from "../../stores";
+import { UserActions } from "../../actions";
 
 import Header from "../Header.jsx";
 import {Paper, TextField, FontIcon, RaisedButton, FlatButton } from "material-ui";
@@ -10,7 +8,7 @@ import {Paper, TextField, FontIcon, RaisedButton, FlatButton } from "material-ui
 //TODO: change avatar with
 // http://dropsofserenity.github.io/react-avatar-cropper/
 
-export default class Profile extends ReactListener {
+export default class Profile extends React.Component {
 
   constructor(props) {
     super(props);

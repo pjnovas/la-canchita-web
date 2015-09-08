@@ -1,15 +1,14 @@
 
 import _ from 'lodash';
 
-import MeetingActions from "../../actions/Meeting";
+import { MeetingActions } from "../../actions";
 
 import Attendee from "./Attendee.jsx";
-import ReactListener from "../ReactListener";
 
 import { Row, Col, Button, Badge } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
-export default class Attendees extends ReactListener {
+export default class Attendees extends React.Component {
 
   onClickJoin(e){
     MeetingActions.join(this.props.meeting.id);
