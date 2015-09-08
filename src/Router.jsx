@@ -10,8 +10,7 @@ import Groups from "./components/group/Index.jsx";
 import GroupEdit from "./components/group/Edit.jsx";
 import GroupView from "./components/group/View.jsx";
 
-import MeetingCreate from "./components/meeting/Create.jsx";
-//import MeetingEdit from "./components/meeting/Edit.jsx";
+import MeetingEdit from "./components/meeting/Edit.jsx";
 //import MeetingView from "./components/meeting/View.jsx";
 
 import NotFound from "./components/NotFound.jsx";
@@ -32,9 +31,9 @@ var routes = (
     <Route path="/groups/:groupId/edit" name="groupedit" handler={GroupEdit} />
     <Route path="/groups/:groupId/:tab" name="grouptab" handler={GroupView} />
 
-    <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingCreate} />
-    <Route path="/meetings/:groupId/new/:cloneId" name="meetingclone" handler={MeetingCreate} />
-    <Route path="/meetings/:meetingId/edit" name="meetingedit" handler={MeetingCreate} />
+    <Route path="/meetings/:groupId/new" name="meetingnew" handler={MeetingEdit} />
+    <Route path="/meetings/:groupId/new/:cloneId" name="meetingclone" handler={MeetingEdit} />
+    <Route path="/meetings/:meetingId/edit" name="meetingedit" handler={MeetingEdit} />
 
     <Route path="/profile" name="profile" handler={Profile} />
     <Route path="/login" name="login" handler={Login} />
@@ -77,14 +76,5 @@ window.app.handleError = function(code, err){
 };
 
 /*
-var routes = (
-  <Route name="root" handler={App} path="/">
-    <Route path="/" name="home" handler={HomeHandler} />
-
-    <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />
-    <Route path="/meetings/:meetingId/edit" name="meetingedit" handler={MeetingEdit} />
-
-    <DefaultRoute handler={HomeHandler}/>
-  </Route>
-);
+  <Route path="/meetings/:meetingId" name="meeting" handler={MeetingView} />
 */
