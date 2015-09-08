@@ -19,7 +19,7 @@ export default class MeetingItem extends React.Component {
     e.stopPropagation();
     window.app.router.transitionTo("meetingclone", {
       groupId: this.props.model.group,
-      meetingId: this.props.model.id });
+      cloneId: this.props.model.id });
   }
 
   navigateEdit(e){

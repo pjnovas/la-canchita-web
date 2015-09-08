@@ -89,28 +89,30 @@ class Store extends FluxStore {
     let current = this._state;
     list = Array.isArray(list) && list || [ list ];
 
-    if (current.has(id)){
-      var entity = current.get(id);
-
-      if (!entity[type] || entity[type].length === 0){
-        entity[type] = _.cloneDeep(list);
-      }
-      else {
-        list.forEach( child => {
-          if (!child[idAttr]) { throw new Error("Store: Expected [child.id] property"); }
-
-          let found = _.findWhere(entity[type], { [idAttr]: child[idAttr] });
-          if (found){
-            _.assign(found, _.cloneDeep(child));
-          }
-          else {
-            entity[type].push(_.cloneDeep(child));
-          }
-        });
-      }
-
-      this.__changed = true;
+    if (!current.has(id)){ //if no parent, create one
+      this._state.set(id, { [this.idAttr] : id });
     }
+
+    var entity = current.get(id);
+
+    if (!entity[type] || entity[type].length === 0){
+      entity[type] = _.cloneDeep(list);
+    }
+    else {
+      list.forEach( child => {
+        if (!child[idAttr]) { throw new Error("Store: Expected [child.id] property"); }
+
+        let found = _.findWhere(entity[type], { [idAttr]: child[idAttr] });
+        if (found){
+          _.assign(found, _.cloneDeep(child));
+        }
+        else {
+          entity[type].push(_.cloneDeep(child));
+        }
+      });
+    }
+
+    this.__changed = true;
   }
 
   removeChild(id, childId, type, overrideIdAttr){

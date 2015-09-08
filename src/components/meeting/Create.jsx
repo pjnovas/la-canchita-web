@@ -1,6 +1,6 @@
 
-import MeetingStore from "../../stores/Meeting";
-import MeetingActions from "../../actions/Meeting";
+import { MeetingStore, GroupStore } from "../../stores";
+import { MeetingActions, GroupActions } from "../../actions";
 
 import Header from "../Header.jsx";
 import Form from "./Form.jsx";
@@ -8,74 +8,97 @@ import Form from "./Form.jsx";
 import { Grid } from "react-bootstrap";
 import { Paper } from "../controls";
 
-import ReactListener from "../ReactListener";
-
-export default class MeetingCreate extends ReactListener {
+export default class MeetingCreate extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state.gid = this.props.params.groupId;
+    this.state = MeetingCreate.defaultState;
 
-    this.state.loading = false;
+    let ps = this.props.params;
+    this.state.groupId = ps.groupId;
 
-    if (this.props.params.meetingId){
-      this.state.id = this.props.params.meetingId;
-      this.state.loading = true;
+    if (ps.cloneId){
+      this.state.cloneId = ps.cloneId;
     }
-
-    this.isDirty = false;
-    this.store = MeetingStore;
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-
-    if (this.state.id) {
-      MeetingActions.findOne(this.state.id);
+    else if (ps.meetingId){
+      this.state.model.id = ps.meetingId;
     }
   }
 
-  onFind(meeting) {
-    super.onFind();
+  componentDidMount(){
+    this.evChangeMeeting = MeetingStore.addListener(this.onChangeMeeting.bind(this));
+    this.evChangeGroup = GroupStore.addListener(this.onChangeGroup.bind(this));
 
-    // meeting to clone
-    this.state.id = undefined;
-    delete meeting.id;
-    delete meeting.attendees;
-    delete meeting.group;
-
-    meeting.when = moment();
-
-    meeting.loading = false;
-    this.setState(meeting);
+    let mid = this.state.model.id || this.state.cloneId || null;
+    if (mid) {
+      MeetingActions.findOne(mid);
+    }
   }
 
-  redirect(mid){
-    if (mid){
+  componentWillUnmount() {
+    this.evChangeMeeting.remove();
+    this.evChangeGroup.remove();
+  }
+
+  onChangeMeeting(){
+    let cloning = this.state.cloneId ? true : false;
+    let mid = this.state.model.id || this.state.cloneId || null;
+
+    if (this.state.loading && mid){
+      let meeting = MeetingStore.getStateById(mid);
+
+      if (cloning){
+        delete meeting.id;
+        delete meeting.attendees;
+        delete meeting.group;
+
+        meeting.when = MeetingCreate.defaultState.model.when;
+      }
+
+      this.setState({ model: meeting, loading: false });
+      return;
+    }
+
+    if (this.state.saving){
+      this.redirect();
+    }
+  }
+
+  onChangeGroup() {
+    // meeting created
+    this.redirect();
+  }
+
+  redirect(){
+    if (this.state.model.id){
       window.app.router.transitionTo("meeting", { meetingId: mid });
       return;
     }
 
-    window.app.router.transitionTo("grouptab", { groupId: this.state.gid, tab: "meetings" });
-  }
-
-  onCreate(meeting) {
-    this.redirect(meeting.id);
+    window.app.router.transitionTo("grouptab", { groupId: this.state.groupId, tab: "meetings" });
   }
 
   onSaveClick() {
-    if (!this.isDirty){
+    if (!this.state.isDirty){
       this.redirect();
       return;
     }
 
-    MeetingActions.create(this.state.gid, this.state);
+    this.setState({ saving: true });
+
+    if (this.state.model.id){
+      MeetingActions.update(this.state.model.id, this.state.model);
+      return;
+    }
+
+    GroupActions.createMeeting(this.state.groupId, this.state.model);
   }
 
-  onChange(model){
-    this.isDirty = true;
-    this.setState(model);
+  onChange(prop, value){
+    let model = this.state.model;
+    model[prop] = value;
+    this.setState({ model, isDirty: true });
   }
 
   onCancel() {
@@ -83,43 +106,26 @@ export default class MeetingCreate extends ReactListener {
   }
 
   render() {
+    this.state.model.when = moment(this.state.model.when);
 
     return (
       <div>
-        <Header backto="grouptab" backparams={{ groupId: this.state.gid, tab: "meetings" }} />
-
-        {this.state.loading ? __.loading :
+        <Header backto="grouptab" backparams={{ groupId: this.state.groupId, tab: "meetings" }} />
 
         <Grid>
           <Paper skipHeader>
 
             <Form
-              formTitle={__.meeting_title_create}
-              loading={ this.state.creating }
+              {...this.state.model}
+              formTitle={this.state.model.id ? __.meeting_title_edit : __.meeting_title_create}
 
-              title={ this.state.title }
-              info={ this.state.info }
-              place={ this.state.place }
-              location={ this.state.location }
-              when={ moment(this.state.when) }
-              duration={ this.state.duration }
-
-              confirmation={ this.state.confirmation }
-              confirmStart={ this.state.confirmStart }
-              confirmEnd={ this.state.confirmEnd }
-
-              replacements={ this.state.replacements }
-
-              min={ this.state.min }
-              max={ this.state.max }
-
-              onChange={ model => { this.onChange(model); }}
-              onSave={ model => { this.onSaveClick(model); }}
+              onChange={ (prop, value) => this.onChange(prop, value) }
+              onSave={ () => { this.onSaveClick(); }}
               onCancel={ () => { this.onCancel(); }} />
 
           </Paper>
         </Grid>
-        }
+
       </div>
     );
   }
@@ -127,3 +133,42 @@ export default class MeetingCreate extends ReactListener {
 };
 
 MeetingCreate.displayName = "MeetingCreate";
+MeetingCreate.defaultState = {
+  model: {
+    title: "",
+    when: moment().add(7, 'days'),
+    duration: { times: 1, period: "hours" },
+    confirmation: false,
+    confirmStart: { times: 2, period: "days" },
+    confirmEnd: { times: 2, period: "hours" },
+    replacements: false,
+  },
+
+  loading: true,
+  isDirty: false,
+  saving: false,
+
+  cloneId: null,
+  groupId: null
+};
+
+/*
+formTitle={__.meeting_title_create}
+
+title={ this.state.title }
+info={ this.state.info }
+place={ this.state.place }
+location={ this.state.location }
+when={ moment(this.state.when) }
+duration={ this.state.duration }
+
+confirmation={ this.state.confirmation }
+confirmStart={ this.state.confirmStart }
+confirmEnd={ this.state.confirmEnd }
+
+replacements={ this.state.replacements }
+
+min={ this.state.min }
+max={ this.state.max }
+
+*/

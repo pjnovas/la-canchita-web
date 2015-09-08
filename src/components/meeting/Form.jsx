@@ -8,7 +8,6 @@ export default class MeetingForm extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = MeetingForm.defaultState;
   }
 
@@ -36,12 +35,12 @@ export default class MeetingForm extends React.Component {
       prop = "when";
     }
 
-    this.props.onChange({ [prop]: value });
+    this.props.onChange(prop, value);
   }
 
   changePeriod(prop, type, value){
     this.props[prop][type] = value;
-    this.props.onChange({ [prop]: this.props[prop] });
+    this.props.onChange(prop, this.props[prop]);
   }
 
   changeState(prop, value){
@@ -55,13 +54,15 @@ export default class MeetingForm extends React.Component {
   render() {
     let confirmStart, confirmEnd;
 
-    this.state.showLimits = (this.props.min > 0 || this.props.max > 0 ? true : false);
-    this.state.showMoreInfo = (this.props.title || this.props.info ? true : false);
-    
+    let showLimits = this.state.showLimits || (this.props.min > 0 || this.props.max > 0 ? true : false);
+    let showMoreInfo = this.state.showMoreInfo || (this.props.title || this.props.info ? true : false);
+
     if (this.props.confirmation){
+      /*
       if (!this.props.when){
         this.props.when = moment().add(7, 'days');
       }
+      */
 
       confirmStart =
         moment(this.props.when)
@@ -197,12 +198,12 @@ export default class MeetingForm extends React.Component {
         <Row>
           <Col xs={12}>
             <Input type="checkbox" label={__.meeting_has_limit}
-              checked={this.state.showLimits ? true : false }
+              checked={showLimits ? true : false }
               onChange={ (e) => { this.changeState("showLimits", e.target.checked); } }/>
           </Col>
         </Row>
 
-        { this.state.showLimits ?
+        { showLimits ?
         <Row>
           <Col xs={3}>
             <Input type="number" label={__.meeting_min}
@@ -261,7 +262,7 @@ export default class MeetingForm extends React.Component {
 };
 
 MeetingForm.displayName = "MeetingForm";
-
+/*
 MeetingForm.defaultProps = {
   duration: { times: 1, period: "hours" },
   confirmation: false,
@@ -269,6 +270,7 @@ MeetingForm.defaultProps = {
   confirmEnd: { times: 2, period: "hours" },
   replacements: false,
 };
+*/
 
 MeetingForm.defaultState = {
   showLimits: false,
