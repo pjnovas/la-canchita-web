@@ -9,6 +9,7 @@ export default function(store, constants, setDefaults){
       "CREATE",
       "UPDATE",
       "DESTROY",
+      "REMOVE",
       "ERROR"
     ]);
   }

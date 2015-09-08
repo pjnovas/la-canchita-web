@@ -1,5 +1,5 @@
 
-import { MeetingDispatcher } from "../dispatcher";
+import { GroupDispatcher } from "../dispatcher";
 
 import { MeetingConstants } from "../constants";
 import { MeetingAPI } from "../api";
@@ -79,5 +79,5 @@ class MeetingStore extends Store {
 
 };
 
-const instance = new MeetingStore(MeetingDispatcher);
+const instance = new MeetingStore(GroupDispatcher);
 export default instance;

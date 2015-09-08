@@ -1,7 +1,7 @@
 
 import { GroupDispatcher } from "../dispatcher";
 
-import { GroupConstants } from "../constants";
+import { GroupConstants, MeetingConstants } from "../constants";
 import { GroupAPI } from "../api";
 //import { GroupNotifier } from "../api";
 
@@ -60,6 +60,13 @@ class GroupStore extends Store {
       case GroupConstants.CREATE_MEETING:
         GroupAPI.createMeeting(action.id, action.meeting);
         break;
+      case MeetingConstants.REMOVE:
+        let gid = this.findIdFromChild(action.id, "meetings");
+        if (gid) {
+          this.removeChild(gid, action.id, "meetings");
+        }
+        break;
+
         /*
       case GroupConstants.JOIN_ROOM:
         GroupNotifier.join(this.findId(action.id));

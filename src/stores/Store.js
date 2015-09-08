@@ -132,6 +132,22 @@ class Store extends FluxStore {
     }
   }
 
+  findIdFromChild(childId, type, overrideIdAttr){
+    const idAttr = this.idAttr;
+    const cIdAttr = overrideIdAttr || this.childIdAttr;
+    let id, list = this.getState();
+
+    list.forEach( entity => {
+      let found = _.findWhere(entity[type] || [], { [cIdAttr]: childId });
+      if (found){
+        id = entity[idAttr];
+        return false; //break loop
+      }
+    });
+
+    return id;
+  }
+
 /*
   __onDispatch(action) {
     // MUST Override

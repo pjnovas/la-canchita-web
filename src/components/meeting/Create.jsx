@@ -1,4 +1,6 @@
 
+import _ from "lodash";
+
 import { MeetingStore, GroupStore } from "../../stores";
 import { MeetingActions, GroupActions } from "../../actions";
 
@@ -13,7 +15,7 @@ export default class MeetingCreate extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = MeetingCreate.defaultState;
+    this.state = _.cloneDeep(MeetingCreate.defaultState);
 
     let ps = this.props.params;
     this.state.groupId = ps.groupId;
@@ -61,22 +63,23 @@ export default class MeetingCreate extends React.Component {
     }
 
     if (this.state.saving){
-      this.redirect();
+      setTimeout(() => this.redirect(), 100);
     }
   }
 
   onChangeGroup() {
     // meeting created
-    this.redirect();
+    setTimeout(() => this.redirect(), 100);
   }
 
   redirect(){
-    if (this.state.model.id){
-      window.app.router.transitionTo("meeting", { meetingId: mid });
-      return;
-    }
+    //if (this.state.model.id){
+    //  window.app.router.transitionTo("meeting", { meetingId: this.state.model.id });
+    //  return;
+    //}
 
-    window.app.router.transitionTo("grouptab", { groupId: this.state.groupId, tab: "meetings" });
+    let gid = this.state.groupId || this.state.model.group && this.state.model.group.id;
+    window.app.router.transitionTo("grouptab", { groupId: gid, tab: "meetings" });
   }
 
   onSaveClick() {
@@ -106,11 +109,14 @@ export default class MeetingCreate extends React.Component {
   }
 
   render() {
+    let gid = this.state.groupId || this.state.model.group && this.state.model.group.id;
     this.state.model.when = moment(this.state.model.when);
 
     return (
       <div>
-        <Header backto="grouptab" backparams={{ groupId: this.state.groupId, tab: "meetings" }} />
+        { gid ?
+        <Header backto="grouptab" backparams={{ groupId: gid, tab: "meetings" }} />
+        : null }
 
         <Grid>
           <Paper skipHeader>
@@ -151,24 +157,3 @@ MeetingCreate.defaultState = {
   cloneId: null,
   groupId: null
 };
-
-/*
-formTitle={__.meeting_title_create}
-
-title={ this.state.title }
-info={ this.state.info }
-place={ this.state.place }
-location={ this.state.location }
-when={ moment(this.state.when) }
-duration={ this.state.duration }
-
-confirmation={ this.state.confirmation }
-confirmStart={ this.state.confirmStart }
-confirmEnd={ this.state.confirmEnd }
-
-replacements={ this.state.replacements }
-
-min={ this.state.min }
-max={ this.state.max }
-
-*/

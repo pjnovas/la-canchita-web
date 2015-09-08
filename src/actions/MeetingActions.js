@@ -1,12 +1,12 @@
 
-import { MeetingDispatcher } from "../dispatcher";
+import { GroupDispatcher } from "../dispatcher";
 import { MeetingConstants } from "../constants";
 import Actions from "./Actions";
 
 class MeetingActions extends Actions {
 
   constructor(){
-    this.dispatcher = MeetingDispatcher;
+    this.dispatcher = GroupDispatcher;
     this.constants = MeetingConstants;
     this.list = "meetings";
     this.entity = "meeting";
