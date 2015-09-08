@@ -1,26 +1,21 @@
 
-import MeetingStore from "../../stores/Meeting";
-import MeetingActions from "../../actions/Meeting";
+//import MeetingStore from "../../stores/Meeting";
+//import MeetingActions from "../../actions/Meeting";
 
 import MeetingItem from "./Item.jsx";
-
-import ReactListener from "../ReactListener";
 
 import { Grid, Row, Col } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
-export default class MeetingList extends ReactListener {
+export default class MeetingList extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state.gid = this.props.groupId;
-    this.state.meetings = [];
-
-    this.store = MeetingStore;
+    //this.state.gid = this.props.groupId;
     this.editors = ["owner", "admin"];
   }
-
+/*
   componentDidMount() {
     super.componentDidMount();
     MeetingActions.find(this.state.gid);
@@ -38,9 +33,9 @@ export default class MeetingList extends ReactListener {
   onDestroy(meetings) {
     this.setState({ meetings });
   }
-
+*/
   render() {
-    let list = this.state.meetings;
+    let list = this.props.meetings;
     let now = moment();
 
     let active = list.filter( meeting => {
@@ -93,10 +88,7 @@ export default class MeetingList extends ReactListener {
           </div>
           : null }
 
-          { canCreate ?
-            <ActionButton bsStyle="primary" icon="plus"
-              to="meetingnew" params={{groupId: this.state.gid}}/>
-          : null }
+          <!--can create here-->
 
         </Row>
       </Grid>
@@ -106,3 +98,10 @@ export default class MeetingList extends ReactListener {
 };
 
 MeetingList.displayName = "MeetingList";
+
+/*
+{ canCreate ?
+  <ActionButton bsStyle="primary" icon="plus"
+    to="meetingnew" params={{groupId: this.state.gid}}/>
+: null }
+*/

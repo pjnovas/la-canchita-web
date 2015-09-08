@@ -3,7 +3,7 @@ import {GroupStore} from "../../stores";
 import {GroupActions} from "../../actions";
 
 import MemberList from "../member/List.jsx";
-//import MeetingList from "../meeting/List.jsx";
+import MeetingList from "../meeting/List.jsx";
 import Header from "../Header.jsx";
 
 import { Button, Grid, Row, Col, TabbedArea, TabPane } from "react-bootstrap";
@@ -76,6 +76,7 @@ export default class GroupView extends React.Component {
     let canRemove = this.destroyers.indexOf(myRole) > -1;
 
     let members = model && model.members || [];
+    let meetings = model && model.meetings || [];
 
     let actions = [];
 
@@ -117,7 +118,7 @@ export default class GroupView extends React.Component {
           </TabPane>
 
           <TabPane eventKey={3} tab={__.group_tab_meetings}>
-
+            <MeetingList groupId={this.state.id} myRole={myRole} meetings={meetings}/>
           </TabPane>
 
         </TabbedArea>
@@ -139,6 +140,4 @@ GroupView.defaultState = {
 <TabPane eventKey={4} tab={__.group_tab_settings} disabled>
   Settings
 </TabPane>
-
-<MeetingList groupId={this.state.id} myRole={myRole}/>
 */
