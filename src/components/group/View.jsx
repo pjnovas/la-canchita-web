@@ -55,6 +55,7 @@ export default class GroupView extends React.Component {
     if (!group){
       // was destroyed
       window.app.router.transitionTo("groups");
+      return;
     }
 
     this.setState({ group, me: group.member, loading: false });

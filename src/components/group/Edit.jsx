@@ -1,4 +1,6 @@
 
+import _ from "lodash";
+
 import {GroupStore} from "../../stores";
 import {GroupActions} from "../../actions";
 
@@ -13,31 +15,30 @@ export default class GroupCreate extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = GroupCreate.defaultState;
+    this.state = _.cloneDeep(GroupCreate.defaultState);
     this.props.id = (this.props.params && this.props.params.groupId) || null;
   }
 
   componentDidMount(){
-    let model = {
-      title: "",
-      description: ""
-    };
+    this.evChangeGroup = GroupStore.addListener(this.onChangeGroup.bind(this));
 
     if (this.props.id){
-      model = GroupStore.getStateById(this.props.id);
-      this.evChangeGroup = GroupStore.addListener(this.onChangeGroup.bind(this));
+      let model = GroupStore.getStateById(this.props.id);
+      this.setState({ model });
     }
-
-    this.setState({ model });
   }
 
   componentWillUnmount() {
-    if (this.evChangeGroup){
-      this.evChangeGroup.remove();
-    }
+    this.evChangeGroup.remove();
   }
 
   onChangeGroup(){
+
+    if (this.state.saving){
+      this.redirect();
+      return;
+    }
+
     if (this.props.id){
       this.setState({ model: GroupStore.getStateById(this.props.id) });
     }
@@ -54,15 +55,18 @@ export default class GroupCreate extends React.Component {
 
   onSave(){
     if (this.state.dirty){
+      this.setState({ saving: true });
+
       if (this.props.id){
         GroupActions.update(this.props.id, this.state.model);
       }
       else {
         GroupActions.create(this.state.model);
       }
+
+      return;
     }
 
-    this.setState({ model: {} });
     this.redirect();
   }
 
@@ -104,8 +108,12 @@ export default class GroupCreate extends React.Component {
 
 GroupCreate.displayName = "GroupCreate";
 GroupCreate.defaultState = {
-  model: {},
-  dirty: false
+  model: {
+    title: "",
+    description: ""
+  },
+  dirty: false,
+  saving: false
 };
 GroupCreate.defaultProps = {
   id: null

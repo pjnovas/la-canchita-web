@@ -16,8 +16,7 @@ export default class Groups extends React.Component {
 
     // TODO: check this getState, maybe there is no way to find() every time
     this.setState({ groups: GroupStore.getState() });
-
-    GroupActions.find();
+    setTimeout( () => GroupActions.find() );
   }
 
   componentWillUnmount() {

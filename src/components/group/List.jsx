@@ -16,7 +16,10 @@ export default class GroupList extends React.Component {
   render() {
 
     var groups = this.props.groups.filter( g => {
-      return (["active", "pending"].indexOf(g.member.state) > -1);
+      if (g.member){
+        return (["active", "pending"].indexOf(g.member.state) > -1);
+      }
+      else false;
     });
 
     var list = () => {
