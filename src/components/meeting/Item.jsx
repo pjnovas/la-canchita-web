@@ -1,6 +1,6 @@
 
 import { Row, Col, Label } from "react-bootstrap";
-import { Icon } from "../controls";
+import { Icon, Confirm } from "../controls";
 
 export default class MeetingItem extends React.Component {
 
@@ -9,6 +9,8 @@ export default class MeetingItem extends React.Component {
 
     this.editors = ["owner", "admin"];
     this.destroyers = ["owner"];
+
+    this.state = MeetingItem.defaultState;
   }
 
   openMeeting() {
@@ -29,7 +31,7 @@ export default class MeetingItem extends React.Component {
 
   onRemoveClick(e){
     e.stopPropagation();
-    this.props.removeMeeting(this.props.model.id);
+    this.setState({ confirmDestroy: true });
   }
 
   render() {
@@ -56,13 +58,24 @@ export default class MeetingItem extends React.Component {
 
           <ul className="dropdown-menu dropdown-menu-right">
             { canEdit && !this.props.isPast ?
-            <li key="edit"><a onClick={ e => { this.navigateEdit(e); }}>{__.edit}</a></li>
+            <li key="edit">
+              <a onClick={ e => { this.navigateEdit(e); }}>
+                <Icon name="pencil" /> {__.edit}</a>
+            </li>
             : null }
             { canEdit ?
-            <li key="clone"><a onClick={ e => { this.navigateClone(e); }}>{__.meeting_clone}</a></li>
+            <li key="clone">
+              <a onClick={ e => { this.navigateClone(e); }}>
+                <Icon name="clone" /> {__.meeting_clone}</a>
+            </li>
             : null }
+            { canDestroy && !this.props.isPast ? <li className="divider"></li> : null }
             { canDestroy && !this.props.isPast ?
-            <li key="remove"><a onClick={ e => { this.onRemoveClick(e);  }}>{__.remove}</a></li>
+            <li key="remove">
+              <a className="text-danger"
+                onClick={ e => { this.onRemoveClick(e); } }>
+                <Icon name="close" /> {__.remove}</a>
+            </li>
             : null }
           </ul>
         </div>
@@ -83,6 +96,13 @@ export default class MeetingItem extends React.Component {
           <Label className="timestamp" bsSize="medium" bsStyle="info">{time}</Label>
           {options}
 
+          { this.state.confirmDestroy ?
+            <Confirm title={__.meeting_destroy_title.replace("{1}", title)}
+              text={__.meeting_destroy_text.replace("{1}", title)}
+              onClose={ () => this.setState({ confirmDestroy: false }) }
+              onAccept={ () => this.props.removeMeeting(model.id) } />
+          : null }
+
         </Row>
 
       </div>
@@ -92,3 +112,6 @@ export default class MeetingItem extends React.Component {
 };
 
 MeetingItem.displayName = "MeetingItem";
+MeetingItem.defaultState = {
+  confirmDestroy: false
+};

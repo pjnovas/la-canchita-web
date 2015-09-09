@@ -171,7 +171,7 @@ export default class SearchUser extends React.Component {
 
         <Modal.Footer>
 
-          <Button onClick={this.props.onClose}>Close</Button>
+          <Button bsStyle="link" onClick={this.props.onClose}>{__.close}</Button>
 
            <Button bsStyle="success" className="pull-right"
               onClick={ e => { this.onSend(e); } } >

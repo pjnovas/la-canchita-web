@@ -51,7 +51,7 @@ export default class GroupDropPicture extends React.Component {
 
         </div>
 
-        {this.state.error ? <span>{this.state.error}</span> : null }
+        {this.state.error ? <p className="pic-error-text">{this.state.error}</p> : null }
       </div>
     );
   }

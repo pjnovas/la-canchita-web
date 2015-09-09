@@ -85,7 +85,7 @@ export default class MemberList extends React.Component {
 
           { pending.length ?
           <div>
-            <h4>{__.member_invited}</h4>
+            <h4 className="list-group-header">{__.member_invited}</h4>
             <div className="list-group">
               {pending.map(member => {
                 return (<MemberItem key={member.id} model={member} />);

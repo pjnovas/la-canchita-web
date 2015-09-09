@@ -2,6 +2,7 @@
 import {GroupStore} from "../../stores";
 import {GroupActions} from "../../actions";
 
+import GroupDetail from "./Detail.jsx";
 import MemberList from "../member/List.jsx";
 import MeetingList from "../meeting/List.jsx";
 import Header from "../Header.jsx";
@@ -16,9 +17,6 @@ export default class GroupView extends React.Component {
 
     this.state = GroupView.defaultState;
     this.state.id = this.props.params.groupId;
-
-    this.editors = ["owner", "admin"];
-    this.destroyers = ["owner"];
 
     switch (this.props.params.tab){
       case "members":
@@ -52,18 +50,13 @@ export default class GroupView extends React.Component {
   onChangeGroup(){
     let group = GroupStore.getStateById(this.state.id);
 
-    if (!group){
-      // was destroyed
+    if (!group){ // was destroyed
       window.app.router.transitionTo("groups");
       return;
     }
 
-    this.setState({ group, me: group.member, loading: false });
+    this.setState({ group, loading: false });
     //setTimeout(() => GroupActions.joinRoom(group.id), 100);
-  }
-
-  onDestroyClick(){
-    GroupActions.destroy(this.state.id);
   }
 
   onChangeTab(key){
@@ -72,22 +65,9 @@ export default class GroupView extends React.Component {
 
   render() {
     let model = this.state.group || {};
-    let myRole = this.state.me && this.state.me.role || "member";
-    let canEdit = this.editors.indexOf(myRole) > -1;
-    let canRemove = this.destroyers.indexOf(myRole) > -1;
-
+    let myRole = model.member && model.member.role || "member";
     let members = model && model.members || [];
     let meetings = model && model.meetings || [];
-
-    let actions = [];
-
-    if (canRemove){
-      actions = [
-        (<Button bsStyle="link" onClick={ () => { this.onDestroyClick(); } }>
-          {__.remove}
-        </Button>)
-      ];
-    }
 
     return (
       <div>
@@ -97,21 +77,7 @@ export default class GroupView extends React.Component {
           animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
 
           <TabPane eventKey={1} tab={__.group_tab_info}>
-
-            <Grid>
-              <Card
-                title={model.title}
-                description={model.description}
-                media={ model.picture ? "/images/groups/" + model.picture : null }
-                actions={actions}>
-              </Card>
-            </Grid>
-
-            { canEdit ?
-              <ActionButton bsStyle="primary" icon="pencil"
-                to="groupedit" params={{groupId: this.state.id}}/>
-            : null }
-
+            <GroupDetail model={model} />
           </TabPane>
 
           <TabPane eventKey={2} tab={__.group_tab_members}>
@@ -133,7 +99,6 @@ export default class GroupView extends React.Component {
 GroupView.displayName = "GroupView";
 GroupView.defaultState = {
   selectedKey: 1,
-  me: null,
   group: null
 };
 

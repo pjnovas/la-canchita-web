@@ -1,6 +1,6 @@
 @group-picture-max-width: 450px;
 @group-picture-height: 150px;
-@group-picture-radius: 6px;
+@group-picture-radius: 0;
 
 .group-picture {
   width: 100%;
@@ -8,9 +8,10 @@
   height: @group-picture-height;
   display: block;
   margin: 15px auto;
-  background: rgba(0,0,0,0.3);
+  //background: rgba(0,0,0,0.3);
   border-radius: @group-picture-radius;
-  box-shadow: 2px 2px 1px rgba(0,0,0,0.4);
+  //box-shadow: 2px 2px 1px rgba(0,0,0,0.4);
+  .z1;
 
   background-position: center center;
   background-size: cover;
@@ -40,15 +41,17 @@
       font-size: 20px;
       vertical-align: middle;
       border-radius: @group-picture-radius;
-      color: #1b5e20;
-      background-color: rgba(0,0,0,0.15);
-
-      &:hover {
-        background-color: rgba(0,0,0,0);
-        color: #e8f5e9;
-        cursor: pointer;
-      }
+      color: @primary-text-color;
+      background-color: #ACC5B1;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
     }
 
   }
+}
+
+.pic-error-text {
+  .bg-danger;
+  padding: 10px;
 }

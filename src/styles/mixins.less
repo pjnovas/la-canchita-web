@@ -1,0 +1,21 @@
+
+.transition (@time: 0.5s, @property: all, @function: linear) {
+  -webkit-transition-duration: @time;
+  -moz-transition-duration: @time;
+  -o-transition-duration: @time;
+  transition-duration: @time;
+
+  -webkit-transition-property: @property;
+  -moz-transition-property: @property;
+  -o-transition-property: @property;
+  transition-property: @property;
+
+  -webkit-transition-timing-function: @function;
+  transition-timing-function: @function;
+}
+
+.transform(@property){
+  -webkit-transform: @property;
+  -moz-transform: @property;
+  -o-transform: @property;
+}

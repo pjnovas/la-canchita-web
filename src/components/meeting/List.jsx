@@ -60,7 +60,7 @@ export default class MeetingList extends React.Component {
 
           { past.length ?
           <div>
-            <h4>{__.meeting_past}</h4>
+            <h4 className="list-group-header">{__.meeting_past}</h4>
             <div className="list-group">
               {past.map(meeting => {
                 return (<MeetingItem key={meeting.id} model={meeting}

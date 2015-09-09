@@ -1,6 +1,6 @@
 
 import { Row, Col } from "react-bootstrap";
-import { Avatar, Icon } from "../controls";
+import { Avatar, Icon, Confirm } from "../controls";
 
 export default class MemberItem extends React.Component {
 
@@ -17,6 +17,12 @@ export default class MemberItem extends React.Component {
     };
 
     this.kickers = ["owner", "admin"];
+
+    this.state = MemberItem.defaultState;
+  }
+
+  onKickClick(){
+    this.setState({ confirmKick: true });
   }
 
   render() {
@@ -65,7 +71,13 @@ export default class MemberItem extends React.Component {
             }) }
 
             { canKick ? <li className="divider"></li> : null }
-            { canKick ? <li key="edit"><a onClick={ e => { this.props.kickMember(model.id); } }>{__.remove}</a></li> : null }
+            { canKick ? (
+              <li>
+                <a className="text-danger"
+                  onClick={ e => { this.onKickClick(model); } }>
+                  <Icon name="close" /> {__.remove}</a>
+              </li>)
+             : null }
 
           </ul>
         </div>
@@ -87,6 +99,13 @@ export default class MemberItem extends React.Component {
 
           {options}
 
+          { this.state.confirmKick ?
+            <Confirm title={__.member_kick_title.replace("{1}", model.user.name)}
+              text={__.member_kick_text.replace("{1}", model.user.name)}
+              onClose={ () => this.setState({ confirmKick: false }) }
+              onAccept={ () => this.props.kickMember(model.id) } />
+          : null }
+
         </Row>
       </div>
     );
@@ -95,3 +114,6 @@ export default class MemberItem extends React.Component {
 };
 
 MemberItem.displayName = "MemberItem";
+MemberItem.defaultState = {
+  confirmKick: false
+};

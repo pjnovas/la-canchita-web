@@ -80,7 +80,7 @@ export default class Login extends React.Component {
 
     return (
       <Grid>
-        <Paper>
+        <Paper className="col-lg-6 col-lg-offset-3">
 
           <form>
 
@@ -95,27 +95,21 @@ export default class Login extends React.Component {
                 <h3>{__.account_title_social}</h3>
               </Col>
 
-              <Col xs={8} xsOffset={2} md={6} mdOffset={3}>
+              <Col xs={12}>
 
-                <Row>
-                  <Col xs={4} className="text-center">
-                    <Button href={uris.twitter} className="btn-social twitter">
-                      <Icon name="twitter" />
-                    </Button>
-                  </Col>
+                <div className="text-center">
+                  <Button href={uris.twitter} className="btn-social twitter">
+                    <Icon name="twitter" />
+                  </Button>
 
-                  <Col xs={4} className="text-center">
-                    <Button href={uris.facebook} className="btn-social facebook">
-                      <Icon name="facebook" />
-                    </Button>
-                  </Col>
+                  <Button href={uris.facebook} className="btn-social facebook">
+                    <Icon name="facebook" />
+                  </Button>
 
-                  <Col xs={4} className="text-center">
-                    <Button href={uris.google} className="btn-social google">
-                      <Icon name="google" />
-                    </Button>
-                  </Col>
-                </Row>
+                  <Button href={uris.google} className="btn-social google">
+                    <Icon name="google" />
+                  </Button>
+                </div>
 
               </Col>
             </Row>

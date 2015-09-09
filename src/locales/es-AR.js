@@ -12,6 +12,7 @@ export default {
   "send": "enviar",
   "close": "Cerrar",
   "cancel": "Cancelar",
+  "accept": "Aceptar",
   "save": "Guardar",
   "remove": "Eliminar",
   "edit": "Editar",
@@ -56,6 +57,8 @@ export default {
 
   "profile_title": "Mi perfil",
 
+  "group": "Groupo",
+
   "group_start_1": "Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.",
   "group_start_2": "Podés recibir invitaciones o crear un grupo e invitar vos",
   "group_start_3": "Empieza creando un groupo e invitando a los jugadores!",
@@ -69,6 +72,9 @@ export default {
 
   "group_title_create": "Crear Grupo",
   "group_title_edit": "Editar Grupo",
+
+  "group_destroy_title": "Eliminar {1}",
+  "group_destroy_text": "Se eliminará el group {1}, estás seguro?",
 
   "group_title": "Título",
   "group_description": "Descripción",
@@ -96,6 +102,9 @@ export default {
   "member_invitations_count": "Invitaciones ({1}/ {2})",
   "member_invite_message": "click para quitar",
 
+  "member_kick_title": "Eliminar a {1}",
+  "member_kick_text": "Se eliminará a {1} del grupo, estás seguro?",
+
   "user_search": "Buscar usuarios",
   "user_search_hint": "Nombre o email",
   "user_add_by_email": "Agregar email",
@@ -108,6 +117,9 @@ export default {
   "meeting_title_create": "Crear partido",
   "meeting_title_edit": "Editar partido",
 
+  "meeting_destroy_title": "Eliminar partido {1}",
+  "meeting_destroy_text": "Se eliminará el partido {1}, estás seguro?",
+  
   "meeting_title": "Título",
   "meeting_info": "Información",
   "meeting_place": "Lugar",

@@ -8,6 +8,7 @@ import ActionButton from "./ActionButton";
 import DatePicker from "./DatePicker";
 import Period from "./Period";
 import GMap from "./GMap";
+import Confirm from "./Confirm";
 
 import Card from "./Card";
 
@@ -20,5 +21,6 @@ export {
   Card,
   DatePicker,
   Period,
-  GMap
+  GMap,
+  Confirm
 };

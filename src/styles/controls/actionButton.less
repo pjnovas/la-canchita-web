@@ -14,9 +14,13 @@
   background-color: @btn-action-color;
   color: @btn-action-text-color;
 
+  .transition(0.2s, transform box-shadow);
+
   &:hover, &:active, &:focus {
     background-color: darken(@btn-action-color, 10%);
     color: @btn-action-text-color;
+    .z1;
+    .transform(rotate(360deg));
   }
 
   &.secondary {
