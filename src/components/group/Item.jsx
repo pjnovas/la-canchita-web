@@ -35,7 +35,7 @@ export default class GroupItem extends React.Component {
     }
 
     let actions = [
-      (<ButtonLink bsStyle="link" to="group" params={{groupId: model.id}}>
+      (<ButtonLink bsStyle="link" className="pull-right" to="group" params={{groupId: model.id}}>
         {__.group_card_open}
       </ButtonLink>)
     ];
@@ -44,12 +44,12 @@ export default class GroupItem extends React.Component {
 
       actions = [
 
-        (<Button bsStyle="link"
+        (<Button bsStyle="link" className="btn-success"
           onClick={ e => { this.onAcceptClick(e); } }>
           <Icon name="check" />{__.group_card_accept}
         </Button>),
 
-        (<Button bsStyle="link"
+        (<Button bsStyle="link" className="btn-danger"
           onClick={ e => { this.onDeclineClick(e); } }>
           <Icon name="times" />{__.group_card_decline}
         </Button>)
@@ -63,8 +63,7 @@ export default class GroupItem extends React.Component {
         hicon="ticket"
         hsubtitle={subtitle}
         title={model.title}
-        description={model.description}
-        media={ "/images/groups/" + model.picture }
+        media={ model.picture ? "/images/groups/" + model.picture : true }
         actions={(actions)}>
       </Card>
     );

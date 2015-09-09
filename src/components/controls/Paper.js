@@ -9,7 +9,7 @@ export default class Paper extends React.Component {
 
     return (
       <Row className="paper-ctn">
-        <Col xs={12} md={8} mdOffset={2} lg={6} lgOffset={3} className={css}>
+        <Col xs={12} sm={10} smOffset={1} md={8} mdOffset={2} className={css}>
           {this.props.children}
         </Col>
       </Row>

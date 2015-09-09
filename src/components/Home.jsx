@@ -8,13 +8,17 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <Header hideprofile={true} />
-        <h1>LANDING PAGE HERE</h1>
+      <div className="landing">
+        <Header />
 
-        <ButtonLink bsSize="large" to="login">
-          <Icon name="twitter" />
-        </ButtonLink>
+        <div className="landing-header">
+          <div className="text-vcenter call-action">
+
+            <h1>{__.app_title}</h1>
+            <h2>{__.landing_legend}</h2>
+
+          </div>
+        </div>
 
       </div>
     );

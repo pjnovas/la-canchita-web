@@ -34,19 +34,21 @@
 
 @primary-dark-color: #388E3C;
 @primary-color: #4CAF50;
-@primary-light-color: #C8E6C9;
+@primary-light-color: lighten(@primary-color, 10%); //#C8E6C9;
 @text-icons-color: #FFFFFF;
 
-@accent-color: #448AFF;
+@accent-color: #009688;
 @primary-text-color: #212121;
 @secondary-text-color: #727272;
-@divider-color: #B6B6B6;
+@divider-color: #e5e5e5;
 
 @background-color: #242E26;
+@background-color-light: #3e464c;
+@background-color-dark: #2E373D;
 
 // Application
 
-@nav-bar-bg-color: @primary-color;
+@nav-bar-bg-color: @primary-dark-color;
 @nav-bar-text-color: @text-icons-color;
 
 @tabs-item-bg-color: @primary-color;
@@ -55,7 +57,7 @@
 @tabs-item-bg-color-active: @text-icons-color;
 @tabs-item-text-color-disabled: @primary-dark-color;
 
-@card-invite-avatar-bg: #C3BC38;
+@card-invite-avatar-bg: @primary-dark-color;
 @card-invite-avatar-text: @text-icons-color;
 
 @meeting-stage-color-joining: @btn-info-bg;

@@ -42,7 +42,7 @@ export default class GroupList extends React.Component {
     }();
 
     return (
-      <Grid>
+      <Grid className="groups">
 
         <Row>
           <Col xs={12} sm={10} smOffset={1} md={8} mdOffset={2} lg={6} lgOffset={3}>

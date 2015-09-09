@@ -36,7 +36,7 @@ export default class GroupForm extends React.Component {
         <Divider />
 
         <Row>
-          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+          <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
             <DropPicture picture={this.props.picture}
               onChangePicture={ pic => { this.changePicture(pic); }} />
@@ -45,7 +45,7 @@ export default class GroupForm extends React.Component {
         </Row>
 
         <Row>
-          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+          <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
             <Input type="text" label={__.group_title}
               placeholder={__.group_title_hint}
@@ -56,7 +56,7 @@ export default class GroupForm extends React.Component {
         </Row>
 
         <Row>
-          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+          <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
             <Input type="textarea" label={__.group_description} rows="4"
               placeholder={__.group_description_hint}
@@ -69,7 +69,7 @@ export default class GroupForm extends React.Component {
         <Divider />
 
         <Row>
-          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+          <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
             <Button bsStyle="link" onClick={ e => {this.props.onCancel(e); } }>
               {__.cancel}

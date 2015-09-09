@@ -7,7 +7,12 @@ export default class Card extends React.Component {
   render() {
     let media;
 
-    if (this.props.media){
+    if (this.props.media === true){
+      media = {
+        backgroundColor: "#3F4C3E"
+      };
+    }
+    else if (this.props.media){
       media = {
         backgroundImage: "url(" + this.props.media + ")"
       };
@@ -19,20 +24,20 @@ export default class Card extends React.Component {
 
           { this.props.htitle ?
 
-            <Row className="header">
+            <div className="header">
 
-              <Col xs={2} sm={1}>
+              <div className="icon-ctn">
                 <div className="avatar icon">
                   <Icon name={this.props.hicon} />
                 </div>
-              </Col>
+              </div>
 
-              <Col xs={10} sm={11} className="content">
+              <div className="content">
                 <h2>{this.props.htitle}</h2>
                 <h3>{this.props.hsubtitle}</h3>
-              </Col>
+              </div>
 
-            </Row>
+            </div>
 
           : null }
 

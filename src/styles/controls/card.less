@@ -1,6 +1,7 @@
 
 .card {
 
+  position: relative;
   background-color: #fff;
   border-radius: 3px;
   margin-top: 10px;
@@ -8,9 +9,18 @@
 
   .z2;
 
+  h2 {
+    color: @primary-color;
+  }
+
   .header {
     margin-top: 10px;
-    margin-bottom: 10px;
+    display: inline-block;
+
+    .icon-ctn {
+      display: inline-block;
+      vertical-align: top;
+    }
 
     .avatar {
       width: 40px;
@@ -28,23 +38,35 @@
           font-size: 36px;
           text-indent: -25px;
           line-height: 24px;
+
+          &.letter {
+            font-size: 26px;
+            font-weight: 400;
+            text-transform: uppercase;
+            text-indent: 0;
+            font-style: normal;
+          }
         }
       }
     }
 
     .content {
+      margin-left: 20px;
+      display: inline-block;
 
       h2 {
         margin: 0;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 400;
+        overflow: hidden;
       }
 
       h3 {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 400;
         color: gray;
         margin: 5px 0;
+        overflow: hidden;
       }
     }
 
@@ -53,7 +75,6 @@
   .media {
     min-height: 180px;
     position: relative;
-    border-top: 1px solid @divider-color;
     background-size: cover;
 
     .title {

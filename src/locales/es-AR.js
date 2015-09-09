@@ -5,6 +5,7 @@ export default {
   "full_datetime_format": "DD/MM/YYYY HH:mm",
 
   "app_title": "la canchita",
+  "landing_legend": "un sitio épico",
 
   "login": "Ingresar",
   "back": "volver",
@@ -16,6 +17,12 @@ export default {
   "edit": "Editar",
   "loading": "cargando ...",
   "invite": "Invitar",
+
+  "notfound_message": "mm .. no hay partido por acá",
+  "notfound_go_home": "ir al inicio",
+
+  "account_mygroups": "Groupos",
+  "account_logout": "Cerrar Sesión",
 
   "account_title_social": "ingresar con tu red social",
   "account_title_social_1": "ingresar con",

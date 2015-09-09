@@ -17,6 +17,12 @@ nav {
       a, &.navbar-brand {
         color: @nav-bar-text-color;
       }
+
+      &.navbar-brand {
+        a {
+          display: inline;
+        }
+      }
     }
 
   }
@@ -32,9 +38,61 @@ nav {
   &.navbar-right {
     float: right!important;
   }
+
+  >li>a {
+    padding-top: 10px!important;
+    padding-bottom: 10px!important;
+  }
+
+  .dropdown-menu {
+    background-color: @nav-bar-bg-color!important;
+    position: absolute!important;
+    float: left!important;
+    border: 1px solid #cccccc!important;
+    border: 1px solid rgba(0, 0, 0, 0.15)!important;
+
+    .dropdown-menu .divider {
+      border-bottom: 1px solid #E3E3E3;
+    }
+
+    >li>a {
+      color: @nav-bar-text-color!important;
+      padding: 3px 20px!important;
+
+      &:hover, &:focus {
+        color: @nav-bar-text-color!important;
+        background-color: @primary-light-color!important;
+      }
+    }
+  }
+
+  .user-pic {
+    cursor: pointer;
+  }
+
 }
 
-.navbar-back {
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: @nav-bar-text-color;
+  background-color: transparent;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: @primary-light-color;
+  color: @nav-bar-text-color;
+}
+
+.navbar-nav .login-link {
+  font-size: 22px;
+  font-weight: 400;
+  padding-top: 5px!important;
+  padding-bottom: 5px!important;
+}
+
+.navbar-icon {
   >a {
 
     @media @xs-and-down {
@@ -45,4 +103,49 @@ nav {
       padding: 15px 15px 15px 0 !important;
     }
   }
+}
+
+.navbar-searchbox {
+  padding-top: 9px;
+  width: 50%;
+  max-width: 300px;
+  margin: 0 auto!important;
+  display: block;
+  position: relative;
+
+  .fa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 13px 4px;
+    font-size: 24px;
+    color: @primary-dark-color;
+  }
+
+  input {
+    width: 100%;
+    font-size: 20px;
+    border: none;
+    padding: 3px 10px;
+    padding-left: 40px;
+    background-color: @primary-light-color;
+    color: @text-icons-color;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    display: inline-block;
+
+    input {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.right-abs {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

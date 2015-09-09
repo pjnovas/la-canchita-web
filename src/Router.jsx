@@ -15,16 +15,11 @@ import MeetingView from "./components/meeting/View.jsx";
 
 import NotFound from "./components/NotFound.jsx";
 
-var HomeHandler = Home;
-if (window.user){
-  HomeHandler = Groups;
-}
-
-var routes = (
+const routes = (
   <Route name="root" handler={App} path="/">
-    <Route path="/" name="home" handler={HomeHandler} />
+    <Route path="/" name="home" handler={Home} />
 
-    <Route path="/groups" name="groups" handler={HomeHandler} />
+    <Route path="/groups" name="groups" handler={Groups} />
     <Route path="/groups/new" name="groupnew" handler={GroupEdit} />
 
     <Route path="/groups/:groupId" name="group" handler={GroupView} />
@@ -44,7 +39,7 @@ var routes = (
     <Route path="/notfound" name="notfound" handler={NotFound} />
     <NotFoundRoute handler={NotFound} />
 
-    <DefaultRoute handler={HomeHandler}/>
+    <DefaultRoute handler={Home}/>
   </Route>
 );
 
