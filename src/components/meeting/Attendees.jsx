@@ -5,7 +5,7 @@ import { MeetingActions } from "../../actions";
 
 import Attendee from "./Attendee.jsx";
 
-import { Row, Col, Button, Badge } from "react-bootstrap";
+import { Grid, Row, Col, Badge } from "react-bootstrap";
 import { ActionButton } from "../controls";
 
 export default class Attendees extends React.Component {
@@ -68,7 +68,7 @@ export default class Attendees extends React.Component {
       }
     }
 
-    let isFull = !meeting.replacements && attendees.length === meeting.max;
+    let isFull = !meeting.replacements && meeting.max > 0 && attendees.length === meeting.max;
 
     let canJoin = (["joining", "confirming"].indexOf(stage) > -1 ? true : false);
     canJoin = canJoin && !me && !isFull ? true : false;
@@ -83,80 +83,85 @@ export default class Attendees extends React.Component {
     let sEnd = moment(cEnd).format(__.full_datetime_format);
 
     return (
-      <div>
-
+      <Grid className="meeting-attendees">
         <Row>
+          <Col xs={12} sm={10} smOffset={1}>
 
-          <Col xs={6}>
-            <h4>Jugadores
-            { meeting.max ?
-              <Badge>{attendees.length} / {meeting.max}</Badge>
-            :
-              <Badge>{attendees.length}</Badge>
-            }
-            </h4>
+            <Row>
+
+              <Col xs={6}>
+                <h4 className="title">Jugadores
+                { meeting.max ?
+                  <Badge>{attendees.length} / {meeting.max}</Badge>
+                :
+                  <Badge>{attendees.length}</Badge>
+                }
+                </h4>
+              </Col>
+
+              { meeting.confirmation && ["joining", "confirming"].indexOf(stage) > -1 ?
+              <Col xs={6} className="text-right">
+              { stage === "confirming" ?
+                <h6 className="confirm-timer">
+                  {__.meeting_confirm_ending_at}
+                  <span className="time" title={sStart}>{ moment(cEnd).from() }</span>
+                </h6>
+              :
+                <h6 className="confirm-timer">
+                  {__.meeting_confirm_starting_at}
+                  <span className="time" title={sEnd}>{ moment(cStart).from() }</span>
+                </h6>
+              }
+              </Col>
+              : null }
+
+            </Row>
+
+            <Row>
+              <Col xs={12}>
+
+                <div className="list-group">
+                  {attendees.map(attendee => {
+                    return (<Attendee key={attendee.id} model={attendee}/>);
+                  })}
+                </div>
+
+              </Col>
+            </Row>
+
+            { replacements.length ?
+            <Row>
+              <Col xs={12}>
+                <h5 className="list-group-header ">
+                  Suplentes <Badge>{replacements.length}</Badge></h5>
+
+                <div className="list-group">
+                  {replacements.map(attendee => {
+                    return (<Attendee key={attendee.id} model={attendee}/>);
+                  })}
+                </div>
+              </Col>
+            </Row>
+            : null }
+
+            { canJoin ?
+              <ActionButton bsStyle="primary" icon="pencil-square-o"
+                onClick={ e => { this.onClickJoin(e); } }/>
+            : null }
+
+            { canLeave ?
+              <ActionButton secondary={canConfirm} bsStyle="danger" icon="close"
+                onClick={ e => { this.onClickLeave(e); } }/>
+            : null }
+
+            { canConfirm ?
+              <ActionButton bsStyle="success" icon="check"
+                onClick={ e => { this.onClickConfirm(e); } }/>
+            : null }
+
           </Col>
-
-          { meeting.confirmation && ["joining", "confirming"].indexOf(stage) > -1 ?
-          <Col xs={6} className="text-right">
-          { stage === "confirming" ?
-            <h6 className="confirm-timer">
-              {__.meeting_confirm_ending_at}
-              <span className="time" title={sStart}>{ moment(cEnd).from() }</span>
-            </h6>
-          :
-            <h6 className="confirm-timer">
-              {__.meeting_confirm_starting_at}
-              <span className="time" title={sEnd}>{ moment(cStart).from() }</span>
-            </h6>
-          }
-          </Col>
-          : null }
-
         </Row>
-
-        <Row>
-          <Col xs={12}>
-
-            <div className="list-group">
-              {attendees.map(attendee => {
-                return (<Attendee key={attendee.id} model={attendee}/>);
-              })}
-            </div>
-
-          </Col>
-        </Row>
-
-        { replacements.length ?
-        <Row>
-          <Col xs={12}>
-            <h5>Suplentes <Badge>{replacements.length}</Badge></h5>
-
-            <div className="list-group">
-              {replacements.map(attendee => {
-                return (<Attendee key={attendee.id} model={attendee}/>);
-              })}
-            </div>
-          </Col>
-        </Row>
-        : null }
-
-        { canJoin ?
-          <ActionButton bsStyle="primary" icon="pencil-square-o"
-            onClick={ e => { this.onClickJoin(e); } }/>
-        : null }
-
-        { canLeave ?
-          <ActionButton secondary={canConfirm} bsStyle="danger" icon="close"
-            onClick={ e => { this.onClickLeave(e); } }/>
-        : null }
-
-        { canConfirm ?
-          <ActionButton bsStyle="success" icon="check"
-            onClick={ e => { this.onClickConfirm(e); } }/>
-        : null }
-
-      </div>
+      </Grid>
     );
   }
 

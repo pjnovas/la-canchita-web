@@ -10,7 +10,6 @@
     padding: 10px 20px;
     display: inline-block;
     margin-top: 10px;
-
   }
 
   .meeting-duration {
@@ -34,22 +33,18 @@
     }
   }
 
-  .description {
-    margin: 0 0 10px;
-    white-space: pre-line;
-    word-break: break-word;
-    background: rgb(242, 242, 242);
-    padding: 5px 20px;
-  }
-
   .map-section {
     >div {
-      background: rgb(242, 242, 242);
+      background: @background-color-light;
       overflow: hidden;
+      margin-top: 10px;
+      padding: 5px 10px 10px 10px;
+      .z1;
     }
 
     .map-location {
       width: auto;
+      color: @text-icons-color;
     }
   }
 
@@ -57,7 +52,33 @@
     margin-left: 10px;
   }
 
+}
+
+.meeting-detail {
+
+  .title {
+    color: @text-icons-color;
+  }
+
+  .description {
+    background: @background-color-dark;
+    color: @text-icons-color;
+    white-space: pre-line;
+    word-break: break-word;
+    padding: 20px 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+}
+
+.meeting-attendees {
+
+  .title {
+    color: @text-icons-color;
+  }
+
   .confirm-timer {
+    color: @text-icons-color;
     display: inline-block;
     margin-top: 17px;
 
@@ -65,16 +86,6 @@
       font-weight: 500;
       text-decoration: underline;
     }
-  }
-
-  .collapse-title {
-    color: #4E4E4E;
-    background: rgb(242, 242, 242);
-    text-decoration: none;
-    border-bottom: none;
-    padding: 5px 10px;
-    margin: 5px 0 0 0;
-    text-transform: none;
   }
 
 }
