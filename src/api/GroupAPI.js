@@ -33,13 +33,19 @@ class GroupAPI extends IO {
 
   accept(id){
     this.post(id + "/members/me").then( member => {
-      GroupActions.receiveMembers(id, member);
+      setTimeout( () => this.find(), 100);
     });
   }
 
   reject(id){
     this.del(id + "/members/me").then( member => {
-      GroupActions.receiveMembers(id, member);
+      setTimeout( () => this.find(), 100);
+    });
+  }
+
+  leave(id){
+    this.del(id + "/members/me").then( member => {
+      // do nothing
     });
   }
 

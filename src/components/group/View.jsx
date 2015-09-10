@@ -32,13 +32,20 @@ export default class GroupView extends React.Component {
     this.evChangeGroup = GroupStore.addListener(this.onChangeGroup.bind(this));
     this.evErrorGroup = GroupStore.onError(this.onError.bind(this));
 
+    let group = GroupStore.getStateById(this.state.id);
+
+    if (group){
+      this.onChangeGroup();
+    }
+
     GroupActions.findOne(this.state.id);
   }
 
   componentWillUnmount() {
     this.evChangeGroup.remove();
     this.evErrorGroup.remove();
-    //GroupActions.leaveRoom(this.state.id);
+
+    GroupActions.leaveRoom(this.state.id);
   }
 
   onError(error){
@@ -56,7 +63,7 @@ export default class GroupView extends React.Component {
     }
 
     this.setState({ group, loading: false });
-    //setTimeout(() => GroupActions.joinRoom(group.id), 100);
+    setTimeout(() => GroupActions.joinRoom(group.id), 100);
   }
 
   onChangeTab(key){

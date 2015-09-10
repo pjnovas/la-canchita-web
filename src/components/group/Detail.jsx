@@ -18,8 +18,18 @@ export default class GroupDetail extends React.Component {
     this.setState({ confirmDelete: true });
   }
 
+  onLeaveClick(){
+    this.setState({ confirmLeave: true });
+  }
+
   destroyGroup() {
     GroupActions.destroy(this.props.model.id);
+    window.app.router.transitionTo("groups");
+  }
+
+  leaveGroup() {
+    GroupActions.leave(this.props.model.id);
+    window.app.router.transitionTo("groups");
   }
 
   render() {
@@ -70,7 +80,12 @@ export default class GroupDetail extends React.Component {
             onClick={ () => { this.onDestroyClick(); } }>
             {__.remove}
           </Button>
-        : null }
+        :
+        <Button bsStyle="danger"
+          onClick={ () => { this.onLeaveClick(); } }>
+          {__.group_leave}
+        </Button>
+        }
 
         { canEdit ?
           <ActionButton bsStyle="primary" icon="pencil"
@@ -84,6 +99,13 @@ export default class GroupDetail extends React.Component {
             onAccept={ () => this.destroyGroup() } />
         : null }
 
+        { this.state.confirmLeave ?
+          <Confirm title={__.group_leave_title.replace("{1}", gName)}
+            text={__.group_leave_text.replace("{1}", gName)}
+            onClose={ () => this.setState({ confirmLeave: false }) }
+            onAccept={ () => this.leaveGroup() } />
+        : null }
+
       </Grid>
     );
   }
@@ -92,5 +114,6 @@ export default class GroupDetail extends React.Component {
 
 GroupDetail.displayName = "GroupDetail";
 GroupDetail.defaultState = {
-  confirmDelete: false
+  confirmDelete: false,
+  confirmLeave: false
 };

@@ -3,7 +3,7 @@ import { GroupDispatcher } from "../dispatcher";
 
 import { MeetingConstants } from "../constants";
 import { MeetingAPI } from "../api";
-//import { MeetingNotifier } from "../api";
+import { MeetingNotifier } from "../api";
 
 import Store from "./Store";
 
@@ -48,14 +48,12 @@ class MeetingStore extends Store {
       case MeetingConstants.CONFIRM:
         MeetingAPI.confirm(action.id);
         break;
-        /*
       case MeetingConstants.JOIN_ROOM:
-        MeetingNotifier.join(this.findId(action.id));
+        MeetingNotifier.join(action.id);
         break;
       case MeetingConstants.LEAVE_ROOM:
-        MeetingNotifier.leave(this.findId(action.id));
+        MeetingNotifier.leave(action.id);
         break;
-        */
     }
   }
 

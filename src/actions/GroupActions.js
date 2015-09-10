@@ -42,6 +42,13 @@ class GroupActions extends Actions {
     });
   }
 
+  leave(id) {
+    this.dispatcher.dispatch({
+      type: this.constants.LEAVE,
+      id
+    });
+  }
+
   invite(gid, data) {
     this.dispatcher.dispatch({
       type: this.constants.INVITE,
@@ -72,6 +79,20 @@ class GroupActions extends Actions {
       type: this.constants.CREATE_MEETING,
       id,
       meeting
+    });
+  }
+
+  joinRoom(id) {
+    this.dispatcher.dispatch({
+      type: this.constants.JOIN_ROOM,
+      id
+    });
+  }
+
+  leaveRoom(id) {
+    this.dispatcher.dispatch({
+      type: this.constants.LEAVE_ROOM,
+      id
     });
   }
 

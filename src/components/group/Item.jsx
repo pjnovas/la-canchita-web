@@ -21,7 +21,6 @@ export default class GroupItem extends React.Component {
     let model = this.props.model;
 
     let isInvite = model.member.state === "pending";
-    //let isInvite = true;  // > for test invite cards
 
     let htitle = "";
     let subtitle = "";

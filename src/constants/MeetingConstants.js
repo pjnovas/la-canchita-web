@@ -5,5 +5,7 @@ export default builder("MEETING", [
   "REMOVE_ATTENDEE_ME",
   "JOIN",
   "LEAVE",
-  "CONFIRM"
+  "CONFIRM",
+  "JOIN_ROOM",
+  "LEAVE_ROOM"
 ], true);

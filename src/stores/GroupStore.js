@@ -3,7 +3,7 @@ import { GroupDispatcher } from "../dispatcher";
 
 import { GroupConstants, MeetingConstants } from "../constants";
 import { GroupAPI } from "../api";
-//import { GroupNotifier } from "../api";
+import { GroupNotifier } from "../api";
 
 import Store from "./Store";
 
@@ -48,6 +48,9 @@ class GroupStore extends Store {
       case GroupConstants.REJECT:
         GroupAPI.reject(action.id);
         break;
+      case GroupConstants.LEAVE:
+        GroupAPI.leave(action.id);
+        break;
       case GroupConstants.INVITE:
         GroupAPI.invite(action.gid, action.data);
         break;
@@ -66,15 +69,12 @@ class GroupStore extends Store {
           this.removeChild(gid, action.id, "meetings");
         }
         break;
-
-        /*
       case GroupConstants.JOIN_ROOM:
-        GroupNotifier.join(this.findId(action.id));
+        GroupNotifier.join(action.id);
         break;
       case GroupConstants.LEAVE_ROOM:
-        GroupNotifier.leave(this.findId(action.id));
+        GroupNotifier.leave(action.id);
         break;
-        */
     }
   }
 

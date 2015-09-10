@@ -56,6 +56,20 @@ class MeetingActions extends Actions {
     });
   }
 
+  joinRoom(id) {
+    this.dispatcher.dispatch({
+      type: this.constants.JOIN_ROOM,
+      id
+    });
+  }
+
+  leaveRoom(id) {
+    this.dispatcher.dispatch({
+      type: this.constants.LEAVE_ROOM,
+      id
+    });
+  }
+
 }
 
 const instance = new MeetingActions();

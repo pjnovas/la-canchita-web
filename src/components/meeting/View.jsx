@@ -38,7 +38,7 @@ export default class MeetingView extends React.Component {
   componentWillUnmount() {
     this.evChangeMeeting.remove();
     this.evErrorMeeting.remove();
-    //MeetingActions.leaveRoom(this.state.id);
+    MeetingActions.leaveRoom(this.state.id);
   }
 
   onError(error){
@@ -50,7 +50,7 @@ export default class MeetingView extends React.Component {
   onChangeMeeting(){
     let meeting = MeetingStore.getStateById(this.state.id);
     this.setState({ meeting, gid: meeting.group.id });
-    //setTimeout(() => MeetingActions.joinRoom(meeting.id), 100);
+    setTimeout(() => MeetingActions.joinRoom(meeting.id), 100);
   }
 
   getPeriod (dt, obj, type) {

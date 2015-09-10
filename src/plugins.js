@@ -1,4 +1,4 @@
-import "babel-core/polyfill";
+import "babel/register";
 
 import React from "react";
 

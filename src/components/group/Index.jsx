@@ -1,3 +1,6 @@
+
+import _ from "lodash";
+
 import Header from "../Header.jsx";
 import GroupList from "./List.jsx";
 
@@ -8,15 +11,19 @@ export default class Groups extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = Groups.defaultState;
+    this.state = _.cloneDeep(Groups.defaultState);
   }
 
   componentDidMount() {
     this.evChangeGroup = GroupStore.addListener(this.onChangeGroups.bind(this));
 
-    // TODO: check this getState, maybe there is no way to find() every time
-    this.setState({ groups: GroupStore.getState() });
-    setTimeout( () => GroupActions.find() );
+    let groups = GroupStore.getState();
+    if (groups && groups.length){
+      this.setState({ groups: GroupStore.getState() });
+      this.onChangeGroups();
+    }
+
+    setTimeout(() => GroupActions.find(), 100);
   }
 
   componentWillUnmount() {

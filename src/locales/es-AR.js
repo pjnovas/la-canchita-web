@@ -76,6 +76,10 @@ export default {
   "group_destroy_title": "Eliminar {1}",
   "group_destroy_text": "Se eliminará el group {1}, estás seguro?",
 
+  "group_leave": "Salir del Grupo",
+  "group_leave_title": "Salir de {1}",
+  "group_leave_text": "Vas a dejar el grupo {1}, estás seguro?",
+
   "group_title": "Título",
   "group_description": "Descripción",
 
@@ -119,7 +123,7 @@ export default {
 
   "meeting_destroy_title": "Eliminar partido {1}",
   "meeting_destroy_text": "Se eliminará el partido {1}, estás seguro?",
-  
+
   "meeting_title": "Título",
   "meeting_info": "Información",
   "meeting_place": "Lugar",
