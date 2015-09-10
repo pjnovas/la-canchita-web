@@ -52,18 +52,12 @@ export default class MeetingForm extends React.Component {
   }
 
   render() {
-    let confirmStart, confirmEnd;
+    let confirmStart = "", confirmEnd = "";
 
     let showLimits = this.state.showLimits || (this.props.min > 0 || this.props.max > 0 ? true : false);
     let showMoreInfo = this.state.showMoreInfo || (this.props.title || this.props.info ? true : false);
 
     if (this.props.confirmation){
-      /*
-      if (!this.props.when){
-        this.props.when = moment().add(7, 'days');
-      }
-      */
-
       confirmStart =
         moment(this.props.when)
         .subtract(this.props.confirmStart.times, this.props.confirmStart.period);
@@ -71,6 +65,9 @@ export default class MeetingForm extends React.Component {
       confirmEnd =
         moment(this.props.when)
         .subtract(this.props.confirmEnd.times, this.props.confirmEnd.period);
+
+      confirmStart = moment(confirmStart.toDate()).format(__.full_datetime_format);
+      confirmEnd = moment(confirmEnd.toDate()).format(__.full_datetime_format);
     }
 
     return (
@@ -85,7 +82,7 @@ export default class MeetingForm extends React.Component {
         <Divider/>
 
         <Row>
-          <Col xs={8}>
+          <Col xs={12}>
 
             <Input type="text" label={__.meeting_place}
               placeholder={__.meeting_place_hint}
@@ -122,12 +119,12 @@ export default class MeetingForm extends React.Component {
         <Row>
           <Col xs={12}>
             <Input type="checkbox" label={__.meeting_more_info}
-              checked={this.state.showMoreInfo ? true : false }
+              checked={showMoreInfo}
               onChange={ (e) => { this.changeState("showMoreInfo", e.target.checked); } }/>
           </Col>
         </Row>
 
-        { this.state.showMoreInfo ?
+        { showMoreInfo ?
         <div>
           <Row>
             <Col xs={12} sm={10} smOffset={1}>
@@ -183,10 +180,10 @@ export default class MeetingForm extends React.Component {
 
           <Row>
             <Col xs={5} xsOffset={1} className="max-w160 text-center">
-            {moment(confirmStart).format(__.full_datetime_format)}
+            {confirmStart}
             </Col>
             <Col xs={5} className="max-w160 text-center">
-            {moment(confirmEnd).format(__.full_datetime_format)}
+            {confirmEnd}
             </Col>
           </Row>
 

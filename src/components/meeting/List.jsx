@@ -47,10 +47,10 @@ export default class MeetingList extends React.Component {
     let canCreate = this.editors.indexOf(this.props.myRole) > -1;
 
     return (
-      <Grid>
+      <Grid className="group-meetings">
         <Row className="meeting-tab">
 
-          <div className="list-group">
+          <div className="list-group actives">
             {active.map(meeting => {
               return (<MeetingItem key={meeting.id} model={meeting}
                 removeMeeting={ mid => { this.removeMeeting(mid) }}

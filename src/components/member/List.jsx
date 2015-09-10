@@ -69,10 +69,10 @@ export default class MemberList extends React.Component {
     let canInvite = this.inviters.indexOf(this.props.myRole) > -1;
 
     return (
-      <Grid>
+      <Grid className="group-members">
         <Row>
 
-          <div className="list-group">
+          <div className="list-group actives">
             {active.map(member => {
               return (
                 <MemberItem

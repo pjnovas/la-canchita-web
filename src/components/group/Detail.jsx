@@ -2,7 +2,7 @@
 import { GroupActions } from "../../actions";
 
 import { Button, Grid, Row, Col } from "react-bootstrap";
-import { Card, ActionButton, Confirm } from "../controls";
+import { ActionButton, Confirm } from "../controls";
 
 export default class GroupDetail extends React.Component {
 
@@ -33,28 +33,44 @@ export default class GroupDetail extends React.Component {
     let canEdit = this.editors.indexOf(myRole) > -1;
     let canRemove = this.destroyers.indexOf(myRole) > -1;
 
-    let actions = [];
-
-    if (canRemove){
-      actions = [
-        (<Button bsStyle="link" className="btn-danger"
-          onClick={ () => { this.onDestroyClick(); } }>
-          {__.remove}
-        </Button>)
-      ];
-    }
-
     let gName = model.title || __.group;
+
+    let media;
+    if (model.picture){
+      media = {
+        backgroundImage: "url(/images/groups/" + model.picture + ")"
+      };
+    }
 
     return (
       <Grid className="group-detail">
 
-        <Card
-          title={model.title}
-          description={model.description}
-          media={ model.picture ? "/images/groups/" + model.picture : null }
-          actions={actions}>
-        </Card>
+        { media ?
+          <Row>
+            <Col xs={12} className="media" style={media}></Col>
+          </Row>
+        : null }
+
+        <Row>
+          <Col xs={12} className="title">
+            <h1>{gName}</h1>
+          </Col>
+        </Row>
+
+        { model.description ?
+          <Row>
+            <Col xs={12} className="description">
+              {model.description}
+            </Col>
+          </Row>
+        : null }
+
+        { canRemove ?
+          <Button bsStyle="danger"
+            onClick={ () => { this.onDestroyClick(); } }>
+            {__.remove}
+          </Button>
+        : null }
 
         { canEdit ?
           <ActionButton bsStyle="primary" icon="pencil"

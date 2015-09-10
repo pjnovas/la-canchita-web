@@ -34,7 +34,14 @@ export default class MeetingCreate extends React.Component {
 
     let mid = this.state.model.id || this.state.cloneId || null;
     if (mid) {
-      MeetingActions.findOne(mid);
+      let meeting = MeetingStore.getStateById(mid);
+
+      if (!meeting){
+        MeetingActions.findOne(mid);
+        return;
+      }
+
+      this.onChangeMeeting();
     }
   }
 
@@ -55,7 +62,9 @@ export default class MeetingCreate extends React.Component {
         delete meeting.attendees;
         delete meeting.group;
 
-        meeting.when = MeetingCreate.defaultState.model.when;
+        let defaults = _.cloneDeep(MeetingCreate.defaultState.model);
+        meeting = _.defaultsDeep(meeting, defaults);
+        meeting.when = defaults.when;
       }
 
       this.setState({ model: meeting, loading: false });
@@ -142,11 +151,14 @@ MeetingCreate.displayName = "MeetingCreate";
 MeetingCreate.defaultState = {
   model: {
     title: "",
+    info: "",
     when: moment().add(7, 'days'),
     duration: { times: 1, period: "hours" },
     confirmation: false,
     confirmStart: { times: 2, period: "days" },
     confirmEnd: { times: 2, period: "hours" },
+    min: 0,
+    max: 0,
     replacements: false,
   },
 

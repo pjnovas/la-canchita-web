@@ -70,7 +70,7 @@ export default class GroupView extends React.Component {
     let meetings = model && model.meetings || [];
 
     return (
-      <div>
+      <div className="group-view">
         <Header backto="groups" flat={true}/>
 
         <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
