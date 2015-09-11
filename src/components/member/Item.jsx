@@ -60,9 +60,16 @@ export default class MemberItem extends React.Component {
           </button>
 
           <ul className="dropdown-menu dropdown-menu-right">
-            <li className="dropdown-header">{__.member_change_role}</li>
+
+            { this.props.changeRole ?
+              <li className="dropdown-header">{__.member_change_role}</li>
+            : null }
 
             { changeRoles.map( role => {
+              if (!this.props.changeRole){
+                return null;
+              }
+
               return (
                 <li key={role}>
                   <a onClick={ () => { this.props.changeRole(model.id, role); }}>{ this.roleName[role] }</a>
@@ -70,7 +77,7 @@ export default class MemberItem extends React.Component {
               )
             }) }
 
-            { canKick ? <li className="divider"></li> : null }
+            { this.props.changeRole && canKick ? <li className="divider"></li> : null }
             { canKick ? (
               <li>
                 <a className="text-danger"

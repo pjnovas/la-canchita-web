@@ -33,6 +33,7 @@ class GroupNotifier extends Notifier {
       case "new_members":
       case "update_member":
         GroupActions.receiveMembers(payload.id, payload.data);
+        this.updateGroupMember(payload.id, payload.data);
         break;
       case "new_meeting":
       case "update_meeting":
@@ -52,6 +53,21 @@ class GroupNotifier extends Notifier {
 
   onLeave(room){
 
+  }
+
+  updateGroupMember(gid, members){
+    let uid = window.user && window.user.id;
+    if (uid){
+      members = Array.isArray(members) ? members : [members];
+
+      members.forEach( member => {
+        let muid = member.user && member.user.id || member.user;
+        if (muid === uid){
+          GroupActions.receive({ id: gid, member: member });
+          return false;
+        }
+      });
+    }
   }
 }
 

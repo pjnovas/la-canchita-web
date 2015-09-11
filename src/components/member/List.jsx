@@ -88,7 +88,9 @@ export default class MemberList extends React.Component {
             <h4 className="list-group-header">{__.member_invited}</h4>
             <div className="list-group">
               {pending.map(member => {
-                return (<MemberItem key={member.id} model={member} />);
+                return (<MemberItem key={member.id} model={member}
+                  myRole={this.props.myRole}
+                  kickMember={ mid => { this.kickMember(mid); } } />);
               })}
             </div>
           </div>

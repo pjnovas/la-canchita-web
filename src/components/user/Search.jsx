@@ -1,4 +1,6 @@
 
+import _ from "lodash";
+
 import {UserStore} from "../../stores";
 import {UserActions} from "../../actions";
 
@@ -11,7 +13,7 @@ export default class SearchUser extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = SearchUser.defaultState;
+    this.state = _.cloneDeep(SearchUser.defaultState);
   }
 
   componentDidMount() {
@@ -104,10 +106,7 @@ export default class SearchUser extends React.Component {
   }
 
   clear() {
-    this.setState({ search: "" });
-    this.setState({ users: [] });
-
-    this.setState({ showAddEmail: false });
+    this.state = _.cloneDeep(SearchUser.defaultState);
     this.email = null;
   }
 
@@ -121,6 +120,7 @@ export default class SearchUser extends React.Component {
 
   onSend(){
     this.props.onSelect(this.state.invites);
+    this.clear();
     this.props.onClose();
   }
 
