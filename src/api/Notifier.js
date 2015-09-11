@@ -49,7 +49,7 @@ export default class Notifier {
       let evName = pre + ev;
 
       socket.on(evName, data => {
-        if (this.currentRoom.name === data.id){
+        if (!data.id || this.currentRoom.name === data.id){
 
           let duser = data.user && data.user.id || "-";
           let wuser = window.user && window.user.id || "x";
@@ -75,10 +75,10 @@ export default class Notifier {
     });
   }
 
-  join(room) {
+  join(room, data) {
 
     if (!this.isConnected()){
-      this.retryTimer = setTimeout(() => this.join(room), 1000);
+      this.retryTimer = setTimeout(() => this.join(room, data), 1000);
       return;
     }
 
@@ -91,7 +91,7 @@ export default class Notifier {
     this.currentRoom.name = room;
     this.currentRoom.state = "joining";
 
-    this.getSocket().post(this.roomBase + "/" + room, res => {
+    this.getSocket().post(this.roomBase + "/" + room, data, res => {
       //console.log("Now connected to room ", this.roomBase + "/" + room);
       this.currentRoom.joined = true;
       this.suscribe();
@@ -99,7 +99,7 @@ export default class Notifier {
     });
   }
 
-  leave(room) {
+  leave(room, data) {
     clearTimeout(this.retryTimer);
 
     if (!this.isConnected()){
@@ -111,7 +111,7 @@ export default class Notifier {
     if (this.currentRoom.name === room
       && ["joining", "joined"].indexOf(this.currentRoom.state) > -1){
 
-        this.getSocket().delete(this.roomBase + "/" + room, res => {
+        this.getSocket().delete(this.roomBase + "/" + room, data, res => {
           //console.log("Now disconnected from room ", this.roomBase + "/" + room);
           this.unsuscribe();
           this.onLeave(room);

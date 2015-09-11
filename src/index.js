@@ -14,3 +14,11 @@ import "eonasdan-bootstrap-datetimepicker";
 window.app = {};
 import "./Router.jsx";
 import App from "./App.jsx";
+
+// Remove autoconnection of sails websockets
+io.sails.autoConnect = false;
+
+import {Notifications} from "./api";
+if (window.user){
+  Notifications.join("", { uid: window.user.id });
+}
