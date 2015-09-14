@@ -16,6 +16,18 @@ class UserAPI extends IO {
     });
   }
 
+  findMe(){
+    this.get("me").then( user => {
+      this.actions.receive(user);
+    });
+  }
+
+  updateMe(data){
+    this.put("me", data).then( user => {
+      this.actions.receive(user);
+    });
+  }
+
 }
 
 const instance = new UserAPI();

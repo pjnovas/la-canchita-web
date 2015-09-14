@@ -52,6 +52,9 @@ export default class Header extends React.Component {
                 <Link to="groups">{__.account_mygroups}</Link>
               </li>
               <li>
+                <Link to="profile">{__.account_profile}</Link>
+              </li>
+              <li>
                 <a href="/logout">{__.account_logout}</a>
               </li>
             </ul>

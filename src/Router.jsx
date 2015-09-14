@@ -4,9 +4,9 @@ import Router, {Route, NotFoundRoute, DefaultRoute} from "react-router";
 import App from "./App.jsx";
 import Login from "./components/account/Login.jsx";
 import Home from "./components/Home.jsx";
-import Profile from "./components/account/Profile.jsx";
+import Profile from "./components/profile/index.jsx";
 
-import Groups from "./components/group/Index.jsx";
+import Groups from "./components/group/index.jsx";
 import GroupEdit from "./components/group/Edit.jsx";
 import GroupView from "./components/group/View.jsx";
 

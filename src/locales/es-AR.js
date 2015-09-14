@@ -19,10 +19,21 @@ export default {
   "loading": "cargando ...",
   "invite": "Invitar",
 
+  "priority_goalkeeper": "Arquero",
+  "priority_defender": "Defensor",
+  "priority_midfielder": "Volante",
+  "priority_forward": "Delantero",
+  "priority_any": "Indistinto",
+
+  "legs_left": "Zurdo",
+  "legs_right": "Diestro",
+  "legs_both": "Ambidiestro",
+
   "notfound_message": "mm .. no hay partido por acá",
   "notfound_go_home": "ir al inicio",
 
   "account_mygroups": "Groupos",
+  "account_profile": "Perfil",
   "account_logout": "Cerrar Sesión",
 
   "account_title_social": "ingresar con tu red social",
@@ -56,6 +67,21 @@ export default {
   "account_no_password_msg": "Para cambiar la contraseña, tenes que hacerlo en la red social con la que ingresas",
 
   "profile_title": "Mi perfil",
+  "profile_email_hint": "Ingresa tu email para recibir notificaciones",
+  "profile_tab_account": "Cuenta",
+  "profile_tab_settings": "Jugador",
+  "profile_tab_notifications": "Notificaciones",
+  "profile_settings_priorities": "Selecciona tus prioridades de juego, de mas importante a menos.",
+  "profile_settings_leg": "Pierna hábil",
+
+  "profile_setting_emails": "Recibir notificaciones por email",
+  "profile_setting_invites": "Notificarme cuando me invitan a un grupo",
+  "profile_setting_groups_change": "Notificarme cambios de grupos en los que estoy",
+  "profile_setting_groups_members": "Notificarme cuando ingresa o sale un miembro de un grupo",
+  "profile_setting_meetings_create": "Notificarme cuando se crea un partido en un grupo",
+  "profile_setting_meetings_change": "Notificarme cambios de partidos",
+  "profile_setting_meetings_states": "Notificarme cambios de estados en los partidos",
+  "profile_setting_meetings_remove": "Notificarme cuando un partido es eliminado",
 
   "group": "Groupo",
 

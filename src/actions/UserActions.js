@@ -19,6 +19,19 @@ class UserActions extends Actions {
     });
   }
 
+  findMe(){
+    this.dispatcher.dispatch({
+      type: this.constants.FINDME
+    });
+  }
+
+  updateMe(data){
+    this.dispatcher.dispatch({
+      type: this.constants.UPDATEME,
+      data
+    });
+  }
+
 }
 
 const instance = new UserActions();

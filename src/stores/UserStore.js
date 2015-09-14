@@ -14,6 +14,12 @@ class UserStore extends Store {
       case UserConstants.SEARCH:
         UserAPI.search(action.query);
         break;
+      case UserConstants.FINDME:
+        UserAPI.findMe();
+        break;
+      case UserConstants.UPDATEME:
+        UserAPI.updateMe(action.data);
+        break;
       case UserConstants.RECEIVE:
         this.__changed = this.addItems(action.users);
         break;
