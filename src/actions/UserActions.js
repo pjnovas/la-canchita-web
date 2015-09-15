@@ -32,6 +32,14 @@ class UserActions extends Actions {
     });
   }
 
+  changePassword(actual, change){
+    this.dispatcher.dispatch({
+      type: this.constants.CHANGEPASSWORD,
+      actual,
+      change
+    });
+  }
+
 }
 
 const instance = new UserActions();

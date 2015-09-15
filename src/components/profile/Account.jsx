@@ -25,16 +25,42 @@ export default class ProfileAccount extends React.Component {
     this.props.onChange("email", e.target.value);
   }
 
-  changeActualPassword() {
-
+  changeActualPassword(e) {
+    this.setState({ "actualPassword": e.target.value });
+    this.toggleSavePassword();
   }
 
-  changeNewPasword() {
-
+  changeNewPasword(e) {
+    this.setState({ "newPassword": e.target.value });
+    this.toggleSavePassword();
   }
 
-  changeNewPaswordRe() {
+  changeNewPaswordRe(e) {
+    this.setState({ "cNewPassword": e.target.value });
+    this.toggleSavePassword();
+  }
 
+  toggleSavePassword() {
+    if (this.state.actualPassword.length && this.state.newPassword.length && this.state.cNewPassword.length){
+      this.setState({ showSavePassword: true });
+      return;
+    }
+
+    this.setState({ showSavePassword: false });
+  }
+
+  onSavePasword() {
+    let actualPassword = this.state.actualPassword,
+      newPassword = this.state.newPassword,
+      cNewPassword = this.state.cNewPassword;
+
+    if (newPassword !== cNewPassword){
+      this.setState({ newPasswordError: __["Error.Passport.Password.NotMatch"] });
+      return;
+    }
+
+    UserActions.changePassword(actualPassword, newPassword);
+    this.setState(_.cloneDeep(ProfileAccount.defaultState));
   }
 
   onSave() {
@@ -125,6 +151,16 @@ export default class ProfileAccount extends React.Component {
 
                     <Input type="password" label={__.account_password_new_re}
                       onChange={ e => this.changeNewPaswordRe(e) } />
+
+                    { this.state.newPasswordError ?
+                    <p className="bg-danger">{this.state.newPasswordError}</p>
+                    : null }
+
+                    { this.state.showSavePassword ?
+                    <Button bsStyle="success" onClick={ () => this.onSavePasword() } className="pull-right">
+                      {__.account_save_password}
+                    </Button>
+                    : null }
                   </div>
                   :
                     <div className="password-social">
@@ -166,4 +202,9 @@ export default class ProfileAccount extends React.Component {
 ProfileAccount.displayName = "ProfileAccount";
 ProfileAccount.defaultState = {
   showChangePassword: false,
+  actualPassword: "",
+  newPassword: "",
+  cNewPassword: "",
+  showSavePassword: false,
+  newPasswordError: ""
 };

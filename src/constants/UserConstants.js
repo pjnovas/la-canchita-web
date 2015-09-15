@@ -2,5 +2,6 @@ import builder from "./builder";
 export default builder("USER", [
   "SEARCH",
   "FINDME",
-  "UPDATEME"
+  "UPDATEME",
+  "CHANGEPASSWORD"
 ], true);

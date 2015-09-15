@@ -28,6 +28,12 @@ class UserAPI extends IO {
     });
   }
 
+  changePassword(actual, change){
+    this.put("me/password", { actual, change }).then( () => {
+      // TODO: how to know was success
+    });
+  }
+
 }
 
 const instance = new UserAPI();

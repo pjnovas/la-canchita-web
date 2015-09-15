@@ -20,6 +20,9 @@ class UserStore extends Store {
       case UserConstants.UPDATEME:
         UserAPI.updateMe(action.data);
         break;
+      case UserConstants.CHANGEPASSWORD:
+        UserAPI.changePassword(action.actual, action.change);
+        break;
       case UserConstants.RECEIVE:
         this.__changed = this.addItems(action.users);
         break;

@@ -65,6 +65,7 @@ export default {
   "account_password_new": "Contraseña Nueva",
   "account_password_new_re": "Re ingresar contraseña",
   "account_no_password_msg": "Para cambiar la contraseña, tenes que hacerlo en la red social con la que ingresas",
+  "account_save_password": "Cambiar",
 
   "Error.Passport.Password.Invalid": "Esa contraseña no es valida",
   "Error.Passport.Password.Wrong": "Upa, esa no es la contraseña",
