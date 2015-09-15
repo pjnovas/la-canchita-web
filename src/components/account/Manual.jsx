@@ -1,6 +1,7 @@
 
 import { Input, Button, Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Icon } from "../controls";
+import Errors from "./Errors.jsx";
 
 export default class Manual extends React.Component {
 
@@ -24,18 +25,6 @@ export default class Manual extends React.Component {
         </Row>
 
         <Row>
-          <Col xs={12}>
-            { this.props.errors ?
-              this.props.errors.map( err => {
-                return (
-                  <p>{err}</p>
-                );
-              })
-              : null }
-          </Col>
-        </Row>
-
-        <Row>
           <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
             <Input type="text" placeholder={__.account_identifier} name="identifier"/>
           </Col>
@@ -48,6 +37,8 @@ export default class Manual extends React.Component {
               buttonAfter={recoverBtn} />
           </Col>
         </Row>
+
+        <Errors errors={this.props.errors} />
 
         <Row>
           <Col xs={10} xsOffset={1} sm={6} smOffset={3}>

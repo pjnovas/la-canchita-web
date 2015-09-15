@@ -3,6 +3,7 @@ import Router, {Route, NotFoundRoute, DefaultRoute} from "react-router";
 
 import App from "./App.jsx";
 import Login from "./components/account/Login.jsx";
+import NewPassword from "./components/account/NewPassword.jsx";
 import Home from "./components/Home.jsx";
 import Profile from "./components/profile/index.jsx";
 
@@ -35,6 +36,7 @@ const routes = (
     <Route path="/login" name="login" handler={Login} />
     <Route path="/register" name="register" handler={Login} />
     <Route path="/recover" name="recover" handler={Login} />
+    <Route path="/newpassword/:token" name="newpassword" handler={NewPassword} />
 
     <Route path="/notfound" name="notfound" handler={NotFound} />
     <NotFoundRoute handler={NotFound} />

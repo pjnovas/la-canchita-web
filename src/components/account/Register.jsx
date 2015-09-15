@@ -1,5 +1,6 @@
 
 import { Input, Button, Row, Col } from "react-bootstrap";
+import Errors from "./Errors.jsx";
 
 export default class Register extends React.Component {
 
@@ -15,20 +16,8 @@ export default class Register extends React.Component {
         </Row>
 
         <Row>
-          <Col xs={12}>
-            { this.props.errors ?
-              this.props.errors.map( err => {
-                return (
-                  <p>{err}</p>
-                );
-              })
-              : null }
-          </Col>
-        </Row>
-
-        <Row>
           <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
-            <Input type="text" placeholder={__.account_user} name="identifier"/>
+            <Input type="text" placeholder={__.account_user} name="username"/>
           </Col>
         </Row>
 
@@ -43,6 +32,8 @@ export default class Register extends React.Component {
             <Input type="password" placeholder={__.account_password} name="password"/>
           </Col>
         </Row>
+
+        <Errors errors={this.props.errors} />
 
         <Row>
           <Col xs={10} xsOffset={1} sm={6} smOffset={3}>

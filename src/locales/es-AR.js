@@ -34,15 +34,13 @@ export default {
 
   "account_mygroups": "Groupos",
   "account_profile": "Perfil",
-  "account_logout": "Cerrar Sesión",
+  "account_logout": "Salir",
 
   "account_title_social": "ingresar con tu red social",
   "account_title_social_1": "ingresar con",
   "account_title_social_2": "tu red social",
 
   "account_title_manual": "ingreso manual",
-  "account_title_manual_1": "o con registro",
-  "account_title_manual_2": "manual",
 
   "account_login": "Ingresar",
   "account_signin": "Registro",
@@ -53,6 +51,8 @@ export default {
   "account_user": "Usuario",
   "account_email": "Email",
   "account_password": "Contraseña",
+
+  "account_newpassword_title": "Nueva contraseña",
 
   "account_recover_info": "Recuperar contraseña",
   "account_recover_title": "recuperar contraseña",
@@ -65,6 +65,19 @@ export default {
   "account_password_new": "Contraseña Nueva",
   "account_password_new_re": "Re ingresar contraseña",
   "account_no_password_msg": "Para cambiar la contraseña, tenes que hacerlo en la red social con la que ingresas",
+
+  "Error.Passport.Password.Invalid": "Esa contraseña no es valida",
+  "Error.Passport.Password.Wrong": "Upa, esa no es la contraseña",
+  "Error.Passport.Password.NotSet": "Te falta ingresar una contraseña",
+  "Error.Passport.Username.NotFound": "Mmm, ese es tu usuario?, porque no estás registrado",
+  "Error.Passport.User.Exists": "El usuario ya está registrado.",
+  "Error.Passport.Email.NotFound": "El email no parece estar bien, puede ser?",
+  "Error.Passport.Email.Missing": "Es necesario un email para poder hacer validaciones mágicas. Prometo no mandar spam",
+  "Error.Passport.Email.Exists": "El email ya existe, es probable que ya estés registrado.",
+  "Error.Passport.Username.Missing": "Es necesario un usuario para registrarte",
+  "Error.Passport.Password.Missing": "No no, no pusiste una contraseña!",
+  "Error.Passport.Password.NotMatch": "La contraseña y su confirmación deben ser iguales",
+  "Error.Passport.Generic": "Uff, algo salió mal. Por favor, reportalo para ayudar a arreglarlo.",
 
   "profile_title": "Mi perfil",
   "profile_email_hint": "Ingresa tu email para recibir notificaciones",

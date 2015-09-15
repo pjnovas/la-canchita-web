@@ -1,5 +1,6 @@
 
 import { Input, Button, Row, Col } from "react-bootstrap";
+import Errors from "./Errors.jsx";
 
 export default class Recover extends React.Component {
 
@@ -15,22 +16,12 @@ export default class Recover extends React.Component {
         </Row>
 
         <Row>
-          <Col xs={12}>
-            { this.props.errors ?
-              this.props.errors.map( err => {
-                return (
-                  <p>{err}</p>
-                );
-              })
-              : null }
-          </Col>
-        </Row>
-
-        <Row>
           <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
             <Input type="email" placeholder={__.account_email} name="email"/>
           </Col>
         </Row>
+
+        <Errors errors={this.props.errors} />
 
         <Row>
           <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
