@@ -67,9 +67,9 @@ export default class Login extends React.Component {
       google: "/auth/google"
     };
 
-    if (this.state.redirect){
+    if (window.redirect){
       for (let p in uris){
-        uris[p] += "?redirect=" + this.state.redirect;
+        uris[p] += "?redirect=" + window.redirect;
       }
     }
 

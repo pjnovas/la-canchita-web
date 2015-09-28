@@ -50,6 +50,14 @@ window.app.router = Router
     React.render(<Handler/>, document.getElementById("app"));
   });
 
+if (!window.user) {
+  if (!window.redirect){
+    window.redirect = window.app.router.getCurrentPath();
+  }
+  
+  window.app.router.transitionTo("login");
+}
+
 window.app.handleError = function(code, err){
   if (!window.user){
     window.app.router.transitionTo("login");
