@@ -56,16 +56,24 @@ export default class IO {
   request(method, uri, data){
     return new Promise( (resolve, reject) => {
 
-      request[method || "get"](uri)
-        .send(data)
-        .end( (err, res) => {
-          if (this.errorHandler(err, method + ":" + uri)){
-            reject();
-            return;
-          }
-          
-          resolve(res.body);
-        });
+      let req = request[method || "get"](uri);
+
+      if (data && data.attach){
+        req.attach(data.field, data.file);
+      }
+      else {
+        req.send(data);
+      }
+
+      req.end( (err, res) => {
+        if (this.errorHandler(err, method + ":" + uri)){
+          reject();
+          return;
+        }
+
+        resolve(res.body);
+      });
+
     });
   }
 

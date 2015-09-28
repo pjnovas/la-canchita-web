@@ -18,7 +18,10 @@ import App from "./App.jsx";
 // Remove autoconnection of sails websockets
 io.sails.autoConnect = false;
 
-import {Notifications} from "./api";
-if (window.user){
-  Notifications.join("", { uid: window.user.id });
-}
+// Removed this join cause it was overriding the group item room
+// Was moved into /components/group/index.js
+
+//import {Notifications} from "./api";
+//if (window.user){
+//  Notifications.join("", { uid: window.user.id });
+//}

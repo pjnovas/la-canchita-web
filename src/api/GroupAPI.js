@@ -31,6 +31,40 @@ class GroupAPI extends IO {
     });
   }
 
+  create(group){
+    this.post("", group).then( _group => {
+      if (group.newpicture){
+        return this.uploadPicture(_group, group.newpicture);
+      }
+
+      this.actions.receive(_group);
+    });
+  }
+
+  update(id, group){
+    this.put(id, group).then( _group => {
+      if (group.newpicture){
+        return this.uploadPicture(_group, group.newpicture);
+      }
+
+      this.actions.receive(_group);
+    });
+  }
+
+  uploadPicture(group, image){
+    this.post(group.id + "/picture", {
+      attach: true,
+      field: "image",
+      file: image
+    }).then( picture => {
+      group.picture = picture;
+
+      window.setTimeout(() => {
+        this.actions.receive(group);
+      }, 1000);
+    });
+  }
+
   accept(id){
     this.post(id + "/members/me").then( member => {
       setTimeout( () => this.find(), 100);

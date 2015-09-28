@@ -7,6 +7,8 @@ import GroupList from "./List.jsx";
 import {GroupStore} from '../../stores';
 import {GroupActions} from '../../actions';
 
+import {Notifications} from "../../api";
+
 export default class Groups extends React.Component {
 
   constructor(props) {
@@ -24,10 +26,20 @@ export default class Groups extends React.Component {
     }
 
     setTimeout(() => GroupActions.find(), 100);
+
+    if (window.user){
+      setTimeout(() => {
+        Notifications.join("", { uid: window.user.id }); // TODO: check this join
+      }, 100);
+    }
   }
 
   componentWillUnmount() {
     this.evChangeGroup.remove();
+
+    if (window.user){
+      Notifications.leave("");
+    }
   }
 
   onChangeGroups(){
