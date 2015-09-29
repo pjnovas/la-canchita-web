@@ -45,7 +45,7 @@ export default class SearchUser extends React.Component {
     this.email = null;
     if (this.isValidEmail(value)){
       this.email = value;
-      this.setState({ showAddEmail: true });
+      this.setState({ showAddEmail: true })
       return;
     }
 
@@ -106,8 +106,8 @@ export default class SearchUser extends React.Component {
   }
 
   clear() {
-    this.state = _.cloneDeep(SearchUser.defaultState);
     this.email = null;
+    this.setState({ users: [], search: "" })
   }
 
   onSelectInvite(user){
@@ -121,6 +121,7 @@ export default class SearchUser extends React.Component {
   onSend(){
     this.props.onSelect(this.state.invites);
     this.clear();
+    this.setState({ invites: [] });
     this.props.onClose();
   }
 
@@ -143,7 +144,7 @@ export default class SearchUser extends React.Component {
 
     return (
 
-      <Modal show={this.props.show} onHide={this.props.onClose}>
+      <Modal show={this.props.show} onHide={this.props.onClose} className="invite-users">
 
         <Modal.Header closeButton>
           <Modal.Title>{__.member_invite_group_title}</Modal.Title>
@@ -157,12 +158,23 @@ export default class SearchUser extends React.Component {
             users={this.state.invites}
             onSelect={ invite => { this.onSelectInvite(invite); } } />
 
-          <Input type="text" label={__.user_search}
-            placeholder={__.user_search_hint}
-            value={this.state.search}
-            onChange={e => { this.onKeyUp(e); }} />
+          <div className="form-group">
+            <label className="control-label">{__.user_search}</label>
 
-          {addEmail}
+            <div className="input-group">
+
+              <input type="text"
+                placeholder={__.user_search_hint}
+                className="form-control"
+                value={this.state.search}
+                onChange={e => { this.onKeyUp(e); }} />
+
+              <span className="input-group-btn">
+                {addEmail}
+              </span>
+
+            </div>
+          </div>
 
           <UserList users={this.state.users}
             onSelect={ user => { this.onSelect(user); } } />

@@ -142,7 +142,7 @@ export default class ProfileAccount extends React.Component {
               </Col>
             </Row>
 
-            { model.id && !model.verified ?
+            { model.id && model.email && !model.verified ?
             <Row>
               <Col xs={10} xsOffset={1} sm={8} smOffset={2} className="bg-warning">
                 <p>{__.profile_email_verify_hint}</p>

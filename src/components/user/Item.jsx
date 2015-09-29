@@ -6,9 +6,10 @@ export default class UserItem extends React.Component {
 
   render() {
     var model = this.props.model;
+    var css = model.isEmail ? "email-invite" : "";
 
     return (
-      <ListGroupItem className=""
+      <ListGroupItem className={css}
         onClick={ e => { this.props.onSelect(this.props.model); } } >
         <Avatar src={model.picture} />
         <span>{model.name}</span>

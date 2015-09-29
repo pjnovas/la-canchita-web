@@ -157,7 +157,7 @@ export default {
   "member_kick_title": "Eliminar a {1}",
   "member_kick_text": "Se eliminará a {1} del grupo, estás seguro?",
 
-  "user_search": "Buscar usuarios",
+  "user_search": "Buscar usuarios por nombre o email",
   "user_search_hint": "Nombre o email",
   "user_add_by_email": "Agregar email",
 
