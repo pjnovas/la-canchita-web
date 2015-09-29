@@ -40,6 +40,12 @@ class UserActions extends Actions {
     });
   }
 
+  sendVerification(){
+    this.dispatcher.dispatch({
+      type: this.constants.SENDVERIFY
+    });
+  }
+
 }
 
 const instance = new UserActions();

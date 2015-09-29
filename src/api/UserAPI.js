@@ -34,6 +34,12 @@ class UserAPI extends IO {
     });
   }
 
+  sendVerify(){
+    this.put("me/sendverify").then( () => {
+      // TODO: how to know was success
+    });
+  }
+
 }
 
 const instance = new UserAPI();

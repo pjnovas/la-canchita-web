@@ -80,8 +80,16 @@ export default {
   "Error.Passport.Password.NotMatch": "La contraseña y su confirmación deben ser iguales",
   "Error.Passport.Generic": "Uff, algo salió mal. Por favor, reportalo para ayudar a arreglarlo.",
 
+  "Success.Passport.Recover.CheckEmail": "Se te envió un email para restablecer la contraseña",
+  "Success.Passport.Welcome.CheckEmail": "Se te envió un email para verificar la dirección",
+  "Success.Passport.Email.Verified": "Email verificado correctamente",
+  "Success.Passport.Pasword.Updated": "Contraseña cambiada correctamente",
+
   "profile_title": "Mi perfil",
   "profile_email_hint": "Ingresa tu email para recibir notificaciones",
+  "profile_email_verify_hint": "El siguiente email se encuentra pendiente de verificación. Revisa tu correo para activarlo y asi obtener notificaciones.",
+  "profile_email_verify_resend": "Reenviar email de activación",
+  "profile_email_verify_sent": "email enviado",
   "profile_tab_account": "Cuenta",
   "profile_tab_settings": "Jugador",
   "profile_tab_notifications": "Notificaciones",

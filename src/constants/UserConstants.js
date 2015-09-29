@@ -3,5 +3,6 @@ export default builder("USER", [
   "SEARCH",
   "FINDME",
   "UPDATEME",
-  "CHANGEPASSWORD"
+  "CHANGEPASSWORD",
+  "SENDVERIFY"
 ], true);

@@ -76,6 +76,11 @@ export default class ProfileAccount extends React.Component {
     this.setState({isDirty: false});
   }
 
+  resendEmail(){
+    UserActions.sendVerification();
+    this.setState({ emailSent: true });
+  }
+
   render() {
     let model = this.props.model;
     let passports = model.passports || [];
@@ -136,6 +141,21 @@ export default class ProfileAccount extends React.Component {
 
               </Col>
             </Row>
+
+            { model.id && !model.verified ?
+            <Row>
+              <Col xs={10} xsOffset={1} sm={8} smOffset={2} className="bg-warning">
+                <p>{__.profile_email_verify_hint}</p>
+                <span className="email-to-verify">{model.newEmail ? model.newEmail : model.email }</span>
+                { this.state.emailSent ?
+                <span className="email-to-verify-sent">{__.profile_email_verify_sent}</span>
+                :
+                <a className="email-to-verify-resend"
+                  onClick={ () => this.resendEmail() }>{__.profile_email_verify_resend}</a>
+                }
+              </Col>
+            </Row>
+            : null }
 
             <Divider />
 
@@ -225,5 +245,6 @@ ProfileAccount.defaultState = {
   cNewPassword: "",
   showSavePassword: false,
   newPasswordError: "",
-  isDirty: false
+  isDirty: false,
+  emailSent: false
 };
