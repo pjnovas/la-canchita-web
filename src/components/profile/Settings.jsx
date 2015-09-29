@@ -42,10 +42,13 @@ export default class ProfileSettings extends React.Component {
   onChangePriority(index, priority){
     let idx = index ? index+1 : "";
     this.props.onChange("priority"+idx, priority);
+
+    this.setState({isDirty: true});
   }
 
   onChangeLeg(leg){
     this.props.onChange("leg", leg);
+    this.setState({isDirty: true});
   }
 
   onSave() {
@@ -57,6 +60,8 @@ export default class ProfileSettings extends React.Component {
       priority3: model.priority3,
       leg: model.leg,
     });
+
+    this.setState({isDirty: false});
   }
 
   render() {
@@ -119,9 +124,11 @@ export default class ProfileSettings extends React.Component {
             <Row>
               <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
+                {this.state.isDirty ?
                 <Button bsStyle="success" onClick={ () => this.onSave() } className="pull-right">
                   {__.save}
                 </Button>
+                : null }
 
               </Col>
             </Row>
@@ -135,5 +142,5 @@ export default class ProfileSettings extends React.Component {
 
 ProfileSettings.displayName = "ProfileSettings";
 ProfileSettings.defaultState = {
-
+  isDirty: false
 };

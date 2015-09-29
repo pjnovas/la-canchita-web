@@ -28,7 +28,7 @@
     top: 0;
     left: 0;
     margin: 0;
-    height: 100%;
+    height: auto;
     border-radius: 0;
     border: none;
   }
@@ -39,4 +39,16 @@
     }
   }
 
+}
+
+.tab-content {
+
+  .paper {
+
+    &.header-spacer {
+      @media @xs-and-down {
+        top: 93px;
+      }
+    }
+  }
 }

@@ -19,10 +19,12 @@ export default class ProfileAccount extends React.Component {
 
   changeName(e) {
     this.props.onChange("name", e.target.value);
+    this.setState({isDirty: true});
   }
 
   changeEmail(e) {
     this.props.onChange("email", e.target.value);
+    this.setState({isDirty: true});
   }
 
   changeActualPassword(e) {
@@ -70,6 +72,8 @@ export default class ProfileAccount extends React.Component {
       name: model.name,
       email: model.email
     });
+
+    this.setState({isDirty: false});
   }
 
   render() {
@@ -197,9 +201,11 @@ export default class ProfileAccount extends React.Component {
             <Row>
               <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
+                {this.state.isDirty ?
                 <Button bsStyle="success" onClick={ () => this.onSave() } className="pull-right">
                   {__.save}
                 </Button>
+                : null }
 
               </Col>
             </Row>
@@ -218,5 +224,6 @@ ProfileAccount.defaultState = {
   newPassword: "",
   cNewPassword: "",
   showSavePassword: false,
-  newPasswordError: ""
+  newPasswordError: "",
+  isDirty: false
 };

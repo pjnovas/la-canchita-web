@@ -20,7 +20,16 @@ export default class Profile extends React.Component {
 
   componentDidMount() {
     this.evChangeProfile = UserStore.addListener(this.onChangeProfile.bind(this));
-    UserActions.findMe();
+
+    if (window.user){
+      let user = UserStore.getStateById(window.user.id);
+      if (user){
+        this.setState({ model: user });
+        this.onChangeProfile();
+      }
+
+      setTimeout(() => UserActions.findMe(), 100);
+    }
   }
 
   componentWillUnmount() {

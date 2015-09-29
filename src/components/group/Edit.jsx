@@ -24,7 +24,12 @@ export default class GroupCreate extends React.Component {
 
     if (this.props.id){
       let model = GroupStore.getStateById(this.props.id);
-      this.setState({ model });
+      if (model){
+        this.setState({ model });
+        this.onChangeGroup();
+      }
+
+      setTimeout(() => GroupActions.findOne(this.props.id), 100);
     }
   }
 

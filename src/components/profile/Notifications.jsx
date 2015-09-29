@@ -26,6 +26,7 @@ export default class ProfileNotifications extends React.Component {
 
   onChange(setting, value){
     this.props.onChange(setting, value);
+    this.setState({isDirty: true});
   }
 
   onSave() {
@@ -33,6 +34,7 @@ export default class ProfileNotifications extends React.Component {
     let settings = model && model.settings || {};
 
     UserActions.updateMe({ settings });
+    this.setState({isDirty: false});
   }
 
   getSettingCheck(prop){
@@ -66,9 +68,11 @@ export default class ProfileNotifications extends React.Component {
             <Row>
               <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
 
+                {this.state.isDirty ?
                 <Button bsStyle="success" onClick={ () => this.onSave() } className="pull-right">
                   {__.save}
                 </Button>
+                : null }
 
               </Col>
             </Row>
@@ -82,5 +86,5 @@ export default class ProfileNotifications extends React.Component {
 
 ProfileNotifications.displayName = "ProfileNotifications";
 ProfileNotifications.defaultState = {
-
+  isDirty: false
 };
