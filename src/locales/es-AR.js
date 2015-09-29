@@ -99,9 +99,9 @@ export default {
 
   "group": "Groupo",
 
-  "group_start_1": "Grupos de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.",
+  "group_start_1": "Acá vas a ver tus Grupos, de amigos, compañeros, etc. con los que te juntas a jugar a la pelota.",
   "group_start_2": "Podés recibir invitaciones o crear un grupo e invitar vos",
-  "group_start_3": "Empieza creando un groupo e invitando a los jugadores!",
+  "group_start_3": "Empezá creando un groupo con el botón de abajo a la derecha",
 
   "group_create": "Crear un grupo",
   "group_card_open": "Abrir",

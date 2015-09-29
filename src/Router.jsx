@@ -51,11 +51,16 @@ window.app.router = Router
   });
 
 if (!window.user) {
-  if (!window.redirect){
-    window.redirect = window.app.router.getCurrentPath();
+  let path = window.app.router.getCurrentPath();
+
+  if (path !== "/"){
+      
+    if (!window.redirect){
+      window.redirect = path;
+    }
+
+    window.app.router.transitionTo("login");
   }
-  
-  window.app.router.transitionTo("login");
 }
 
 window.app.handleError = function(code, err){

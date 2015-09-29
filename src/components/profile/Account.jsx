@@ -77,8 +77,17 @@ export default class ProfileAccount extends React.Component {
     let passports = model.passports || [];
 
     let hasPassword = false;
+    let hasSocial = false;
+
     if (passports) {
-      hasPassword = passports.indexOf('local') > -1 ? true : false;
+      hasPassword = passports.indexOf("local") > -1 ? true : false;
+
+      let social = ["twitter", "facebook", "google"];
+      passports.forEach( passport => {
+        if (social.indexOf(passport) >-1){
+          hasSocial = true;
+        }
+      });
     }
 
     let uris = {
@@ -162,10 +171,13 @@ export default class ProfileAccount extends React.Component {
                     </Button>
                     : null }
                   </div>
-                  :
+                  : null }
+
+                  { hasSocial ?
                     <div className="password-social">
                       <p>{__.account_no_password_msg}</p>
                       { passports.map( passport => {
+                        if (passport === "local") return(null);
                         return (
                           <Button key={passport} target="_blank" href={uris[passport]}
                             className={"btn-social " + passport}>
@@ -174,7 +186,7 @@ export default class ProfileAccount extends React.Component {
                         );
                       })}
                     </div>
-                  }
+                  : null }
 
                 </div> : null }
               </Col>
