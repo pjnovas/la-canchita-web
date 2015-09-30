@@ -168,9 +168,13 @@ export default {
   "meeting_past": "Finalizados",
   "meeting_title_create": "Crear partido",
   "meeting_title_edit": "Editar partido",
+  "meeting_cancelled": "Cancelado",
 
   "meeting_destroy_title": "Eliminar partido {1}",
-  "meeting_destroy_text": "Se eliminará el partido {1}, estás seguro?",
+  "meeting_destroy_text": "Se eliminará el partido {1}, está acción no es reversible, estás seguro?",
+
+  "meeting_cancel_title": "Cancelar partido {1}",
+  "meeting_cancel_text": "Se cancelará el partido {1}, está acción no es reversible, estás seguro?",
 
   "meeting_title": "Título",
   "meeting_info": "Información",

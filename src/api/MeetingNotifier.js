@@ -12,6 +12,7 @@ class MeetingNotifier extends Notifier {
     this.events = [
       "update",
       "remove",
+      "cancelled",
       "join",
       "leave",
       "confirm"
@@ -34,6 +35,10 @@ class MeetingNotifier extends Notifier {
         break;
       case "remove":
         MeetingActions.remove(payload.id);
+        break;
+      case "cancelled":
+        payload.data.cancelled = true;
+        MeetingActions.receive(payload.data);
         break;
     }
 

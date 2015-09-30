@@ -1,5 +1,5 @@
 
-import { MeetingActions } from "../actions";
+import { MeetingActions, GroupActions } from "../actions";
 import IO from "./IO";
 
 class MeetingAPI extends IO {
@@ -25,6 +25,18 @@ class MeetingAPI extends IO {
   confirm(id){
     this.post(id + "/confirmed/me").then( attendee => {
       MeetingActions.receiveAttendees(id, attendee);
+    });
+  }
+
+  destroy(id, data){
+    this.del(id, data).then( (meeting) => {
+      if (meeting && meeting.cancelled) {
+        this.actions.receive(meeting);
+        GroupActions.receiveMeetings(meeting.group.id || meeting.group, meeting);
+      }
+      else {
+        this.actions.remove(id);
+      }
     });
   }
 

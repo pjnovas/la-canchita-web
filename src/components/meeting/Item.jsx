@@ -14,7 +14,9 @@ export default class MeetingItem extends React.Component {
   }
 
   openMeeting() {
-    window.app.router.transitionTo("meeting", { meetingId: this.props.model.id });
+    if (!this.props.model.cancelled){
+      window.app.router.transitionTo("meeting", { meetingId: this.props.model.id });
+    }
   }
 
   navigateClone(e){
@@ -38,12 +40,24 @@ export default class MeetingItem extends React.Component {
     let model = this.props.model;
     let time = moment(model.when).from();
     let title = model.title || __.meeting_default_title;
-    let place = model.place; //model.place.split(',')[0];
+    let place = model.place;
     let rightIconMenu;
 
     let myRole = this.props.myRole;
-    let canEdit = this.editors.indexOf(myRole) > -1;
-    let canDestroy = this.destroyers.indexOf(myRole) > -1;
+    let canEdit = this.editors.indexOf(myRole) > -1 && !model.cancelled;
+    let canDestroy = this.destroyers.indexOf(myRole) > -1 && !model.cancelled;
+
+    // Destroy / Cancel meeting texts
+
+    let destroyLinkText = __.remove;
+    let destroyTitle = __.meeting_destroy_title;
+    let destroyText = __.meeting_destroy_text;
+
+    if (canDestroy && model.attendance > 1 || (model.attendees && model.attendees.length > 1)){
+      destroyLinkText = __.cancel;
+      destroyTitle = __.meeting_cancel_title;
+      destroyText = __.meeting_cancel_text;
+    }
 
     let options;
     if (canEdit || canDestroy){
@@ -74,7 +88,7 @@ export default class MeetingItem extends React.Component {
             <li key="remove">
               <a className="text-danger"
                 onClick={ e => { this.onRemoveClick(e); } }>
-                <Icon name="close" /> {__.remove}</a>
+                <Icon name="close" /> {destroyLinkText}</a>
             </li>
             : null }
           </ul>
@@ -89,7 +103,9 @@ export default class MeetingItem extends React.Component {
         <Row>
 
           <Col xs={11}>
-            <h4 className="list-group-item-heading">{title}</h4>
+            <h4 className="list-group-item-heading">{title}
+            { model.cancelled ?  <Label className="label-danger">{__.meeting_cancelled}</Label> : "" }
+            </h4>
             <p className="ellipsis">{place}</p>
           </Col>
 
@@ -97,10 +113,10 @@ export default class MeetingItem extends React.Component {
           {options}
 
           { this.state.confirmDestroy ?
-            <Confirm title={__.meeting_destroy_title.replace("{1}", title)}
-              text={__.meeting_destroy_text.replace("{1}", title)}
+            <Confirm title={destroyTitle.replace("{1}", model.title)}
+              text={destroyText.replace("{1}", model.title)}
               onClose={ () => this.setState({ confirmDestroy: false }) }
-              onAccept={ () => this.props.removeMeeting(model.id) } />
+              onAccept={ () => { this.setState({ confirmDestroy: false }); this.props.removeMeeting(model.id); } } />
           : null }
 
         </Row>

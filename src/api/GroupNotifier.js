@@ -16,7 +16,8 @@ class GroupNotifier extends Notifier {
       "update_member",
       "new_meeting",
       "update_meeting",
-      "remove_meeting"
+      "remove_meeting",
+      "cancelled_meeting"
     ];
   }
 
@@ -42,6 +43,10 @@ class GroupNotifier extends Notifier {
       case "remove_meeting":
         //GroupActions.removeMeeting(payload.id, payload.data.id);
         MeetingActions.remove(payload.data.id);
+        break;
+      case "cancelled_meeting":
+        payload.data.cancelled = true;
+        GroupActions.receiveMeetings(payload.id, payload.data);
         break;
     }
 
