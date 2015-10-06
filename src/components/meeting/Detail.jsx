@@ -26,6 +26,10 @@ export default class MeetingDetail extends React.Component {
     duration = " " + duration.times + " " +
       __["periods_" + duration.period + (duration.times === 1 ? "_singular" : "")];
 
+    if (["cancelled", "historic", "running", "played"].indexOf(this.props.stage) > -1){
+      canEdit = false;
+    }
+
     return (
       <Grid className="meeting-detail">
 

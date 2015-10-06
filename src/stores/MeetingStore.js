@@ -75,6 +75,57 @@ class MeetingStore extends Store {
     });
   }
 
+  getPeriod (dt, obj, type) {
+    if (!obj || !obj.times){
+      return moment(dt).clone();
+    }
+
+    return moment(dt).clone()[type](obj.times, obj.period);
+  }
+
+  getStageOf(meeting){
+    let now = moment();
+    let when = moment(meeting.when);
+    let duration = meeting.duration || { times: 1, period: "hours" };
+
+    let end = this.getPeriod(when, duration, "add");
+    let historic = this.getPeriod(end, { times: 1, period: "weeks" }, "add");
+
+    let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, "subtract");
+    let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, "subtract");
+
+    let stage = "joining";
+
+    if (meeting.cancelled){
+      stage = "cancelled";
+    }
+    else if (meeting.confirmation && now > cStart && now < cEnd){
+      stage = "confirming";
+    }
+    else if (now > when && now < end) {
+      stage = "running";
+    }
+    else if (now > end) {
+      stage = "historic";
+
+      if (now < historic){
+        stage = "played";
+      }
+    }
+
+    return stage;
+  }
+
+  getStage(id){
+    let meeting = this.getStateById(id);
+
+    if (!meeting){
+      return "unknown";
+    }
+
+    return this.getStageOf(meeting);
+  }
+
 };
 
 const instance = new MeetingStore(GroupDispatcher);

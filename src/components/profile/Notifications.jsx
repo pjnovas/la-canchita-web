@@ -15,13 +15,11 @@ export default class ProfileNotifications extends React.Component {
     this.settings = [
       "emails",
       "invites",
-      "groups_change",
-      "groups_members",
       "meetings_create",
-      "meetings_change",
-      "meetings_states",
-      "meetings_remove",
-    ]
+      "meetings_confirm_start",
+      "meetings_cancel",
+      "meetings_daybefore_start"
+    ];
   }
 
   onChange(setting, value){

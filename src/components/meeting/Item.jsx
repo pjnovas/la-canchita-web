@@ -1,4 +1,6 @@
 
+import { MeetingStore } from "../../stores";
+
 import { Row, Col, Label } from "react-bootstrap";
 import { Icon, Confirm } from "../controls";
 
@@ -14,9 +16,7 @@ export default class MeetingItem extends React.Component {
   }
 
   openMeeting() {
-    if (!this.props.model.cancelled){
-      window.app.router.transitionTo("meeting", { meetingId: this.props.model.id });
-    }
+    window.app.router.transitionTo("meeting", { meetingId: this.props.model.id });
   }
 
   navigateClone(e){
@@ -44,8 +44,14 @@ export default class MeetingItem extends React.Component {
     let rightIconMenu;
 
     let myRole = this.props.myRole;
-    let canEdit = this.editors.indexOf(myRole) > -1 && !model.cancelled;
-    let canDestroy = this.destroyers.indexOf(myRole) > -1 && !model.cancelled;
+    let canEdit = this.editors.indexOf(myRole) > -1;
+    let canDestroy = this.destroyers.indexOf(myRole) > -1;
+
+    let stage = MeetingStore.getStageOf(model);
+    if (stage && ["cancelled", "historic", "running", "played"].indexOf(stage) > -1){
+      canEdit = false;
+      canDestroy = false;
+    }
 
     // Destroy / Cancel meeting texts
 

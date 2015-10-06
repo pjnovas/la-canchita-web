@@ -66,6 +66,13 @@ export default class MeetingCreate extends React.Component {
         meeting = _.defaultsDeep(meeting, defaults);
         meeting.when = defaults.when;
       }
+      else {
+        let stage = MeetingStore.getStage(mid);
+        if (["cancelled", "historic", "running", "played"].indexOf(stage) > -1){
+          // Cannot be edited > redirect
+          setTimeout(() => window.app.router.transitionTo("meeting", { meetingId: mid }), 100);
+        }
+      }
 
       this.setState({ model: meeting, loading: false });
       return;
@@ -91,9 +98,28 @@ export default class MeetingCreate extends React.Component {
     window.app.router.transitionTo("grouptab", { groupId: gid, tab: "meetings" });
   }
 
+  isValid() {
+    let model = this.state.model;
+    if (!model.place || !model.location){
+      window.alert('Es obligatorio ingresar un lugar');
+      return false;
+    }
+
+    if (!model.when){
+      window.alert('Es obligatorio ingresar una fecha');
+      return false;
+    }
+
+    return true;
+  }
+
   onSaveClick() {
     if (!this.state.isDirty){
       this.redirect();
+      return;
+    }
+
+    if (!this.isValid()){
       return;
     }
 
@@ -160,6 +186,7 @@ MeetingCreate.defaultState = {
     min: 0,
     max: 0,
     replacements: false,
+    cancelled: false
   },
 
   loading: true,

@@ -98,12 +98,10 @@ export default {
 
   "profile_setting_emails": "Recibir notificaciones por email",
   "profile_setting_invites": "Notificarme cuando me invitan a un grupo",
-  "profile_setting_groups_change": "Notificarme cambios de grupos en los que estoy",
-  "profile_setting_groups_members": "Notificarme cuando ingresa o sale un miembro de un grupo",
   "profile_setting_meetings_create": "Notificarme cuando se crea un partido en un grupo",
-  "profile_setting_meetings_change": "Notificarme cambios de partidos",
-  "profile_setting_meetings_states": "Notificarme cambios de estados en los partidos",
-  "profile_setting_meetings_remove": "Notificarme cuando un partido es eliminado",
+  "profile_setting_meetings_confirm_start": "Notificarme cuando empiezan las confirmaciones de un partido",
+  "profile_setting_meetings_daybefore_start": "Notificarme un día antes del partido",
+  "profile_setting_meetings_cancel": "Notificarme cuando un partido es cancelado",
 
   "group": "Groupo",
 
@@ -213,6 +211,9 @@ export default {
   "meeting_stage_running": "En curso",
   "meeting_stage_played": "Terminado",
   "meeting_stage_historic": "Histórico",
+  "meeting_stage_cancelled": "Cancelado",
+  
+  "meeting_cancelled_warning": "Partido Cancelado!",
 
   "datepicker": {
     "locale": "es",

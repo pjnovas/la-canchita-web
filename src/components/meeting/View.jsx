@@ -53,45 +53,6 @@ export default class MeetingView extends React.Component {
     setTimeout(() => MeetingActions.joinRoom(meeting.id), 100);
   }
 
-  getPeriod (dt, obj, type) {
-    if (!obj || !obj.times){
-      return moment(dt).clone();
-    }
-
-    return moment(dt).clone()[type](obj.times, obj.period);
-  }
-
-  getStage(){
-    let now = moment();
-    let meeting = this.state.meeting;
-    let when = moment(meeting.when);
-    let duration = meeting.duration || { times: 1, period: "hours" };
-
-    let end = this.getPeriod(when, duration, "add");
-    let historic = this.getPeriod(end, { times: 1, period: "weeks" }, "add");
-
-    let cStart = meeting.confirmation && this.getPeriod(when, meeting.confirmStart, "subtract");
-    let cEnd = meeting.confirmation && this.getPeriod(when, meeting.confirmEnd, "subtract");
-
-    let stage = "joining";
-
-    if (meeting.confirmation && now > cStart && now < cEnd){
-      stage = "confirming";
-    }
-    else if (now > when && now < end) {
-      stage = "running";
-    }
-    else if (now > end) {
-      stage = "historic";
-
-      if (now < historic){
-        stage = "played";
-      }
-    }
-
-    return stage;
-  }
-
   onChangeTab(key){
     this.setState({ selectedKey: key });
   }
@@ -103,7 +64,7 @@ export default class MeetingView extends React.Component {
       return (<span>{__.loading}</span>);
     }
 
-    let stage = this.getStage();
+    let stage = MeetingStore.getStage(meeting.id);
 
     return (
       <div className="meeting">
@@ -113,6 +74,10 @@ export default class MeetingView extends React.Component {
 
         <TabbedArea defaultActiveKey={1}  activeKey={this.state.selectedKey}
           animation={false} onSelect={ (key) => { this.onChangeTab(key); } }>
+
+          { stage === "cancelled" ?
+            <div className="meeting-cancelled">{__.meeting_cancelled_warning}</div>
+          : null }
 
           <TabPane key={1} eventKey={1} tab={__.meeting_tab_info}>
             <MeetingDetail meeting={meeting} stage={stage} />
