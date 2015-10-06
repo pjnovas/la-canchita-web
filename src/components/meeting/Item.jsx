@@ -44,6 +44,7 @@ export default class MeetingItem extends React.Component {
     let rightIconMenu;
 
     let myRole = this.props.myRole;
+    let canClone = this.editors.indexOf(myRole) > -1;
     let canEdit = this.editors.indexOf(myRole) > -1;
     let canDestroy = this.destroyers.indexOf(myRole) > -1;
 
@@ -66,7 +67,7 @@ export default class MeetingItem extends React.Component {
     }
 
     let options;
-    if (canEdit || canDestroy){
+    if (canEdit || canDestroy || canClone){
 
       options = (
         <div className="btn-group">
@@ -83,7 +84,7 @@ export default class MeetingItem extends React.Component {
                 <Icon name="pencil" /> {__.edit}</a>
             </li>
             : null }
-            { canEdit ?
+            { canClone ?
             <li key="clone">
               <a onClick={ e => { this.navigateClone(e); }}>
                 <Icon name="clone" /> {__.meeting_clone}</a>

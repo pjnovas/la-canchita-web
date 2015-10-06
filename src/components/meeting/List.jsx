@@ -29,7 +29,11 @@ export default class MeetingList extends React.Component {
     });
 
     let past = list.filter( meeting => {
-      return moment(meeting.when) < now;
+      let when = moment(meeting.when);
+      let duration = meeting.duration || { times: 1, period: 'hours' };
+      let end = when.clone().add(duration.times, duration.period);
+
+      return end < now;
     });
 
     active.sort((a, b) => {
