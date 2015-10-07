@@ -90,6 +90,7 @@ export default {
   "profile_email_verify_hint": "El siguiente email se encuentra pendiente de verificación. Revisa tu correo para activarlo y asi obtener notificaciones.",
   "profile_email_verify_resend": "Reenviar email de activación",
   "profile_email_verify_sent": "email enviado",
+  "profile_email_verify_notis": "Para tener notificaciones es necesario tener verificado el email. En el tab CUENTA tendrás mas información.",
   "profile_tab_account": "Cuenta",
   "profile_tab_settings": "Jugador",
   "profile_tab_notifications": "Notificaciones",
@@ -212,7 +213,7 @@ export default {
   "meeting_stage_played": "Terminado",
   "meeting_stage_historic": "Histórico",
   "meeting_stage_cancelled": "Cancelado",
-  
+
   "meeting_cancelled_warning": "Partido Cancelado!",
 
   "datepicker": {

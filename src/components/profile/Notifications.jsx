@@ -51,15 +51,24 @@ export default class ProfileNotifications extends React.Component {
   }
 
   render() {
+    let model = this.props.model;
 
     return (
       <Grid className="profile-settings">
         <Paper skipHeader>
           <form>
 
-            {this.settings.map(setting => {
-              return this.getSettingCheck(setting);
-            })}
+            {!model.verified ?
+              <Row>
+                <Col xs={10} xsOffset={1} sm={8} smOffset={2} className="bg-danger" style={{paddingTop: "10px"}}>
+                  <p>{__.profile_email_verify_notis}</p>
+                </Col>
+              </Row>
+            :
+              this.settings.map(setting => {
+                return this.getSettingCheck(setting);
+              })
+            }
 
             <Divider />
 
